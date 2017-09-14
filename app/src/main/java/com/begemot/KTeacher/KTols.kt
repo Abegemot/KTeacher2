@@ -1,4 +1,4 @@
-package com.begemot.kteacher
+package com.begemot.KTeacher
 
 /**
  * Created by Dad on 02-Sep-17.

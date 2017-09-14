@@ -1,13 +1,10 @@
-package com.begemot.kteacher
+package com.begemot.KTeacher
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import kotlinx.android.synthetic.main.content_main.*
 import android.content.Intent
 import kotlinx.android.synthetic.main.activity_main2.*
-import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.*
 
 
@@ -49,12 +46,12 @@ class Main2Activity : AppCompatActivity() {
         var message = editText.text.toString()
        // toast(message)
         val intentMessage = Intent()
-        message=p.nameLeson
+        message=p.name
         // put the message to return as result in Intent
         intentMessage.putExtra("MESSAGE", message)
         // Set The Result in Intent
         var result :Int =2
-        if(p.idLeson<0) result=-1
+        if(p.id <0) result=-1
         setResult(result, intentMessage)
         finish()
 

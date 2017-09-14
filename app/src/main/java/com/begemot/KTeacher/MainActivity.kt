@@ -1,4 +1,4 @@
-package com.begemot.kteacher
+package com.begemot.KTeacher
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -20,9 +20,8 @@ import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val X = KHelp(this.javaClass.simpleName)
     lateinit var myListAdapter:ArrayAdapter<KLesson>
-    //private val log = AnkoLogger("MYPOS")
-    private val X = KHelp("${this.javaClass.simpleName}")
     lateinit var DBH : DBHelp
     var lesonList = ArrayList<KLesson>()
 
@@ -69,9 +68,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun goToLesson(iD:Long){
-        X.warn("HOSTI TU TIU")
-        val intento1 = Intent(this, Main3Activity::class.java)
+        X.warn("")
+        val intento1 = Intent(this, SelectExerciseActivity::class.java)
+        intento1.putExtra("lessonID",iD)
         startActivityForResult(intento1,2 )
+
+
+
+        //val intento1 = Intent(this, Main3Activity::class.java)
+        //startActivityForResult(intento1,2 )
 
     }
 
@@ -91,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addLessonClick(view: View){
-        X.warn("addlessonclick")
+        X.warn("")
         val intento1 = Intent(this, Main2Activity::class.java)
         startActivityForResult(intento1,2 )
     }
@@ -105,7 +110,8 @@ class MainActivity : AppCompatActivity() {
             val message = data?.getStringExtra("MESSAGE")
             // Set the message string in textView
            // toast(message)
-            lesonList.add(KLesson(message!!,33))
+            //lesonList.add(KLesson(message!!,33))
+            lesonList.add(KLesson(33,message!!))
             myListAdapter.notifyDataSetChanged()
            //   toast("XXXXXactivity result  Code : $message")
         }else{

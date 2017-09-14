@@ -1,4 +1,3 @@
-
 // A nivell d'aplicacio en aquest cas KTeacher es confon aquest es el local
 
 apply plugin: 'com.android.application'
