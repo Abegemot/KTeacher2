@@ -17,7 +17,7 @@ class SelectExerciseActivity : AppCompatActivity() {
     lateinit var exercisesListAdapter: ArrayAdapter<KExercise>
     lateinit var DBH : DBHelp
     var exercisesList = ArrayList<KExercise>()
-
+    var currentLessonID:Long=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +33,11 @@ class SelectExerciseActivity : AppCompatActivity() {
         } }
 
 
-        val idLesson = intent.getLongExtra("lessonID",0)
+        currentLessonID = intent.getLongExtra("lessonID",0)
+        idTitle.text=intent.getStringExtra("lessonName")
+
         DBH=DBHelp.getInstance(this)
-        loadExercises(idLesson)
+        loadExercises(currentLessonID)
 
 
     }
@@ -50,8 +52,24 @@ class SelectExerciseActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val message = data?.getLongExtra("IDKind",0)
-        X.warn (" KindOf Excercise:   $message  ")
+        val KoEx = data?.getLongExtra("IDKind",0)
+        X.warn (" KindOf Excercise:   $KoEx  ")
+        when(KoEx){
+            1L ->{
+                   X.warn("asw")
+                   val intento1 = Intent(this, Exercise1::class.java)
+                   intento1.putExtra("lessonID",currentLessonID)
+                   intento1.putExtra("exerciseID",0L)
+                   startActivityForResult(intento1,2 )
+            }
+            else -> {
+                toast("NOT IMPLEMENTED")
+                X.warn("NOT IMPLEMENTED")
+            }
+        }
+
+
+
     }
 
 

@@ -1,2 +1,40 @@
 
  recordar no se que de appcompat en AndroidManifest.xml
+
+
+/* Locales posar aixo al create de la launching app
+
+
+ Locale locale = new Locale("ru");
+ Locale.setDefault(locale);
+ Configuration config = getBaseContext().getResources().getConfiguration();
+ config.locale = locale;
+ getBaseContext().getResources().updateConfiguration(config,
+       getBaseContext().getResources().getDisplayMetrics());
+
+
+
+@SuppressWarnings("deprecation")
+public static void forceLocale(Context context, String localeCode) {
+    String localeCodeLowerCase = localeCode.toLowerCase();
+
+    Resources resources = context.getApplicationContext().getResources();
+    Configuration overrideConfiguration = resources.getConfiguration();
+    Locale overrideLocale = new Locale(localeCodeLowerCase);
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        overrideConfiguration.setLocale(overrideLocale);
+    } else {
+        overrideConfiguration.locale = overrideLocale;
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        context.getApplicationContext().createConfigurationContext(overrideConfiguration);
+    } else {
+        resources.updateConfiguration(overrideConfiguration, null);
+    }
+}
+
+https://stackoverflow.com/questions/2264874/changing-locale-within-the-app-itself
+
+*/

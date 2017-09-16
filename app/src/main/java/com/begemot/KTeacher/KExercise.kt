@@ -7,6 +7,8 @@ import android.content.ContentValues
  */
 data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var TL1:String="", var TL2:String=""){
 
+     override fun toString(): String { return TL1.toString()   }
+
      companion object {
          val tName   : String = "KEXERCISE"
 
@@ -22,6 +24,17 @@ data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var
              A.put("T2",T2)
              return A
          }
+
+         fun values2(KE:KExercise)  : ContentValues {
+             val A=ContentValues()
+             A.put("IDL",KE.IDLesson)
+             A.put("TOE",KE.TypeOfEx)
+             A.put("T1",KE.TL1)
+             A.put("T2",KE.TL2)
+             return A
+         }
+
+
      }
 
 }

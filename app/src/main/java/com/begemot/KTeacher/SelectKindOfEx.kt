@@ -26,6 +26,7 @@ class SelectKindOfEx : AppCompatActivity() {
 
 
         myListKindOfExercises.adapter=KOfexercisesListAdapter
+
         myListKindOfExercises.onItemClickListener = object : AdapterView.OnItemClickListener {override fun onItemClick
                 (parent: AdapterView<*>, view: View, position: Int, id: Long) {
             X.warn("onItemClickListener position = $position    id= $id")

@@ -169,6 +169,30 @@ class DBHelp(ctx: Context) {
        X.warn("leaving createExerciseTable: ${l.size}")
     }
 
+    fun insertExerciseToLesson(idLesson:Long){
+        X.warn("enter ")
+        envelopeX(0) {
+            var ds: SQLiteDatabase = DB2.writableDatabase
+            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi"))
+            ds.close()
+        }
+        X.warn(" exit " )
+    }
+
+    fun insertExerciseToLesson(KE:KExercise):Long{
+        X.warn("enter ")
+        var nR:Long=0
+        nR = envelopeX(0L) {
+            var N:Long=0
+            var ds: SQLiteDatabase = DB2.writableDatabase
+            N=ds.insert(KExercise.tName,null,KExercise.values2(KE))
+            ds.close()
+            return@envelopeX N
+        }
+        X.warn(" exit " )
+        return nR
+    }
+
     fun deleteExerciceTable(){
         deleteTable(KExercise.tName)
         var ds: SQLiteDatabase = DB2.writableDatabase

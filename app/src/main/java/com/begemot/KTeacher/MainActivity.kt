@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import android.widget.*
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,19 +25,25 @@ class MainActivity : AppCompatActivity() {
     lateinit var myListAdapter:ArrayAdapter<KLesson>
     lateinit var DBH : DBHelp
     var lesonList = ArrayList<KLesson>()
-
+    lateinit var selectedLesson:KLesson
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        localize()
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        myListAdapter =  ArrayAdapter(this,android.R.layout.simple_list_item_1,lesonList)
+        myListAdapter =  ArrayAdapter(this,android.R.layout.simple_list_item_activated_1,lesonList)
 
         myList.adapter=myListAdapter
         myList.onItemClickListener = object : OnItemClickListener {override fun onItemClick
                 (parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 X.warn("onItemClickListener position = $position    id= $id")
-                goToLesson(id)
+
+                selectedLesson = myList.getItemAtPosition(position) as KLesson
+
+
+
+            goToLesson(id)
 
         } }
 
@@ -70,11 +77,10 @@ class MainActivity : AppCompatActivity() {
     fun goToLesson(iD:Long){
         X.warn("")
         val intento1 = Intent(this, SelectExerciseActivity::class.java)
-        intento1.putExtra("lessonID",iD)
+        intento1.putExtra("lessonID",selectedLesson.id)
+        intento1.putExtra("lessonName",selectedLesson.name)
+
         startActivityForResult(intento1,2 )
-
-
-
         //val intento1 = Intent(this, Main3Activity::class.java)
         //startActivityForResult(intento1,2 )
 
@@ -124,12 +130,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadLessons(){
-
         X.warn ("loadLessons")
-        var a:List<KLesson> = DBH.loadLessons()
+        /*var a:List<KLesson> = DBH.loadLessons()
         for(item in a) {
             lesonList.add(item)
-        }
-        //
+        }*/
+        for(item in DBH.loadLessons()) lesonList.add(item)
+        myListAdapter.notifyDataSetChanged()
+        myList.setItemChecked(0,true)
     }
+
+    fun localize(){
+        X.warn("start")
+        val locale = Locale("es")
+        //Locale.setDefault(locale)
+        //val config = baseContext.resources.configuration
+        //config.setLocale(locale)
+        X.warn("language ${locale.displayLanguage}")
+
+        //val locale2 = this.getResources().getConfiguration().setLocale(locale)
+        this.resources.configuration.setLocale(locale)
+
+        X.warn("fin")
+        //baseContext.resources.configuration
+        //baseContext.resources.updateConfiguration(config,baseContext.resources.displayMetrics)
+
+    }
+
+
 }
