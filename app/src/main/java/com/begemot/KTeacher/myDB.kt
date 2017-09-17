@@ -4,6 +4,7 @@
 package com.begemot.KTeacher
 
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.db.*
@@ -108,6 +109,7 @@ class DBHelp(ctx: Context) {
     }
 
     fun loadLessons(): List<KLesson> {
+
         X.warn("LoadLesons")
         val L2: List<KLesson> = envelopeX(emptyList()) {    DB2.use { select(KLesson.tName,*KLesson.tSelect).exec { parseList(classParser<KLesson>()) } } }
         X.warn("SIZE Lessons: ${L2.size}")
@@ -151,20 +153,21 @@ class DBHelp(ctx: Context) {
 
     fun createExerciseTable(){
 
-        val rowParser = classParser<KExercise>()
+        //val rowParser = classParser<KExercise>()
         X.warn("enter createExerciseTable")
         var l:List<Any> =envelopeX(emptyList()) {
             X.warn("enter enve  lope")
             var ds: SQLiteDatabase = DB2.writableDatabase
             ds.execSQL(KExercise.DBCreate)
             X.warn("after DBCreate")
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi"))
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi"))
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi"))
-            ds.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi"))
+            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
             ds.close()
             X.warn("after Insert")
-            DB2.use { select(KExercise.tName, *KExercise.tSelect).exec { parseList(rowParser) }}
+            //DB2.use { select(KExercise.tName, *KExercise.tSelect).exec { parseList(rowParser) }}
+            DB2.use { select(KExercise.tName, *KExercise.tSelect).exec { getListKE() }}
         }
        X.warn("leaving createExerciseTable: ${l.size}")
     }
@@ -173,7 +176,7 @@ class DBHelp(ctx: Context) {
         X.warn("enter ")
         envelopeX(0) {
             var ds: SQLiteDatabase = DB2.writableDatabase
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi"))
+            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(10)))
             ds.close()
         }
         X.warn(" exit " )
@@ -204,14 +207,53 @@ class DBHelp(ctx: Context) {
 
 
     fun loadLessonExercises(lesonID: Long): List<KExercise> {
-        X.warn ( "loadExcercisesOfALesson lessonID = $lesonID" )
+        X.warn("entra")
+
+/*        val K:KExercise= KExercise()
+
+        X.warn("pasa1")
+
+        K.pos()
+
+        X.warn("pasa2")
+
+
+        val rowParser = classParser<KExercise>()
+
+        X.warn("pasa3")
+
+        X.warn ( "loadExcercisesOfALesson lessonID = $lesonID" )*/
         val L2: List<KExercise> = envelopeX(emptyList()) {
-            DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { parseList(classParser<KExercise>()) }  }
+   //         DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { parseList(classParser<KExercise>()) }  }
+            DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { getListKE() }  }
         }
         X.warn("SIZE List OfExcecises Of X Lesson: $lesonID =  ${L2.size}")
         for (item in L2)  X.warn(item.toString())
         return L2
     }
+
+    fun Cursor.getListKE():List<KExercise>  {
+        X.warn("entra")
+        val L:MutableList<KExercise> = mutableListOf<KExercise>()
+        if(this.moveToFirst()){
+               do {
+                   val KE:KExercise=KExercise()
+                   //"ID","IDL","TOE","T1","T2","S1"
+                   KE.ID=this.getLong(0)
+                   KE.IDLesson=this.getLong(1)
+                   KE.TypeOfEx=this.getInt(2)
+                   KE.TL1=this.getString(3)
+                   KE.TL2=this.getString(4)
+                   KE.S1=this.getBlob(5)
+                   L.add(KE)
+
+               }while(this.moveToNext())
+            X.warn("surt")
+            return L
+           }
+           return emptyList()
+    }
+
 
     fun printAll(){
         X.warn("begin printAll")
@@ -240,7 +282,8 @@ class DBHelp(ctx: Context) {
 
         loadLessonExercises(1)
         */
-
+        deleteExerciceTable()
+        createExerciseTable()
 
         X.warn("leaving CEA ")
     }

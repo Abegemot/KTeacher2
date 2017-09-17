@@ -10,6 +10,7 @@ import android.view.View
 import android.os.Environment
 import com.begemot.klib.KHelp
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener {
@@ -21,6 +22,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener {
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
     lateinit var  DBH : DBHelp
+    lateinit var  BA:ByteArray
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +43,9 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener {
         val path = File(Environment.getExternalStorageDirectory().getPath())
         try {
             archivo = File.createTempFile("temporal", ".3gp", path)
+            X.warn("archivo creado en: $path")
         } catch (e: IOException) {
+           X.warn(" no se ha podido grabar: ${e.message}")
         }
 
         recorder.setOutputFile(archivo.getAbsolutePath())
@@ -57,6 +61,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener {
     }
 
     fun detener(v: View) {
+
         recorder.stop()
         recorder.release()
 
@@ -65,7 +70,13 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener {
         try {
             player.setDataSource(archivo.getAbsolutePath())
             X.warn("length file in Bytes: ${archivo.length().toString()}")
+            BA=ByteArray(archivo.length().toInt())
+            val fos = FileOutputStream(archivo)
+            fos.write(BA)
+            fos.close()
+
         } catch (e: IOException) {
+            X.warn(" no se ha podido detener: ${e.message}")
         }
 
         try {
@@ -102,12 +113,16 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener {
             KE.TL1=idTexEx1.text.toString()
             KE.TL2="ja veurem"
             KE.TypeOfEx = 1
+            KE.S1=BA
+
             val idNewExercise=DBH.insertExerciseToLesson(KE)
+
+
             val intentMessage = getIntent()
             intentMessage.putExtra("IDNewExcercise",idNewExercise )
             setResult(Activity.RESULT_OK,intentMessage)
             finish()
-
+           X.warn("I Saved")
 
 
 

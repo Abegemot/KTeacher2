@@ -38,3 +38,52 @@ public static void forceLocale(Context context, String localeCode) {
 https://stackoverflow.com/questions/2264874/changing-locale-within-the-app-itself
 
 */
+
+So far I wanted to manage SQLite records with with the following data class:
+
+data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var TL1:String="", var TL2:String="", var S1: ByteArray= byteArrayOf(100) )
+
+but when trying to use
+
+val rowParser = classParser<KExercise>()
+
+I've got an exception stating that : " Can’t initialize object parser for com.begemot.KTeacher.KExercise, no acceptable constructors found"
+
+
+Looking at the classParser constructor I've found the expected parameters passed as they should (after //), but at a certain moment a ::hasApplicableType is called for each argument of the constructor for the class you
+are trying to build the parser, and if you set a breakpoint you'll see pasing gracefully longs, ints, strings, and all of the suden a "class[B" type will pass ... and of course there is no such a type ... and an exception
+will be thrown.
+
+Ok, you migh call me stupid, or naive or whatever, but please don't call me too ambitious for just wanting to use what would be a simple nice feature ... geting your blobs easyly.
+After all someone wrote "parseRow accepts a list of Any (the type of Any could practically be nothing but Long, Double, String or ByteArray"
+
+
+
+internal fun <T> classParser(clazz: Class<T>): RowParser<T> {   //clazz: "class com.begemot.KTeacher.KExercise"
+    val applicableConstructors = clazz.declaredConstructors.filter { ctr ->  //clazz: "class com.begemot.KTeacher.KExercise" ctr:"public com.begemot.KTeacher.KExercise(long,long,int,java.lang.String,java.lang.String,byte[])"
+        if (ctr.isVarArgs || !Modifier.isPublic(ctr.modifiers)) return@filter false
+        val types = ctr.parameterTypes   //types: Clas[6]@4569 ctr: "public com.begemot.KTeacher.KExercise(long,long,int,java.lang.String,java.lang.String,byte[])"
+         return@filter types != null && types.isNotEmpty() && types.all(::hasApplicableType)
+    }
+
+ if (applicableConstructors.isEmpty()) {
+        throw AnkoException("Can't initialize object parser for ${clazz.canonicalName}, no acceptable constructors found")
+    }
+}
+
+
+
+private fun hasApplicableType(type: Class<*>): Boolean { // type: "class[B"
+    if (type.isPrimitive) {  // type: "class[B"
+        return true
+    }
+
+    return when (type) {
+        java.lang.String::class.java, java.lang.CharSequence::class.java,
+        java.lang.Long::class.java, java.lang.Integer::class.java,
+        java.lang.Byte::class.java, java.lang.Character::class.java,
+        java.lang.Boolean::class.java, java.lang.Float::class.java,
+        java.lang.Double::class.java, java.lang.Short::class.java -> true
+        else -> false
+    }
+}

@@ -7,7 +7,7 @@ import android.content.ContentValues
  */
 data class KLesson( var id: Long =0,var name: String = ""){
 
-    override fun toString(): String { return name.toString()   }
+    override fun toString(): String { return name   }
 
     companion object{
         val tName   : String = "KLESSONS"
