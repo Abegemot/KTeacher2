@@ -10,7 +10,7 @@ import java.security.PKCS12Attribute
 //data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var TL1:String="", var TL2:String="", var S1: ByteArray= byteArrayOf(100) ){
 
 
-data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var TL1:String="", var TL2:String="", var S1: ByteArray=byteArrayOf(100)  ){
+data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var TL1:String="", var TL2:String="", var S1: ByteArray=byteArrayOf(0)  ){
      override fun toString(): String { return TL1   }
 
      companion object {

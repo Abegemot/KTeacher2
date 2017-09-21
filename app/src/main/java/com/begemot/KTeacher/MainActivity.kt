@@ -1,5 +1,6 @@
 package com.begemot.KTeacher
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -27,6 +28,16 @@ class MainActivity : AppCompatActivity() {
     var lesonList = ArrayList<KLesson>()
     lateinit var selectedLesson:KLesson
 
+    class RequestCode {
+         companion object {
+             val SELECT_KINDOF_EXERCISE :Int = 10
+             val GOTO_LESSON :Int = 20
+             val ADD_LESSON  :Int = 30
+         }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         localize()
@@ -40,10 +51,9 @@ class MainActivity : AppCompatActivity() {
                 X.warn("onItemClickListener position = $position    id= $id")
 
                 selectedLesson = myList.getItemAtPosition(position) as KLesson
-
-
-
-            goToLesson(id)
+                //selectedLesson.name="PATATA"
+                //myListAdapter.notifyDataSetChanged()
+                goToLesson(id)
 
         } }
 
@@ -79,11 +89,7 @@ class MainActivity : AppCompatActivity() {
         val intento1 = Intent(this, SelectExerciseActivity::class.java)
         intento1.putExtra("lessonID",selectedLesson.id)
         intento1.putExtra("lessonName",selectedLesson.name)
-
-        startActivityForResult(intento1,2 )
-        //val intento1 = Intent(this, Main3Activity::class.java)
-        //startActivityForResult(intento1,2 )
-
+        startActivityForResult(intento1,RequestCode.GOTO_LESSON )
     }
 
 
@@ -104,37 +110,34 @@ class MainActivity : AppCompatActivity() {
     fun addLessonClick(view: View){
         X.warn("")
         val intento1 = Intent(this, Main2Activity::class.java)
-        startActivityForResult(intento1,2 )
+        startActivityForResult(intento1,RequestCode.ADD_LESSON )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        X.warn ("onActivityResult")
-        if (resultCode === 2) {
-            // fetch the message String
-            val message = data?.getStringExtra("MESSAGE")
-            // Set the message string in textView
-           // toast(message)
-            //lesonList.add(KLesson(message!!,33))
-            lesonList.add(KLesson(33,message!!))
-            myListAdapter.notifyDataSetChanged()
-           //   toast("XXXXXactivity result  Code : $message")
-        }else{
-            toast("Lesson could not have been inserted ")
+        X.warn ("onActivityResult requestCode: $requestCode  resultCode: $resultCode")
+
+        if(requestCode==RequestCode.ADD_LESSON){
+            if(resultCode==Activity.RESULT_OK) {
+                val nameL = data?.getStringExtra("NAME")
+                val idL = data?.getLongExtra("ID", 0L)
+                lesonList.add(KLesson(idL!!, nameL!!))
+                myListAdapter.notifyDataSetChanged()
+                myList.setItemChecked(myListAdapter.count-1,true)
+                myList.setSelection(myListAdapter.count-1)
+                X.warn("new lesson ID ${idL.toString()}   name: $nameL")
+            }
         }
-
-
+        if(requestCode==RequestCode.GOTO_LESSON){
+            //toast("GOTOLESSON  ")
+        }
 
 
     }
 
     fun loadLessons(){
         X.warn ("loadLessons")
-        /*var a:List<KLesson> = DBH.loadLessons()
-        for(item in a) {
-            lesonList.add(item)
-        }*/
         for(item in DBH.loadLessons()) lesonList.add(item)
         myListAdapter.notifyDataSetChanged()
         myList.setItemChecked(0,true)

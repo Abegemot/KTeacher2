@@ -196,6 +196,17 @@ class DBHelp(ctx: Context) {
         return nR
     }
 
+    fun updateExercise(KE:KExercise){
+
+        var ds: SQLiteDatabase = DB2.writableDatabase
+
+        val nR= envelopeX(0L){ds.update(KExercise.tName,KExercise.values2(KE),"ID=${KE.ID}",null)}
+
+
+    }
+
+
+
     fun deleteExerciceTable(){
         deleteTable(KExercise.tName)
         var ds: SQLiteDatabase = DB2.writableDatabase
@@ -208,21 +219,6 @@ class DBHelp(ctx: Context) {
 
     fun loadLessonExercises(lesonID: Long): List<KExercise> {
         X.warn("entra")
-
-/*        val K:KExercise= KExercise()
-
-        X.warn("pasa1")
-
-        K.pos()
-
-        X.warn("pasa2")
-
-
-        val rowParser = classParser<KExercise>()
-
-        X.warn("pasa3")
-
-        X.warn ( "loadExcercisesOfALesson lessonID = $lesonID" )*/
         val L2: List<KExercise> = envelopeX(emptyList()) {
    //         DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { parseList(classParser<KExercise>()) }  }
             DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { getListKE() }  }
@@ -231,6 +227,15 @@ class DBHelp(ctx: Context) {
         for (item in L2)  X.warn(item.toString())
         return L2
     }
+
+    fun loadExercise(exerciseID: Long): KExercise {
+        X.warn("entra")
+        val L2: KExercise = envelopeX(KExercise()) {
+            DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("ID=?",exerciseID.toString()).exec { getKEcercise() }  }
+        }
+        return L2
+    }
+
 
     fun Cursor.getListKE():List<KExercise>  {
         X.warn("entra")
@@ -253,6 +258,20 @@ class DBHelp(ctx: Context) {
            }
            return emptyList()
     }
+
+    fun Cursor.getKEcercise():KExercise {
+        this.moveToFirst()
+        val KE:KExercise=KExercise()
+        //"ID","IDL","TOE","T1","T2","S1"
+        KE.ID       =this.getLong(0)
+        KE.IDLesson =this.getLong(1)
+        KE.TypeOfEx =this.getInt(2)
+        KE.TL1      =this.getString(3)
+        KE.TL2      =this.getString(4)
+        KE.S1       =this.getBlob(5)
+        return KE
+    }
+
 
 
     fun printAll(){

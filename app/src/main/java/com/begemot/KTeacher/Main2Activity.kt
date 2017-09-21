@@ -1,59 +1,41 @@
 package com.begemot.KTeacher
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.content.Intent
+import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.activity_main2.*
 import org.jetbrains.anko.*
 
 
 class Main2Activity : AppCompatActivity() {
 
-    //lateinit var DB2 : myDB
     lateinit var DBH : DBHelp
-    private val log = AnkoLogger("MYPOS")
+    private val X = KHelp(this.javaClass.simpleName)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        log.warn("creatingMainAcctivity2")
+        X.warn("")
         super.onCreate(savedInstanceState)
-        log.warn("creatingMainAcctivity3")
+
         try {
             setContentView(R.layout.activity_main2)
         }catch( e:Exception){
-            log.warn("creatingMainAcc4 $e.message" )
+            X.warn("creatingMainAcc4 $e.message" )
         }
-      //  DB2=myDB.getInstance(this)
-        log.warn("creatingMainAcctivity2 before dbhelp")
         DBH=DBHelp.getInstance(this)
-        log.warn("creatingMainAcctivity2 PASSED")
+        X.warn("End")
 
-    }
-
-    fun onClickCancel(view: View){
-        log.warn ("onClickCancel")
-        finish()
     }
 
     fun onClickAddLesson(view:View){
-//        parent.myList.adapter.not
-//        parent.
-//        toast("AddLesson myactivity2")
-        log.warn("onclickaddlesson2")
-
-        val p = DBH.addLesson(editText.text.toString())
-
-        var message = editText.text.toString()
-       // toast(message)
-        val intentMessage = Intent()
-        message=p.name
-        // put the message to return as result in Intent
-        intentMessage.putExtra("MESSAGE", message)
-        // Set The Result in Intent
-        var result :Int =2
-        if(p.id <0) result=-1
-        setResult(result, intentMessage)
+        X.warn("")
+        val nL=DBH.addLesson(editText.text.toString())
+        val intent = Intent()
+        intent.putExtra("NAME", nL.name)
+        intent.putExtra("ID", nL.id)
+        setResult(Activity.RESULT_OK, intent)
         finish()
-
     }
 }
