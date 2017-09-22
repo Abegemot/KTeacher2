@@ -1,6 +1,7 @@
 package com.begemot.KTeacher
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -10,6 +11,8 @@ import android.view.View
 
 import android.widget.AdapterView.OnItemClickListener
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,6 +21,17 @@ import android.widget.*
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
 import java.util.*
+//import com.sun.org.apache.xerces.internal.dom.DOMMessageFormatter.setLocale
+import android.os.Build
+import android.os.LocaleList
+import android.R.id.edit
+import android.content.SharedPreferences
+
+
+
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        localize()
+       // localize()
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         myListAdapter =  ArrayAdapter(this,android.R.layout.simple_list_item_activated_1,lesonList)
@@ -104,7 +118,8 @@ class MainActivity : AppCompatActivity() {
 
     fun editLessonClick(view: View){
         X.warn ("editLessonClick")
-        DBH.CEA()
+        //DBH.CEA()
+        localize()
     }
 
     fun addLessonClick(view: View){
@@ -145,20 +160,113 @@ class MainActivity : AppCompatActivity() {
 
     fun localize(){
         X.warn("start")
-        val locale = Locale("es")
+        //val locale = Locale("es")
         //Locale.setDefault(locale)
         //val config = baseContext.resources.configuration
         //config.setLocale(locale)
-        X.warn("language ${locale.displayLanguage}")
+        //X.warn("language ${locale.displayLanguage}")
 
         //val locale2 = this.getResources().getConfiguration().setLocale(locale)
-        this.resources.configuration.setLocale(locale)
+        //this.resources.configuration.setLocale(locale)
 
-        X.warn("fin")
+
         //baseContext.resources.configuration
         //baseContext.resources.updateConfiguration(config,baseContext.resources.displayMetrics)
+        //configuration.setLocale(locale)
+        //resources.updateConfiguration(configuration, resources.getDisplayMetrics())
 
+
+         //val locale = Locale("en")
+         //Locale.setDefault(locale)
+
+         //val config = Configuration(resources.getConfiguration())
+        //if (Build.VERSION.SDK_INT >= 17) {
+         //config.setLocale(locale)
+         //val  newContext: Context = createConfigurationContext(config)
+         //recreate()
+        //} else {
+            //config.locale = locale
+            //res.updateConfiguration(config, res.getDisplayMetrics())
+        //}
+        //val lang:String=getString(R.string.app_lang)
+        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+
+        //X.warn("${getlang()}")
+        X.warn("fin")
     }
 
 
+fun getlang():String {
+
+    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        return resources.getConfiguration().getLocales().get(0).language.toString();
+    } else {
+        return resources.getConfiguration().locale.language.toString();
+    }*/
+
+     val C:Context=applicationContext
+     val R:Resources=C.resources
+     val K:Configuration=R.configuration
+     var L:String=K.locale.language.toString()
+     return L
+
+
+}
+
+    override fun attachBaseContext(newBase: Context) {
+        var L:String = ""
+        val sharedpreferences = newBase.getSharedPreferences("KPref",Context.MODE_PRIVATE)
+        if (sharedpreferences.contains("lang")) {
+            L=sharedpreferences.getString("lang", "none")
+        } else L="en"
+        val editor = sharedpreferences.edit()
+        editor.putString("lang", L)
+        editor.commit()
+        X.warn("ZXXXXXXXXXXXXXXXX   lang  $L")
+
+
+
+        val lang:String= newBase.getString(R.string.app_lang)
+        X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        val newLocale= Locale("es")
+
+        // .. create or get your new Locale object here.
+
+        val context = ContextWrapper.wrap(newBase, newLocale)
+        //X.warn("Current Language:   ${getlang()}")
+        super.attachBaseContext(context)
+    }
+
+}
+
+class ContextWrapper(base: Context) : android.content.ContextWrapper(base) {
+    companion object {
+
+        fun wrap(context: Context, newLocale: Locale): ContextWrapper {
+            var context = context
+
+            val res = context.resources
+            val configuration = res.configuration
+
+            /*if (BuildUtils.isAtLeast24Api()) {
+                configuration.setLocale(newLocale)
+
+                val localeList = LocaleList(newLocale)
+                LocaleList.setDefault(localeList)
+                configuration.locales = localeList
+
+                context = context.createConfigurationContext(configuration)*/
+
+            //} else if (BuildUtils.isAtLeast17Api()) {
+                configuration.setLocale(newLocale)
+                context = context.createConfigurationContext(configuration)
+
+           /* } else {
+                configuration.locale = newLocale
+                res.updateConfiguration(configuration, res.displayMetrics)
+            }*/
+
+            return ContextWrapper(context)
+        }
+    }
 }

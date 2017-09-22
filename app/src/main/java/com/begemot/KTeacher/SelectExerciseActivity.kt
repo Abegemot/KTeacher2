@@ -78,6 +78,7 @@ class SelectExerciseActivity : AppCompatActivity() {
 
         val KoEx = data?.getLongExtra("IDKind",0)
         X.warn (" KindOf Excercise:   $KoEx  ")
+        if(KoEx!=null)
         when(KoEx){
             1L ->{
                    X.warn("asw")
