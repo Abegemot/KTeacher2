@@ -6,28 +6,77 @@ package com.begemot.KTeacher
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.begemot.KTeacher.myDB.Companion.reopen
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.db.*
 
 
-class myDB(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "MyDatabase", null, 1) {
+
+class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDatabase$lang", null, 1) {
     companion object {
         private var instance: myDB? = null
-        private val X = KHelp("myDB")
+        public val X = KHelp("myDB")
+
         @Synchronized
-        fun getInstance(ctx: Context): myDB {
+        fun getInstance(ctx: Context,lang: String=""): myDB {
+            X.warn("get instance lang=$lang")
+
             if (instance == null) {
-                instance = myDB(ctx.getApplicationContext())
-                X.warn("create instance")
+                instance = myDB(ctx.getApplicationContext(),lang)
+                X.warn("create instance lang=$lang")
             }
             return instance!!
         }
+
+        @Synchronized
+        fun reopen(){
+            instance?.close()
+            instance=null
+
+        }
+
+
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         // Here you create tables
         X.warn("onCreateDB")
         db.createTable("PROBA", true, Pair("PEPE", TEXT), Pair("ID", INTEGER))
+
+        envelopeX(Unit) {
+
+            //var ds: SQLiteDatabase = DB2.writableDatabase
+
+
+            db.execSQL(KLesson.DBCreate)
+            db.insert(KLesson.tName,null,KLesson.values("1 PRIMERA LLICO Z"))
+            db.insert(KLesson.tName,null,KLesson.values("2 PRIMERA LLICO X"))
+            db.insert(KLesson.tName,null,KLesson.values("3 PRIMERA LLICO V"))
+            db.insert(KLesson.tName,null,KLesson.values("4 PRIMERA LLICO Y"))
+            db.insert(KLesson.tName,null,KLesson.values("5 PRIMERA LLICO W"))
+            db.insert(KLesson.tName,null,KLesson.values("6 PRIMERA LLICO U"))
+
+            db.execSQL(KKindOfExercice.DBCreate)
+            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(0L,"Select from a set of russian words to form a frase",""))
+            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(1L,"Form par of words to find antonims",""))
+            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(2L,"who knows what",""))
+
+            db.execSQL(KExercise.DBCreate)
+            X.warn("after DBCreate")
+            db.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            db.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            db.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            db.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+
+
+
+
+        }
+        X.warn("End CreateLessons")
+
+
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -39,25 +88,32 @@ class myDB(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "MyDatabase", null, 1) {
 
 // Access property for Context
 val Context.database: myDB
-    get() = myDB.getInstance(getApplicationContext())
+    get() = myDB.getInstance(getApplicationContext() )
 
 
-class DBHelp(ctx: Context) {
+class DBHelp(ctx: Context,lang: String) {
     companion object {
         private lateinit var DB2: myDB
         private var instance: DBHelp? = null
-        private val X = KHelp("DBHelp")
+        val X = KHelp("DBHelp")
         private var isOpen: Boolean = false
 
         @Synchronized
-        fun getInstance(ctx: Context): DBHelp {
+        fun getInstance(ctx: Context,lang: String=""): DBHelp {
+            X.warn("$lang")
             if (instance == null) {
-                instance = DBHelp(ctx.getApplicationContext())
-                DB2 = myDB.getInstance(ctx)
-                X.warn("create instance")
+                instance = DBHelp(ctx.getApplicationContext(),lang  )
+                DB2 = myDB.getInstance(ctx,lang)
+                X.warn("create instance $lang")
             }
             return instance!!
         }
+
+        fun reopen(){
+            myDB.reopen()
+            instance=null
+        }
+
     }
 
 
@@ -110,10 +166,10 @@ class DBHelp(ctx: Context) {
 
     fun loadLessons(): List<KLesson> {
 
-        X.warn("LoadLesons")
+        X.warn("LoadLesons in ${DB2.databaseName}")
         val L2: List<KLesson> = envelopeX(emptyList()) {    DB2.use { select(KLesson.tName,*KLesson.tSelect).exec { parseList(classParser<KLesson>()) } } }
         X.warn("SIZE Lessons: ${L2.size}")
-        for (item in L2) X.warn(item.toString())
+        //for (item in L2) X.warn(item.toString())
         return L2
     }
 
@@ -122,11 +178,17 @@ class DBHelp(ctx: Context) {
 
         X.warn("createKindOfExcercises")
            envelopeX(Unit) {
-               DB2.use { createTable("KINDOFEX", true, "ID" to INTEGER + PRIMARY_KEY, "T1" to TEXT, "T2" to TEXT) }
-               var ds: SQLiteDatabase = DB2!!.writableDatabase
-               ds.insert("KINDOFEX", "T1" to "Select from a set of russian words to form a frase", "T2" to "")
-               ds.insert("KINDOFEX", "T1" to "Form par of words to find antonims", "T2" to "")
-               ds.insert("KINDOFEX", "T1" to "who knows what", "T2" to "")
+               var ds: SQLiteDatabase = DB2.writableDatabase
+               ds.execSQL(KKindOfExercice.DBCreate)
+               //DB2.use { createTable("KINDOFEX", true, "ID" to INTEGER + PRIMARY_KEY, "T1" to TEXT, "T2" to TEXT) }
+               //var ds: SQLiteDatabase = DB2!!.writableDatabase
+               ds.insert(KKindOfExercice.tName,null,KKindOfExercice.values(0L,"Select from a set of russian words to form a frase",""))
+               ds.insert(KKindOfExercice.tName,null,KKindOfExercice.values(1L,"Form par of words to find antonims",""))
+               ds.insert(KKindOfExercice.tName,null,KKindOfExercice.values(2L,"who knows what",""))
+
+               //ds.insert("KINDOFEX", "T1" to "Select from a set of russian words to form a frase", "T2" to "")
+               //ds.insert("KINDOFEX", "T1" to "Form par of words to find antonims", "T2" to "")
+               //ds.insert("KINDOFEX", "T1" to "who knows what", "T2" to "")
            }
      }
 
@@ -218,13 +280,14 @@ class DBHelp(ctx: Context) {
 
 
     fun loadLessonExercises(lesonID: Long): List<KExercise> {
-        X.warn("entra")
+        X.warn("entra  DB NAME: ${DB2.databaseName}")
+        DB2.databaseName
         val L2: List<KExercise> = envelopeX(emptyList()) {
    //         DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { parseList(classParser<KExercise>()) }  }
             DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { getListKE() }  }
         }
         X.warn("SIZE List OfExcecises Of X Lesson: $lesonID =  ${L2.size}")
-        for (item in L2)  X.warn(item.toString())
+        //for (item in L2)  X.warn(item.toString())
         return L2
     }
 
@@ -308,18 +371,18 @@ class DBHelp(ctx: Context) {
     }
 
 
-    fun <T> envelopeX (default: T, letter: () -> T) = try {
-        letter()
-    } catch (e: Exception) {
-        X.warn("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
-        default
-    }
 
 
  }
 
 
 
+fun <T> envelopeX (default: T, letter: () -> T) = try {
+    letter()
+} catch (e: Exception) {
+    DBHelp.X.warn("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
+    default
+}
 
 
 

@@ -4,4 +4,12 @@
     <string name="title_activity_main3">Main3Activity</string>
     <string name="Ex1">Traduce esta frase</string>
     <string name="add">Añadir</string>
- </resources>
+    <string name="sel_lang">Seleccionar Idioma</string>
+    <string name="err_leson">La Lección no ha podido ser añadida</string>
+    <string-array name="kind_of_ex">
+        <item>Traduce esta frase</item>
+        <item>Escoge los antonimos</item>
+        <item>Escribe lo que escuchas</item>
+    </string-array>
+
+</resources>

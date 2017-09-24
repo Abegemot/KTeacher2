@@ -25,7 +25,13 @@ import java.util.*
 import android.os.Build
 import android.os.LocaleList
 import android.R.id.edit
+import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.app.AlarmManager
+import android.app.PendingIntent
+//import java.awt.SplashScreen
+
+
 
 
 
@@ -41,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var DBH : DBHelp
     var lesonList = ArrayList<KLesson>()
     lateinit var selectedLesson:KLesson
+    //lateinit var sLang:String
+    var curLang=""
 
     class RequestCode {
          companion object {
@@ -54,7 +62,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // localize()
+
+        X.warn("")
+        curLang=getCurrentLang(this)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         myListAdapter =  ArrayAdapter(this,android.R.layout.simple_list_item_activated_1,lesonList)
@@ -70,8 +81,8 @@ class MainActivity : AppCompatActivity() {
                 goToLesson(id)
 
         } }
-
-        DBH=DBHelp.getInstance(this)
+        DBHelp.reopen()
+        DBH=DBHelp.getInstance(this,curLang)
         loadLessons()
 
 
@@ -84,7 +95,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // menuInflater.inflate(R.menu.menu_main, menu)
+        //menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.langmenu, menu)
         return true
     }
 
@@ -92,11 +104,59 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        X.warn("")
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.select_language->consume{ selectLanguage()}
             else -> super.onOptionsItemSelected(item)
         }
     }
+    inline fun consume(f: () -> Unit): Boolean {
+        f()
+        return true
+    }
+
+    fun selectLanguage():Boolean{
+        //toast("I WILL CHANGE LANGUAGE")
+        val countries = listOf("English", "Español"  )
+
+//       selector("${getString(R.string.sel_lang)}", countries, { dialogInterface, i -> toast("So you're living in ${countries[i]}, right?") } )
+         selector("${getString(R.string.sel_lang)}", countries,{dialogInterface, i ->  setSelectedLang(dialogInterface,i)})
+        return true
+    }
+
+// onClick: (DialogInterface, Int) -> Unit
+    fun setSelectedLang(dI:DialogInterface,I:Int):Unit {
+        //0 en 1 es
+        X.warn("POS old  ${getCurrentLang(this)}  new  $I")
+        if(getCurrentLang(this)=="en") if(I==0) return
+        if(getCurrentLang(this)=="es") if(I==1) return
+        if(I==0) { setCurrentLang("en"); return }
+        if(I==1) { setCurrentLang("es"); return }
+        X.warn("POS  $I")
+    }
+
+    fun APS(){
+        /*
+//        val mStartActivity = Intent(this@MainActivity, SplashScreen::class.java)
+        val mStartActivity = Intent(this,MainActivity::class.java)
+        val mPendingIntentId = 123456
+        val mPendingIntent = PendingIntent.getActivity(this@MainActivity, mPendingIntentId, mStartActivity,
+                PendingIntent.FLAG_CANCEL_CURRENT)
+        val mgr = this@MainActivity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
+        System.exit(0)
+*/
+
+        val i = baseContext.packageManager.getLaunchIntentForPackage(baseContext.packageName)
+        i!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        finish()
+        startActivity(i)
+
+
+    }
+
+
 
     fun goToLesson(iD:Long){
         X.warn("")
@@ -143,6 +203,9 @@ class MainActivity : AppCompatActivity() {
                 myList.setSelection(myListAdapter.count-1)
                 X.warn("new lesson ID ${idL.toString()}   name: $nameL")
             }
+            else {
+                toast("${getString(R.string.err_leson)}")
+            }
         }
         if(requestCode==RequestCode.GOTO_LESSON){
             //toast("GOTOLESSON  ")
@@ -152,7 +215,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadLessons(){
-        X.warn ("loadLessons")
+        X.warn ("loadLessons  $curLang")
         for(item in DBH.loadLessons()) lesonList.add(item)
         myListAdapter.notifyDataSetChanged()
         myList.setItemChecked(0,true)
@@ -160,39 +223,7 @@ class MainActivity : AppCompatActivity() {
 
     fun localize(){
         X.warn("start")
-        //val locale = Locale("es")
-        //Locale.setDefault(locale)
-        //val config = baseContext.resources.configuration
-        //config.setLocale(locale)
-        //X.warn("language ${locale.displayLanguage}")
-
-        //val locale2 = this.getResources().getConfiguration().setLocale(locale)
-        //this.resources.configuration.setLocale(locale)
-
-
-        //baseContext.resources.configuration
-        //baseContext.resources.updateConfiguration(config,baseContext.resources.displayMetrics)
-        //configuration.setLocale(locale)
-        //resources.updateConfiguration(configuration, resources.getDisplayMetrics())
-
-
-         //val locale = Locale("en")
-         //Locale.setDefault(locale)
-
-         //val config = Configuration(resources.getConfiguration())
-        //if (Build.VERSION.SDK_INT >= 17) {
-         //config.setLocale(locale)
-         //val  newContext: Context = createConfigurationContext(config)
-         //recreate()
-        //} else {
-            //config.locale = locale
-            //res.updateConfiguration(config, res.getDisplayMetrics())
-        //}
-        //val lang:String=getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-
-        //X.warn("${getlang()}")
-        X.warn("fin")
+         X.warn("fin")
     }
 
 
@@ -213,22 +244,50 @@ fun getlang():String {
 
 }
 
-    override fun attachBaseContext(newBase: Context) {
+    fun getCurrentLang(ctx:Context):String{
         var L:String = ""
-        val sharedpreferences = newBase.getSharedPreferences("KPref",Context.MODE_PRIVATE)
+        val sharedpreferences = ctx.getSharedPreferences("KPref",Context.MODE_PRIVATE)
         if (sharedpreferences.contains("lang")) {
             L=sharedpreferences.getString("lang", "none")
         } else L="en"
         val editor = sharedpreferences.edit()
         editor.putString("lang", L)
         editor.commit()
-        X.warn("ZXXXXXXXXXXXXXXXX   lang  $L")
+        return L
+    }
+
+
+    fun setCurrentLang(sLang:String){
+        val sharedpreferences = getSharedPreferences("KPref",Context.MODE_PRIVATE)
+        //if (sharedpreferences.contains("lang")) {
+        //    curLang=sharedpreferences.getString("lang", "none")
+        //} else curLang="en"
+        val editor = sharedpreferences.edit()
+        editor.putString("lang", sLang)
+        editor.commit()
+        X.warn(": current Lang = $curLang  newLang =$sLang")
+        APS()
+
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        curLang=getCurrentLang(newBase)
+
+     /*   val sharedpreferences = newBase.getSharedPreferences("KPref",Context.MODE_PRIVATE)
+        if (sharedpreferences.contains("lang")) {
+            curLang=sharedpreferences.getString("lang", "none")
+        } else curLang="en"
+
+        val editor = sharedpreferences.edit()
+        editor.putString("lang", curLang)
+        editor.commit()
+        X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
-        val lang:String= newBase.getString(R.string.app_lang)
-        X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-        val newLocale= Locale("es")
+        //val lang:String= newBase.getString(R.string.app_lang)
+        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        val newLocale= Locale("$curLang")
 
         // .. create or get your new Locale object here.
 

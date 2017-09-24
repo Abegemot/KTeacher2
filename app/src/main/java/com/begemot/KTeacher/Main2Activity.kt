@@ -32,10 +32,13 @@ class Main2Activity : AppCompatActivity() {
     fun onClickAddLesson(view:View){
         X.warn("")
         val nL=DBH.addLesson(editText.text.toString())
+        val i=nL.id.toInt()
+        X.warn("new ID = $i")
         val intent = Intent()
         intent.putExtra("NAME", nL.name)
         intent.putExtra("ID", nL.id)
-        setResult(Activity.RESULT_OK, intent)
+        if(i>-1)  setResult(Activity.RESULT_OK, intent)
+        else setResult(Activity.RESULT_CANCELED, intent)
         finish()
     }
 }
