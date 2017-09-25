@@ -1,6 +1,8 @@
 package com.begemot.KTeacher
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.media.MediaPlayer;
@@ -14,6 +16,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 
 class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRecorder.OnErrorListener {
@@ -36,16 +39,22 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        X.warn("1")
         setContentView(R.layout.activity_exercise1)
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
         DBH=DBHelp.getInstance(this)
-
+        X.warn("2")
+        textView3.text=DBH.getKindEx(0)
 
         path = File(Environment.getExternalStorageDirectory().getPath())
         archivo = File(path,"MYSOUND1.3gp")
 
+        X.warn("3")
 
+        bRec.setOnClickListener  { grabar(bRec) }
+        bPlay.setOnClickListener { reproducir(bPlay) }
+        bStop.setOnClickListener { detener(bStop) }
 
         if(currentExerciseID==0L){
             idTxW.text="CREATE"
@@ -61,6 +70,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
             idTxW.text="UPDATE"
             cExercise=DBH.loadExercise(currentExerciseID)
             idTexEx1.setText(cExercise.TL1)
+            idTexEx2.setText(cExercise.TL2)
 
             X.warn("LONGITUD SONIDO: ${cExercise.S1.size.toString()}")
             if(cExercise.S1.size>1) bPlay.isEnabled=true
@@ -198,7 +208,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         KE.ID=currentExerciseID
         KE.IDLesson=currentLessonID
         KE.TL1=idTexEx1.text.toString()
-        KE.TL2="ja veurem"
+        KE.TL2=idTexEx2.text.toString()
         KE.TypeOfEx = 1
         KE.S1=BA
 
@@ -232,6 +242,11 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
     fun test(v:View){
         X.warn("I Will Test")
+        val intento1 = Intent(this, Test1Activity::class.java)
+        intento1.putExtra("TL1",cExercise.TL1)
+        intento1.putExtra("TL2",cExercise.TL2)
+        startActivity(intento1)
+
     }
 
     override fun onDestroy() {
@@ -240,5 +255,30 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         player?.release()
     }
 
+    override fun attachBaseContext(newBase: Context) {
+        //curLang=getCurrentLang(newBase)
+
+        /*   val sharedpreferences = newBase.getSharedPreferences("KPref",Context.MODE_PRIVATE)
+           if (sharedpreferences.contains("lang")) {
+               curLang=sharedpreferences.getString("lang", "none")
+           } else curLang="en"
+
+           val editor = sharedpreferences.edit()
+           editor.putString("lang", curLang)
+           editor.commit()
+           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+
+
+
+        //val lang:String= newBase.getString(R.string.app_lang)
+        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        val newLocale= Locale("${getCurrentLang(newBase)}")
+
+        // .. create or get your new Locale object here.
+
+        val context = ContextWrapper.wrap(newBase, newLocale)
+        //X.warn("Current Language:   ${getlang()}")
+        super.attachBaseContext(context)
+    }
 
 }

@@ -7,6 +7,7 @@
     <string name="app_lang">en</string>
     <string name="sel_lang">Select Language</string>
     <string name="err_leson">Lesson could not be added</string>
+    <string name="new_lesson">New Lesson</string>
     <string-array name="kind_of_ex">
         <item>Translate this sentence</item>
         <item>Choose antonims</item>

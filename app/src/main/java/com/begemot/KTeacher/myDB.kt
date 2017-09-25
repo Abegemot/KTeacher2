@@ -95,6 +95,8 @@ class DBHelp(ctx: Context,lang: String) {
     companion object {
         private lateinit var DB2: myDB
         private var instance: DBHelp? = null
+        var KOE:Array<String> =emptyArray()
+
         val X = KHelp("DBHelp")
         private var isOpen: Boolean = false
 
@@ -104,18 +106,27 @@ class DBHelp(ctx: Context,lang: String) {
             if (instance == null) {
                 instance = DBHelp(ctx.getApplicationContext(),lang  )
                 DB2 = myDB.getInstance(ctx,lang)
+                KOE=ctx.resources.getStringArray(R.array.kind_of_ex)
                 X.warn("create instance $lang")
             }
             return instance!!
         }
 
         fun reopen(){
+            //KOE=null
             myDB.reopen()
             instance=null
         }
 
     }
 
+    fun getKOE():Array<String>{
+        return KOE
+    }
+
+    fun getKindEx(I:Int):String{
+        return KOE.get(I)
+    }
 
     fun deleteTable(tableName:String){
         var ds: SQLiteDatabase = DB2.writableDatabase
