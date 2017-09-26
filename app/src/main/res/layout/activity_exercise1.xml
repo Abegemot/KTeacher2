@@ -6,43 +6,58 @@
     android:layout_height="match_parent"
     tools:context="com.begemot.KTeacher.Exercise1"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    >
 
     <EditText
         android:id="@+id/idTexEx1"
-        android:layout_width="330dp"
-        android:layout_height="88dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="342dp"
+        android:layout_height="143dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/border_edit_text"
         android:ems="10"
         android:enabled="true"
         android:focusable="true"
+        android:imeOptions="actionDone"
+
+        android:inputType="textMultiLine"
         android:isScrollContainer="false"
         android:nestedScrollingEnabled="false"
+        android:padding="1dp"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="vertical"
+        android:singleLine="false"
+        app:layout_constraintBottom_toTopOf="@+id/idTexEx2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bStop" />
+        app:layout_constraintTop_toBottomOf="@+id/bRec" />
 
 
     <EditText
         android:id="@+id/idTexEx2"
-        android:layout_width="330dp"
-        android:layout_height="88dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="342dp"
+        android:layout_height="134dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:padding="1dp"
         android:ems="10"
         android:enabled="true"
         android:focusable="true"
-        android:isScrollContainer="false"
+        android:isScrollContainer="true"
         android:nestedScrollingEnabled="false"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="vertical"
+        android:background="@drawable/border_edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/bDelete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTexEx1" />
+        app:layout_constraintTop_toBottomOf="@+id/idTexEx1"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 
@@ -64,14 +79,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:onClick="save"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTexEx1"
-        app:layout_constraintVertical_bias="0.947"
         tools:style="@style/Widget.AppCompat.Button" />
 
     <Button
@@ -81,16 +93,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:onClick="delete"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/bTest"
         app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toEndOf="@+id/bSave"
-        app:layout_constraintTop_toBottomOf="@+id/idTexEx1"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintStart_toEndOf="@+id/bSave" />
 
     <Button
         android:id="@+id/bTest"
@@ -98,14 +107,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:onClick="test"
         android:text="Test"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTexEx1"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <ImageButton
@@ -142,7 +148,6 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
         app:layout_constraintStart_toEndOf="@+id/bStop"
         app:layout_constraintTop_toBottomOf="@+id/tv1"
         app:srcCompat="@android:drawable/ic_media_play" />

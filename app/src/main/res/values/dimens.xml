@@ -2,4 +2,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="flowlayout_horizontal_padding">3dp</dimen>
+    <dimen name="flowlayout_vertical_padding">3dp</dimen>
 </resources>

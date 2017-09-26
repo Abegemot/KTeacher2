@@ -22,32 +22,85 @@ class Test1Activity : AppCompatActivity() {
 
     }
 
-
     fun buildButtons(s:String){
         var L=s.split(" ")
         X.warn("${L.size}")
+        var i=0
         for(item in L){
-            X.warn(item)
-            val nB=Button(this)
 
-
-            nB.setBackgroundColor(4)
-            nB.setLayoutParams(LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT))
-            nB.setOnClickListener{click(nB)}
-
-
-            nB.setText(item)
-            lLay.addView(nB)
+            if(item.length>0) {
+                X.warn("world : $item")
+                //val nB = Button(this, null, R.style.KButton)
+                val nB = Button(this)
+                nB.id=i++
+                nB.setBackgroundColor(8440772)
+                nB.setLayoutParams(LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
+                nB.setBackgroundResource(R.drawable.abc_btn_default_mtrl_shape)
+                nB.setOnClickListener { clickL1(nB) }
+                nB.setText(item)
+                lLay1.addView(nB)
+            }
         }
     }
 
-    fun click(v: View){
-        val nB:Button=v as Button
-        toast(nB.text.toString())
+    fun clickL1(v: View) {
+        val oldB: Button = v as Button
+        oldB.visibility=View.INVISIBLE
+        val nB=Button(this)
+        nB.id=oldB.id
+        nB.setLayoutParams(LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
+        nB.setBackgroundResource(R.drawable.abc_btn_default_mtrl_shape)
+        nB.setOnClickListener { clickL2(nB) }
+        nB.setText(oldB.text.toString())
+        lLay2.addView(nB)
     }
+
+    fun clickL2(v: View) {
+        val n=lLay1.childCount
+        X.warn("nItems in lLay1 $n")
+
+        val btoRemove=v as Button
+        for(i in 0..n-1){
+
+            var b=lLay1.getChildAt(i) as Button
+            if(btoRemove.id==b.id){
+                X.warn("poner a visible ${b.id}")
+                b.visibility=View.VISIBLE
+                break
+            }
+
+        }
+        lLay2.removeView(v)
+    }
+
 
 }
 /*LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 final View rowView = inflater.inflate(R.layout.field, null);
 // Add the new row before the add field button.
 parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 1);*/
+/*
+fun <T:Comparable<T>>shuffle(items:MutableList<T>):List<T>{
+    val rg : Random = Random()
+    for (i in 0..items.size - 1) {
+        val randomPosition = rg.nextInt(items.size)
+        val tmp : T = items[i]
+        items[i] = items[randomPosition]
+        items[randomPosition] = tmp
+    }
+    return items
+}
+
+
+
+
+
+fun main(args: Array<String>) {
+    println("\nOrdered list:")
+    val ordered = listOf<String>("Adam", "Clark", "John", "Tim", "Zack")
+    println(ordered)
+    println("\nshuffled list:")
+    val shuffled = shuffle(ordered as MutableList<String>)
+    print(shuffled)
+}
+ */

@@ -17,6 +17,14 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import android.text.InputType
+import android.support.v4.widget.SearchViewCompat.setInputType
+import android.view.inputmethod.EditorInfo
+import android.support.v4.widget.SearchViewCompat.setImeOptions
+import android.R.drawable.edit_text
+import android.widget.EditText
+
+
 
 
 class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRecorder.OnErrorListener {
@@ -41,6 +49,30 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         super.onCreate(savedInstanceState)
         X.warn("1")
         setContentView(R.layout.activity_exercise1)
+
+        //BEGIN POS
+
+        idTexEx1.imeOptions = EditorInfo.IME_ACTION_DONE
+        idTexEx1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+        idTexEx1.setLines(6)
+        idTexEx1.setHorizontallyScrolling(false)
+//        idTexEx1.setPadding(0,0,0,0)
+
+        idTexEx2.imeOptions = EditorInfo.IME_ACTION_DONE
+        idTexEx2.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+        idTexEx2.setLines(6)
+        idTexEx2.setHorizontallyScrolling(false)
+
+
+        //idTexEx1.setSingleLine()
+
+        //END POS
+
+
+
+
+
+
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
         DBH=DBHelp.getInstance(this)
