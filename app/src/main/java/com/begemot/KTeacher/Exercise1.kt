@@ -17,14 +17,6 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
-import android.text.InputType
-import android.support.v4.widget.SearchViewCompat.setInputType
-import android.view.inputmethod.EditorInfo
-import android.support.v4.widget.SearchViewCompat.setImeOptions
-import android.R.drawable.edit_text
-import android.widget.EditText
-
-
 
 
 class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRecorder.OnErrorListener {
@@ -43,6 +35,12 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
     lateinit var path:File
     val recTime:Int  =  10000                        //MAX TIME REC in ms
 
+    class RequestCode {
+        companion object {
+            val EDIT_ORIGINAL    :Int = 10
+            val EDIT_TRANSLATED  :Int = 20
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,16 +50,16 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
         //BEGIN POS
 
-        idTexEx1.imeOptions = EditorInfo.IME_ACTION_DONE
-        idTexEx1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
-        idTexEx1.setLines(6)
-        idTexEx1.setHorizontallyScrolling(false)
+       // idTexEx1.imeOptions = EditorInfo.IME_ACTION_DONE
+       // idTexEx1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+       // idTexEx1.setLines(6)
+       // idTexEx1.setHorizontallyScrolling(false)
 //        idTexEx1.setPadding(0,0,0,0)
 
-        idTexEx2.imeOptions = EditorInfo.IME_ACTION_DONE
-        idTexEx2.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
-        idTexEx2.setLines(6)
-        idTexEx2.setHorizontallyScrolling(false)
+       // idTexEx2.imeOptions = EditorInfo.IME_ACTION_DONE
+       // idTexEx2.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+       // idTexEx2.setLines(6)
+       // idTexEx2.setHorizontallyScrolling(false)
 
 
         //idTexEx1.setSingleLine()
@@ -77,7 +75,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         currentExerciseID = intent.getLongExtra("exerciseID",0)
         DBH=DBHelp.getInstance(this)
         X.warn("2")
-        textView3.text=DBH.getKindEx(0)
+        lKindOf.text=DBH.getKindEx(0)
 
         path = File(Environment.getExternalStorageDirectory().getPath())
         archivo = File(path,"MYSOUND1.3gp")
@@ -89,7 +87,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         bStop.setOnClickListener { detener(bStop) }
 
         if(currentExerciseID==0L){
-            idTxW.text="CREATE"
+            lStatus.text=resources.getString(R.string.item_new)
             bRec.isEnabled=true
             bPlay.isEnabled=false
             bStop.isEnabled=false
@@ -99,10 +97,10 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
             bPlay.isEnabled=false
             bStop.isEnabled=false
 
-            idTxW.text="UPDATE"
+            lStatus.text=resources.getString(R.string.item_update)
             cExercise=DBH.loadExercise(currentExerciseID)
-            idTexEx1.setText(cExercise.TL1)
-            idTexEx2.setText(cExercise.TL2)
+            tVOriginal.setText(cExercise.TL1)
+            tVTranslated.setText(cExercise.TL2)
 
             X.warn("LONGITUD SONIDO: ${cExercise.S1.size.toString()}")
             if(cExercise.S1.size>1) bPlay.isEnabled=true
@@ -165,7 +163,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         }
 
         recorder?.start()
-        tv1.setText("Grabando")
+        lSound.setText("Grabando")
         bRec.isEnabled  = false
         bPlay.isEnabled = false
         bStop.isEnabled = true
@@ -186,7 +184,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         bRec.isEnabled = true
         bStop.isEnabled = false
         bPlay.isEnabled = true
-        tv1.setText("Listo para reproducir")
+        lSound.setText("Listo para reproducir")
     }
 
     fun reproducir(v: View) {
@@ -212,7 +210,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         bRec.isEnabled = false
         bStop.isEnabled = false
         bPlay.isEnabled = false
-        tv1.setText("Reproduciendo")
+        lSound.setText("Reproduciendo")
     }
 
     override fun onCompletion(mp: MediaPlayer) {
@@ -222,7 +220,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         bRec.isEnabled = true
         bStop.isEnabled = false
         bPlay.isEnabled = true
-        tv1.setText("Listo")
+        lSound.setText("Listo")
     }
 
      override fun onError(md:MediaRecorder,a:Int,b:Int){
@@ -239,11 +237,13 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         val KE=KExercise()
         KE.ID=currentExerciseID
         KE.IDLesson=currentLessonID
-        KE.TL1=idTexEx1.text.toString()
-        KE.TL2=idTexEx2.text.toString()
+        KE.TL1= tVOriginal.text.toString()
+        KE.TL2= tVTranslated.text.toString()
         KE.TypeOfEx = 1
         KE.S1=BA
-
+        if(BA.size<100){
+            toast("sound archive less than 100 Bytes!!!!")
+        }
 
 
         if( currentExerciseID==0L){
@@ -275,6 +275,8 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
     fun test(v:View){
         X.warn("I Will Test")
         val intento1 = Intent(this, Test1Activity::class.java)
+        cExercise.TL1= tVOriginal.text.toString()
+        cExercise.TL2= tVTranslated.text.toString()
         intento1.putExtra("TL1",cExercise.TL1)
         intento1.putExtra("TL2",cExercise.TL2)
         startActivity(intento1)
@@ -286,6 +288,106 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         recorder?.release()
         player?.release()
     }
+
+    fun editTranslated(v:View){
+        val intento1 = Intent(this, EdiTextActivity::class.java)
+        //cExercise.TL1=idTexEx1.text.toString()
+        //cExercise.TL2=idTexEx2.text.toString()
+        intento1.putExtra("TL1", tVTranslated.text.toString())
+        intento1.putExtra("TL2",resources.getString(R.string.ex1_translated))
+        startActivityForResult(intento1,RequestCode.EDIT_TRANSLATED )
+
+    }
+
+    fun editOriginal(v:View){
+        val intento1 = Intent(this, EdiTextActivity::class.java)
+        //cExercise.TL1=idTexEx1.text.toString()
+        //cExercise.TL2=idTexEx2.text.toString()
+        intento1.putExtra("TL1", tVOriginal.text.toString())
+        intento1.putExtra("TL2",resources.getString(R.string.ex1_original))
+        startActivityForResult(intento1,RequestCode.EDIT_ORIGINAL )
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==RequestCode.EDIT_ORIGINAL){
+            if(resultCode== Activity.RESULT_OK){
+                val nameE =data?.getStringExtra("TL1")
+                tVOriginal.setText(nameE)
+            }
+
+        }
+        if(requestCode==RequestCode.EDIT_TRANSLATED){
+            if(resultCode== Activity.RESULT_OK){
+                val nameE =data?.getStringExtra("TL1")
+                tVTranslated.setText(nameE)
+            }
+
+        }
+      /*  if(requestCode==RequestCode.SELECT_KINDOF_EXERCISE) {
+            X.warn("REQUESTCODE=SELECT_KINDOF_EXERCISE")
+
+            val KoEx = data?.getLongExtra("IDKind",0)
+            X.warn (" KindOf Excercise:   $KoEx  ")
+            if(KoEx!=null)
+                when(KoEx){
+                    1L ->{
+                        X.warn("asw")
+                        val intento1 = Intent(this, Exercise1::class.java)
+                        intento1.putExtra("lessonID",currentLessonID)
+                        intento1.putExtra("exerciseID",0L)
+                        intento1.putExtra("kindOfEx",1)
+                        startActivityForResult(intento1,RequestCode.ADD_EXERCISE )
+                    }
+                    else -> {
+                        toast("NOT IMPLEMENTED")
+                        X.warn("NOT IMPLEMENTED")
+                    }
+                }
+
+        }
+        if(requestCode==RequestCode.EDIT_EXERCISE){
+            X.warn("REQUESTCODE=EDIT_EXERCISE")
+            if(resultCode== Activity.RESULT_OK){
+                val nameE =""+ data?.getStringExtra("Name")
+                selectedExercise = myListExercises.getItemAtPosition(currentPosition) as KExercise
+                selectedExercise.TL1=nameE
+                exercisesListAdapter.notifyDataSetChanged()
+
+            }
+
+
+        }
+        if(requestCode==RequestCode.ADD_EXERCISE){
+            X.warn("REQUEST CODE = ADD_EXERCISE")
+            if(resultCode== Activity.RESULT_OK){
+                val nameE =""+ data?.getStringExtra("Name")
+                val idE = data?.getLongExtra("IDNewExercise", 0L)
+                exercisesList.add(KExercise(idE!!,currentLessonID,1,nameE))
+                exercisesListAdapter.notifyDataSetChanged()
+                X.warn("now ID = $idE")
+                //myList.setItemChecked(myListAdapter.count-1,true)
+                //myList.setSelection(myListAdapter.count-1)
+                //X.warn("new lesson ID ${idL.toString()}   name: $nameL")
+
+            }
+
+        }
+*/
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     override fun attachBaseContext(newBase: Context) {
         //curLang=getCurrentLang(newBase)

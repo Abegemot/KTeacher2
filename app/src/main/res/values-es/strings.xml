@@ -7,10 +7,23 @@
     <string name="sel_lang">Seleccionar Idioma</string>
     <string name="err_leson">La Lección no ha podido ser añadida</string>
     <string name="new_lesson">Nueva Leccion</string>
+    <string name="ex1_translated">Texto Traducido</string>
+    <string name="ex1_original">Texto Original</string>
+    <string name="item_new">NUEVO</string>
+    <string name="item_update">EDITAR</string>
+
     <string-array name="kind_of_ex">
         <item>Traduce esta frase</item>
         <item>Escoge los antonimos</item>
         <item>Escribe lo que escuchas</item>
     </string-array>
+
+    <string-array name="examples_translated">
+        <item>Se decia que en la orilla habia aparecido una nueva cara: una dama con un perrito</item>
+        <item>No hay nada mejor que la avenida Nievsky, al menos para los PeterBurgeses, para ellos lo representa todo </item>
+        <item>Una tarde a la hora de una inusuallmente calida puesta de sol, en Moscu en los estanques del Patriarca, dos ciudadanos aparecieron</item>
+    </string-array>
+
+
 
 </resources>

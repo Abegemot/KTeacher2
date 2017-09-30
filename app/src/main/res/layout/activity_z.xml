@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.begemot.KTeacher.ZActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
+    <!--Border width and color-->
+
+    <TextView
+        android:id="@+id/tV1"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_margin="100dp"
+        android:background="@color/colorPrimary"
+        android:padding="20dp"
+        android:text="patatastringtitle dgahjasdhasdjhasdlkn  jkadjkadjkad adsjkadjkadjkad asdjkadjkasdjkads  dajkajkad"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="clickButton1"
+        android:text="Button1"
+        app:layout_constraintTop_toBottomOf="@+id/tV1"
+        tools:layout_editor_absoluteX="45dp" />
+
+    <EditText
+        android:id="@+id/editText2"
+        style="@style/KEdit2"
+        android:layout_width="wrap_content"
+        android:layout_height="132dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:text="jajaj ajaja ddsdsd akaka djkdks lkfjsiaj fkdjeheheg dds "
+        android:isScrollContainer="true"
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="clickButton1"
+        android:text="B2"
+        android:minWidth="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/eT1"
+        style="@style/KEdit2"
+        android:layout_width="wrap_content"
+        android:layout_height="115dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="textMultiLine"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:text=" uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece catorce "
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Button3"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eT1" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Button4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_marginEnd="48dp"
+        android:text="Button5"
+        android:minWidth="10dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button4" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tV1"
+        app:srcCompat="@drawable/knigi" />
+
+    <ImageButton
+        android:id="@+id/ibSpeaker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/KIButton"
+        app:srcCompat="@drawable/ic_volume_down_black_24px"
+        tools:layout_editor_absoluteX="320dp"
+        tools:layout_editor_absoluteY="66dp" />
+
+    <!--android:background="@android:color/holo_green_dark"
+        android:elevation="10dp"
+        android:tint="@android:color/background_light"
+        -->
+
+
+    <ImageButton
+        android:id="@+id/ibMic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="clickMicro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ibSpeaker"
+        app:srcCompat="@android:drawable/ic_btn_speak_now"
+        android:theme="@style/KIButton"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

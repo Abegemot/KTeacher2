@@ -29,19 +29,10 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.app.AlarmManager
 import android.app.PendingIntent
+
 //import java.awt.SplashScreen
 
-
-
-
-
-
-
-
-
-
 class MainActivity : AppCompatActivity() {
-
     private val X = KHelp(this.javaClass.simpleName)
     lateinit var myListAdapter:ArrayAdapter<KLesson>
     lateinit var DBH : DBHelp
@@ -180,7 +171,9 @@ class MainActivity : AppCompatActivity() {
     fun editLessonClick(view: View){
         X.warn ("editLessonClick")
         //DBH.CEA()
-        localize()
+        val intento1 = Intent(this, ZActivity::class.java)
+        startActivity(intento1)
+
     }
 
     fun addLessonClick(view: View){

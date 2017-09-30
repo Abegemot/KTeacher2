@@ -31,8 +31,27 @@
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
         <activity android:name=".SelectExerciseActivity" />
         <activity android:name=".SelectKindOfEx" />
-        <activity android:name=".Exercise1" />
-        <activity android:name=".Test1Activity"></activity>
+
+
+        <activity  android:name=".Exercise1" />
+
+            <!--        android:windowSoftInputMode="adjustResize|stateHidden" -->
+
+
+
+
+        <activity android:name=".Test1Activity" />
+
+
+
+        <activity android:name=".ZActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <activity
+            android:name=".EdiTextActivity"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
     </application>
 
 </manifest>

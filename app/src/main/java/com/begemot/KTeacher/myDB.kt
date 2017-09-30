@@ -4,6 +4,7 @@
 package com.begemot.KTeacher
 
 import android.content.Context
+import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.begemot.KTeacher.myDB.Companion.reopen
@@ -121,6 +122,7 @@ class DBHelp(ctx: Context,lang: String) {
     }
 
     fun getKOE():Array<String>{
+        //testing bug -->  val rowParser = classParser<KExercise>()
         return KOE
     }
 
@@ -254,6 +256,23 @@ class DBHelp(ctx: Context,lang: String) {
         }
         X.warn(" exit " )
     }
+
+    fun createEX1Examples(ctx:Context){
+        //this.context
+
+        val examplesOriginal   : Array<String> = ctx.resources.getStringArray(R.array.examples_original)
+        val examplesTranslated : Array<String> = ctx.resources.getStringArray(R.array.examples_translated)
+
+        var I=0
+        for(item in examplesOriginal){
+            val KE=KExercise(1,2,1,item,examplesTranslated[I])
+            I++
+            insertExerciseToLesson(KE)
+        }
+
+    }
+
+
 
     fun insertExerciseToLesson(KE:KExercise):Long{
         X.warn("enter ")

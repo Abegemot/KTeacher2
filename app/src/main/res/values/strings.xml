@@ -8,10 +8,26 @@
     <string name="sel_lang">Select Language</string>
     <string name="err_leson">Lesson could not be added</string>
     <string name="new_lesson">New Lesson</string>
+    <string name="ex1_translated">Translated Text</string>
+    <string name="ex1_original">Original Text</string>
+    <string name="item_new">NEW</string>
+    <string name="item_update">UPDATE</string>
     <string-array name="kind_of_ex">
         <item>Translate this sentence</item>
         <item>Choose antonims</item>
         <item>Write what you listen</item>
     </string-array>
+    <string-array name="examples_original" >
+        <item>Говорили, что на набережной появилось новое лицо: дама с собачкой</item>
+        <item>Нет ничего лучше Невского проспекта, по крайней мере в Петербурге; для него он составляет все. </item>
+        <item>Однажды весною, в час небывало жаркого заката, в Москве, на Патриарших прудах, появились два гражданина</item>
+    </string-array>
+    <string-array name="examples_translated">
+        <item>It was said that a new person had appeared on the sea-front: a lady with a little dog</item>
+        <item>There is nothing better than the Nevsky avenue, at least for the PeterBurgians, for them he represents everything </item>
+        <item>One afternoon at the hour of an unusually hot sunset, in Moscow to the Patriarch ponds, two citizens apeared</item>
+    </string-array>
+
+
 
 </resources>
