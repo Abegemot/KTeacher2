@@ -37,19 +37,25 @@
         android:id="@+id/lLay2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/ic_unionjack"
         android:padding="3dp"
         app:layout_constraintBottom_toTopOf="@+id/lLay1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tV1"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="8dp" />
+        style="@style/KFrame"
+        />
+
+
+    <!--
+      android:background="@drawable/ic_flag_of_spain"
+      android:background="@drawable/ic_unionjack"
+
+    -->
 
     <com.begemot.KTeacher.FlowLayout
         android:id="@+id/lLay1"
@@ -58,12 +64,15 @@
         android:layout_marginBottom="64dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/ic_flag_of_spain"
+
         android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/KFrame"
+        
+        />
 
     <Button
         android:id="@+id/button"

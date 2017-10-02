@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-plus:11.4.0'
     println("Hola Garrulo")
     println("$kotlin_version")
     project.logger.info('my info message')

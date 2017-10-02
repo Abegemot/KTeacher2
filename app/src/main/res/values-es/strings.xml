@@ -12,10 +12,21 @@
     <string name="item_new">NUEVO</string>
     <string name="item_update">EDITAR</string>
 
+    <string name="ready">Listo</string>
+    <string name="play">Reproducir</string>
+    <string name="playing">Reproduciendo</string>
+    <string name="rec">Grabando</string>
+    <string name="max_time">Tiempo maximo de grabación sobrepasado</string>
+
+
+    <!--   -->
+    <string name="save">save</string>
+    <string name="delete">delete</string>
+
     <string-array name="kind_of_ex">
-        <item>Traduce esta frase</item>
-        <item>Escoge los antonimos</item>
-        <item>Escribe lo que escuchas</item>
+        <item>Traduce esta frase escogiendo de un conjunto de palabras</item>
+        <item>Ecucha en Ruso y escribe en Español</item>
+        <item>Escucha en Ruso y escribe en Ruso</item>
     </string-array>
 
     <string-array name="examples_translated">

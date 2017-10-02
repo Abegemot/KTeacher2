@@ -12,12 +12,24 @@
     <string name="ex1_original">Original Text</string>
     <string name="item_new">NEW</string>
     <string name="item_update">UPDATE</string>
+
+    <string name="ready">Ready</string>
+    <string name="play">Play</string>
+    <string name="playing">Playing</string>
+    <string name="rec">Recording</string>
+    <string name="max_time">Max Recording time Exceeded</string>
+
+    <string name="save">save</string>
+    <string name="delete">delete</string>
+
+
+
     <string-array name="kind_of_ex">
-        <item>Translate this sentence</item>
-        <item>Choose antonims</item>
-        <item>Write what you listen</item>
+        <item>Translate sentence from a set of words</item>
+        <item>Listen in Russian Write in English</item>
+        <item>Listen in Russian Write in Russian</item>
     </string-array>
-    <string-array name="examples_original" >
+    <string-array name="examples_original">
         <item>Говорили, что на набережной появилось новое лицо: дама с собачкой</item>
         <item>Нет ничего лучше Невского проспекта, по крайней мере в Петербурге; для него он составляет все. </item>
         <item>Однажды весною, в час небывало жаркого заката, в Москве, на Патриарших прудах, появились два гражданина</item>
@@ -28,6 +40,8 @@
         <item>One afternoon at the hour of an unusually hot sunset, in Moscow to the Patriarch ponds, two citizens apeared</item>
     </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

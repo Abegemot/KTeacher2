@@ -53,6 +53,10 @@
     <item name="android:minWidth">20dp</item>
 </style>
 
+    <style name="KFrame">
+        <item name="android:background">@drawable/border_edit_text</item>
+    </style>
+
 
     <style name="KButtonTest">
         <item name="android:textColor">#FFFFFF</item>
@@ -60,5 +64,8 @@
         <item name="android:background">@drawable/button_test</item>
     </style>
 
+    <style name="KSplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/knigi</item>
+    </style>
 
 </resources>
