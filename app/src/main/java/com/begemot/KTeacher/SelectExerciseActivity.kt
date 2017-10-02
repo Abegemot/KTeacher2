@@ -43,11 +43,16 @@ class SelectExerciseActivity : AppCompatActivity() {
                       X.warn("onItemClickListener position = $position    id= $id")
                       selectedExercise = myListExercises.getItemAtPosition(position) as KExercise
                       currentPosition=position
-                      val intento1 =Intent(this@SelectExerciseActivity, Exercise1::class.java)
 
-                      intento1.putExtra("lessonID",currentLessonID)
-                      intento1.putExtra("exerciseID",selectedExercise.ID)
-                      startActivityForResult(intento1,RequestCode.EDIT_EXERCISE )
+
+                      var intent1:Intent?=null
+                      X.warn("---------------------------selected KIND OF exercise   ${selectedExercise.TypeOfEx}")
+                      if(selectedExercise.TypeOfEx==1)  intent1 =Intent(this@SelectExerciseActivity, Exercise1::class.java)
+                      if(selectedExercise.TypeOfEx==3)  intent1 =Intent(this@SelectExerciseActivity, Exercise3::class.java)
+
+                      intent1?.putExtra("lessonID",currentLessonID)
+                      intent1?.putExtra("exerciseID",selectedExercise.ID)
+                      startActivityForResult(intent1,RequestCode.EDIT_EXERCISE )
             }
 
 
@@ -79,7 +84,8 @@ class SelectExerciseActivity : AppCompatActivity() {
         val KoEx = data?.getLongExtra("IDKind",0)
         X.warn (" KindOf Excercise:   $KoEx  ")
         if(KoEx!=null)
-        when(KoEx){
+        newExercise(KoEx)
+       /* when(KoEx){
             1L ->{
                    X.warn("asw")
                    val intento1 = Intent(this, Exercise1::class.java)
@@ -92,7 +98,7 @@ class SelectExerciseActivity : AppCompatActivity() {
                 toast("NOT IMPLEMENTED")
                 X.warn("NOT IMPLEMENTED")
             }
-        }
+        }*/
 
         }
         if(requestCode==RequestCode.EDIT_EXERCISE){
@@ -122,6 +128,23 @@ class SelectExerciseActivity : AppCompatActivity() {
             }
 
         }
+
+    }
+
+
+
+    fun newExercise(KindOf:Long){
+
+        var intento1:Intent? = null
+        if(KindOf==1L) intento1=Intent(this, Exercise1::class.java)
+        if(KindOf==3L) intento1=Intent(this, Exercise3::class.java)
+        if(KindOf==2L){toast("NOT IMPLEMENTED"); return }
+
+        intento1?.putExtra("lessonID",currentLessonID)
+        intento1?.putExtra("exerciseID",0L)
+        intento1?.putExtra("kindOfEx",1)
+        startActivityForResult(intento1,RequestCode.ADD_EXERCISE )
+
 
     }
 

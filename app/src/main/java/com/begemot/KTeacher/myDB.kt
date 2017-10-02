@@ -313,8 +313,7 @@ class DBHelp(ctx: Context,lang: String) {
         X.warn("entra  DB NAME: ${DB2.databaseName}")
         DB2.databaseName
         val L2: List<KExercise> = envelopeX(emptyList()) {
-   //         DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { parseList(classParser<KExercise>()) }  }
-            DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("IDL=?",lesonID.toString()).exec { getListKE() }  }
+           DB2.use {  select(KExercise.tName,*KExercise.tSelectmin).whereSimple("IDL=?",lesonID.toString()).exec { getListminKE() }  }
         }
         X.warn("SIZE List OfExcecises Of X Lesson: $lesonID =  ${L2.size}")
         //for (item in L2)  X.warn(item.toString())
@@ -351,6 +350,29 @@ class DBHelp(ctx: Context,lang: String) {
            }
            return emptyList()
     }
+
+    fun Cursor.getListminKE():List<KExercise>  {
+        X.warn("entra")
+        val L:MutableList<KExercise> = mutableListOf<KExercise>()
+        if(this.moveToFirst()){
+            do {
+                val KE:KExercise=KExercise()
+                //"ID","IDL","TOE","T1","T2","S1"
+                KE.ID=this.getLong(0)
+                KE.IDLesson=this.getLong(1)
+                KE.TypeOfEx=this.getInt(2)
+                KE.TL1=this.getString(3)
+//                KE.TL2=this.getString(4)
+//                KE.S1=this.getBlob(5)
+                L.add(KE)
+
+            }while(this.moveToNext())
+            X.warn("surt")
+            return L
+        }
+        return emptyList()
+    }
+
 
     fun Cursor.getKEcercise():KExercise {
         this.moveToFirst()

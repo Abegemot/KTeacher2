@@ -20,6 +20,8 @@ data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var
 
          val tSelect: Array<String> = arrayOf("ID","IDL","TOE","T1","T2","S1")
 
+         val tSelectmin: Array<String> = arrayOf("ID","IDL","TOE","T1")
+
          fun values(IDLesson: Long,TypeOfEx: Int,T1: String,T2: String,S1:ByteArray)  : ContentValues {
              val A=ContentValues()
              A.put("IDL",IDLesson)

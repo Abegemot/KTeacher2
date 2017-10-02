@@ -171,7 +171,8 @@ class MainActivity : AppCompatActivity() {
     fun editLessonClick(view: View){
         X.warn ("editLessonClick")
         //DBH.CEA()
-        val intento1 = Intent(this, ZActivity::class.java)
+        //val intento1 = Intent(this, ZActivity::class.java)
+        val intento1 = Intent(this, Exercise3::class.java)
         startActivity(intento1)
 
     }

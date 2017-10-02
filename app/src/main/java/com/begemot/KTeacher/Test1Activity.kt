@@ -73,20 +73,26 @@ class Test1Activity : AppCompatActivity() {
 
     fun clickL1(v: View) {
         val oldB: Button = v as Button
-        oldB.visibility=View.INVISIBLE
-        val nB=createButton()
-        nB.id=oldB.id
-        nB.setOnClickListener { clickL2(nB) }
-        nB.setText(oldB.text.toString())
-        lLay2.addView(nB)
+        //oldB.visibility=View.INVISIBLE
+        //val nB=createButton()
+        //nB.id=oldB.id
+        //nB.setOnClickListener { clickL2(nB) }
+        //nB.setText(oldB.text.toString())
+        X.warn("pasa 1")
+        oldB.setOnClickListener { clickL2(oldB) }
+        X.warn("pasa 2")
+        lLay1.removeView(oldB)
+        X.warn("pasa 3")
+        lLay2.addView(oldB)
+        X.warn("pasa 4")
 
-        lLay2.invalidate()
-        lLay1.invalidate()
+  //      lLay2.invalidate()
+  //      lLay1.invalidate()
     }
 
     fun clickL2(v: View) {
         val n=lLay1.childCount
-        X.warn("nItems in lLay1 $n")
+        /*X.warn("nItems in lLay1 $n")
         val btoRemove=v as Button
         for(i in 0..n-1){
             var b=lLay1.getChildAt(i) as Button
@@ -95,11 +101,13 @@ class Test1Activity : AppCompatActivity() {
                 b.visibility=View.VISIBLE
                 break
             }
-        }
+        }*/
+        v.setOnClickListener{clickL1(v)}
         lLay2.removeView(v)
+        lLay1.addView(v)
 
-        lLay2.invalidate()
-        lLay1.invalidate()
+//        lLay2.invalidate()
+//        lLay1.invalidate()
 
     }
 
@@ -119,7 +127,22 @@ class Test1Activity : AppCompatActivity() {
             } else n_errors++
         }
 
-        toast("Number Of guesses: $n_aciertos  Number of mistakes: $n_errors  total word number: ${lStringOk.size}")
+        toast("Number Of guesses: $n_aciertos  Number of mistakes: $n_errors  total words: ${lStringOk.size}")
+        //showOk()
+
+    }
+
+    fun showOk(){
+        val n=lLay2.childCount
+        for(i in 0..n-1){
+            var b=lLay2.getChildAt(i) as Button
+            var c=b.text.toString()
+            var original=lStringOk[i]
+
+            if(c.equals(original)){
+                b.setBackgroundColor(9999999)
+            }
+        }
 
 
     }

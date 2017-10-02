@@ -26,14 +26,17 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
     var  player :  MediaPlayer?   = null
     lateinit var  archivo:  File
 
+    lateinit var path:File
+    val recTime:Int  =  10000                        //MAX TIME REC in ms
+
+
+
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
 
     lateinit var  DBH : DBHelp
     var  BA:ByteArray = byteArrayOf(0)
     lateinit var  cExercise:KExercise
-    lateinit var path:File
-    val recTime:Int  =  10000                        //MAX TIME REC in ms
 
     class RequestCode {
         companion object {
@@ -151,8 +154,8 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
             X.warn("archivo creado en: $path")
         } catch (e: IOException) {
-           X.warn(" Exception no se ha podido crear archivo temp: ${e.message}")
-           X.warn("${e.printStackTrace()}")
+            X.warn(" Exception no se ha podido crear archivo temp: ${e.message}")
+            X.warn("${e.printStackTrace()}")
         }
         recorder?.setOutputFile(archivo.getAbsolutePath())
         try {
