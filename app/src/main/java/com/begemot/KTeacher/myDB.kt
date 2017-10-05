@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.begemot.KTeacher.myDB.Companion.getInstance
 import com.begemot.KTeacher.myDB.Companion.reopen
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.db.*
@@ -14,6 +15,8 @@ import org.jetbrains.anko.db.*
 
 
 class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDatabase$lang", null, 1) {
+    private var L=lang
+
     companion object {
         private var instance: myDB? = null
         public val X = KHelp("myDB")
@@ -42,32 +45,41 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
     override fun onCreate(db: SQLiteDatabase) {
         // Here you create tables
         X.warn("onCreateDB")
-        db.createTable("PROBA", true, Pair("PEPE", TEXT), Pair("ID", INTEGER))
+        //if(L.equals("en"))
+
+
+
 
         envelopeX(Unit) {
 
             //var ds: SQLiteDatabase = DB2.writableDatabase
 
+            if(L.equals("en")) {
+                db.execSQL(KLesson.DBCreate)
+                db.insert(KLesson.tName, null, KLesson.values("First Lesson"))
+                db.insert(KLesson.tName, null, KLesson.values("Second Lesson"))
+                return@envelopeX
+            }
+            if(L.equals("es")) {
+                db.execSQL(KLesson.DBCreate)
+                db.insert(KLesson.tName, null, KLesson.values("Primera Lección"))
+                db.insert(KLesson.tName, null, KLesson.values("Segunda Lección"))
+                return@envelopeX
+            }
 
-            db.execSQL(KLesson.DBCreate)
-            db.insert(KLesson.tName,null,KLesson.values("1 PRIMERA LLICO Z"))
-            db.insert(KLesson.tName,null,KLesson.values("2 PRIMERA LLICO X"))
-            db.insert(KLesson.tName,null,KLesson.values("3 PRIMERA LLICO V"))
-            db.insert(KLesson.tName,null,KLesson.values("4 PRIMERA LLICO Y"))
-            db.insert(KLesson.tName,null,KLesson.values("5 PRIMERA LLICO W"))
-            db.insert(KLesson.tName,null,KLesson.values("6 PRIMERA LLICO U"))
 
-            db.execSQL(KKindOfExercice.DBCreate)
-            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(0L,"Select from a set of russian words to form a frase",""))
-            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(1L,"Form par of words to find antonims",""))
-            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(2L,"who knows what",""))
 
-            db.execSQL(KExercise.DBCreate)
-            X.warn("after DBCreate")
-            db.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
-            db.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
-            db.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
-            db.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+//            db.execSQL(KKindOfExercice.DBCreate)
+//            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(0L,"Select from a set of russian words to form a frase",""))
+//            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(1L,"Form par of words to find antonims",""))
+//            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(2L,"who knows what",""))
+
+//            db.execSQL(KExercise.DBCreate)
+//            X.warn("after DBCreate")
+//            db.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+//            db.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+//            db.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+//            db.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
 
 
 
@@ -88,12 +100,12 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
 }
 
 // Access property for Context
-val Context.database: myDB
-    get() = myDB.getInstance(getApplicationContext() )
+val Context.database: myDB  get() = myDB.getInstance(getApplicationContext() )
 
 
-class DBHelp(ctx: Context,lang: String) {
+class DBHelp(ctx: Context) {
     companion object {
+        private var dbLang:String=""
         private lateinit var DB2: myDB
         private var instance: DBHelp? = null
         var KOE:Array<String> =emptyArray()
@@ -102,22 +114,43 @@ class DBHelp(ctx: Context,lang: String) {
         private var isOpen: Boolean = false
 
         @Synchronized
-        fun getInstance(ctx: Context,lang: String=""): DBHelp {
+        fun getInstance2(ctx: Context,lang: String=""): DBHelp {
             X.warn("$lang")
             if (instance == null) {
-                instance = DBHelp(ctx.getApplicationContext(),lang  )
-                DB2 = myDB.getInstance(ctx,lang)
-                KOE=ctx.resources.getStringArray(R.array.kind_of_ex)
+
+                instance   = DBHelp(ctx.getApplicationContext()  )
+                DB2        = myDB.getInstance(ctx,lang)
+                KOE        = ctx.resources.getStringArray(R.array.kind_of_ex)
+
+
+
                 X.warn("create instance $lang")
             }
             return instance!!
         }
 
-        fun reopen(){
-            //KOE=null
+
+        @Synchronized
+        fun getInstance(ctx: Context): DBHelp {
+            if (instance == null) {
+
+                instance   = DBHelp(ctx.getApplicationContext() )
+                DB2        = myDB.getInstance(ctx, dbLang)
+                KOE        = ctx.resources.getStringArray(R.array.kind_of_ex)
+                X.warn("create instance $dbLang")
+            }
+            return instance!!
+        }
+
+
+
+
+        fun reopen(lang:String){
+            dbLang=lang
             myDB.reopen()
             instance=null
         }
+
 
     }
 
@@ -128,6 +161,11 @@ class DBHelp(ctx: Context,lang: String) {
 
     fun getKindEx(I:Int):String{
         return KOE.get(I)
+    }
+
+
+    fun getDBNAme():String{
+        return DB2.databaseName
     }
 
     fun deleteTable(tableName:String){
@@ -184,6 +222,14 @@ class DBHelp(ctx: Context,lang: String) {
         X.warn("SIZE Lessons: ${L2.size}")
         //for (item in L2) X.warn(item.toString())
         return L2
+    }
+
+    fun updateLesson(KL:KLesson){
+
+        var ds: SQLiteDatabase = DB2.writableDatabase
+        val nR= envelopeX(0L){ds.update(KLesson.tName,KLesson.values(KL),"ID=${KL.id}",null)}
+
+
     }
 
 
@@ -259,18 +305,33 @@ class DBHelp(ctx: Context,lang: String) {
 
     fun createEX1Examples(ctx:Context){
         //this.context
-
+        if(existEX()){
+            X.warn(("JA EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
+            return
+        }
+        X.warn(("NO EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
+        var ds: SQLiteDatabase = DB2.writableDatabase
+        ds.execSQL(KExercise.DBCreate)
         val examplesOriginal   : Array<String> = ctx.resources.getStringArray(R.array.examples_original)
         val examplesTranslated : Array<String> = ctx.resources.getStringArray(R.array.examples_translated)
 
         var I=0
         for(item in examplesOriginal){
-            val KE=KExercise(1,2,1,item,examplesTranslated[I])
+            val KE=KExercise(1,2,0,item,examplesTranslated[I])
             I++
             insertExerciseToLesson(KE)
         }
 
     }
+
+   fun existEX():Boolean{
+       try {
+           DB2.use {  select(KExercise.tName,*KExercise.tSelectmin).whereSimple("IDL=?","9999").exec { getListminKE() }  }
+       } catch (e: Exception) {
+           return false
+       }
+       return true
+   }
 
 
 
@@ -297,7 +358,11 @@ class DBHelp(ctx: Context,lang: String) {
 
     }
 
-
+    fun deleteExercise(id:Long) {
+        var ds: SQLiteDatabase = DB2.writableDatabase
+        val nR = envelopeX(0L){     ds.delete(KExercise.tName,"ID=$id").toLong()    }
+        X.warn("returned = $nR")
+    }
 
     fun deleteExerciceTable(){
         deleteTable(KExercise.tName)

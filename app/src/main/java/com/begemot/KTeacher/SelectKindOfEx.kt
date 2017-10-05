@@ -24,6 +24,8 @@ class SelectKindOfEx : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_kind_of_ex)
+        setTitle(resources.getString(R.string.sel_kind_ofex))
+
         KOfexercisesListAdapter =  ArrayAdapter(this,android.R.layout.simple_list_item_1,KOfexercisesList)
 
 
@@ -85,7 +87,7 @@ class SelectKindOfEx : AppCompatActivity() {
 
         //val lang:String= newBase.getString(R.string.app_lang)
         //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-        val newLocale= Locale("${getCurrentLang(newBase)}")
+        val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 

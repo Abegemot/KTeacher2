@@ -21,6 +21,17 @@ data class KLesson( var id: Long =0,var name: String = ""){
             //A.put("IDL",idLesson)
             A.put("NAME",nameLesson)
             return A
+         }
+
+        fun values(KL:KLesson)  : ContentValues {
+            val A=ContentValues()
+            A.put("ID",KL.id)
+            A.put("NAME",KL.name)
+            return A
         }
+
+
+
+
     }
 }

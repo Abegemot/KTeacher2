@@ -2,6 +2,7 @@ package com.begemot.KTeacher
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -23,7 +24,7 @@ class Exercise3 : AppCompatActivity() {
     lateinit var  DBH : DBHelp
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
-
+    lateinit var  cExercise:KExercise
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +49,13 @@ class Exercise3 : AppCompatActivity() {
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
 
-        if(currentExerciseID==0L)  lStatus.text=resources.getString(R.string.item_new)
+        if(currentExerciseID==0L){
+            lStatus.text=resources.getString(R.string.item_new)
+            cExercise=KExercise(0,currentLessonID,0)
+        }
         else {
             lStatus.text=resources.getString(R.string.item_update)
-            val cExercise=DBH.loadExercise(currentExerciseID)
+            cExercise=DBH.loadExercise(currentExerciseID)
             eT1.setText(cExercise.TL1)
             //Todo ad sound to file
         }
@@ -61,7 +65,7 @@ class Exercise3 : AppCompatActivity() {
     }
 
     fun save(v: View){
-        toast("ISAVE")
+        //toast("ISAVE")
         val path = File(Environment.getExternalStorageDirectory().getPath())
         val archivo = File(path,"MYSOUND1.3gp")
         val BA=ByteArray(archivo.length().toInt())
@@ -75,12 +79,12 @@ class Exercise3 : AppCompatActivity() {
         KE.IDLesson=currentLessonID
         KE.TL1= eT1.text.toString()
         //KE.TL2= tVTranslated.text.toString()
-        KE.TypeOfEx = 3
+        KE.TypeOfEx = 2
 
 
         KE.S1=BA
         if(BA.size<100){
-            toast("sound archive less than 100 Bytes!!!!")
+            //toast("sound archive less than 100 Bytes!!!!")
         }
 
 
@@ -91,6 +95,7 @@ class Exercise3 : AppCompatActivity() {
             val intentMessage = getIntent()
             intentMessage.putExtra("IDNewExercise",idNewExercise )
             intentMessage.putExtra("Name",KE.TL1)
+            intentMessage.putExtra("TypeOfEx",2)
             setResult(Activity.RESULT_OK,intentMessage)
             X.warn("I Saved  Created ex number: $idNewExercise")
             finish()
@@ -109,11 +114,19 @@ class Exercise3 : AppCompatActivity() {
 
     }
     fun delete(v: View){
-        toast("IDELETE")
+        //toast("IDELETE")
+        DBH.deleteExercise(currentExerciseID)
+        val i=getIntent()
+        i.putExtra("DELETE",true)
+        setResult(Activity.RESULT_CANCELED,i)
+        finish()
 
     }
     fun test(v: View){
-        toast("ITEST")
+        val intento1 = Intent(this, Test3Activity::class.java)
+        cExercise.TL1= eT1.text.toString()
+        intento1.putExtra("TL1",cExercise.TL1)
+        startActivity(intento1)
     }
 
 
@@ -134,7 +147,7 @@ class Exercise3 : AppCompatActivity() {
 
         //val lang:String= newBase.getString(R.string.app_lang)
         //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-        val newLocale= Locale("${getCurrentLang(newBase)}")
+        val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 

@@ -8,7 +8,7 @@ import android.view.View
 import android.content.Intent
 import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.activity_main2.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.toast
 import java.util.*
 
 
@@ -16,33 +16,61 @@ class Main2Activity : AppCompatActivity() {
 
     lateinit var DBH : DBHelp
     private val X = KHelp(this.javaClass.simpleName)
-  //  var curLang=""
+    private var currentLessonID=0L
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         X.warn("")
         super.onCreate(savedInstanceState)
-
-        try {
-            setContentView(R.layout.activity_main2)
-        }catch( e:Exception){
-            X.warn("creatingMainAcc4 $e.message" )
-        }
+        setContentView(R.layout.activity_main2)
+        setTitle(resources.getString(R.string.lesson))
         DBH=DBHelp.getInstance(this)
-        X.warn("End")
+
+        currentLessonID=intent.getLongExtra("lessonID",0)
+        if(currentLessonID==0L) lStatus.text=resources.getString(R.string.item_new)
+        else lStatus.text=resources.getString(R.string.item_update)
+        eT1.setText(intent.getStringExtra("lessonName"))
+
+
+
 
     }
 
     fun onClickAddLesson(view:View){
         X.warn("")
-        val nL=DBH.addLesson(editText.text.toString())
-        val i=nL.id.toInt()
-        X.warn("new ID = $i")
         val intent = Intent()
-        intent.putExtra("NAME", nL.name)
-        intent.putExtra("ID", nL.id)
-        if(i>-1)  setResult(Activity.RESULT_OK, intent)
-        else setResult(Activity.RESULT_CANCELED, intent)
+        var stitleLesson=eT1.text.toString()
+        stitleLesson.trim()
+        if (stitleLesson.length==0 )
+        {
+            toast("${resources.getString(R.string.empty_lesson)}")
+            return
+        }
+
+
+
+        if(currentLessonID==0L){ //insert
+
+
+
+
+           val nL=DBH.addLesson(eT1.text.toString())
+           val i=nL.id.toInt()
+           X.warn("new ID = $i")
+           intent.putExtra("NAME", nL.name)
+           intent.putExtra("ID", nL.id)
+           if(i>-1)  setResult(Activity.RESULT_OK, intent)
+           else setResult(Activity.RESULT_CANCELED, intent)
+        }else{ //update
+            val L=KLesson(currentLessonID,eT1.text.toString())
+            DBH.updateLesson(L)
+            intent.putExtra("NAME", L.name)
+            intent.putExtra("ID", L.id)
+            setResult(Activity.RESULT_OK, intent)
+        }
         finish()
+
+
     }
 
     override fun attachBaseContext(newBase: Context) {
@@ -62,7 +90,7 @@ class Main2Activity : AppCompatActivity() {
 
         //val lang:String= newBase.getString(R.string.app_lang)
         //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-        val newLocale= Locale("${getCurrentLang(newBase)}")
+        val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 

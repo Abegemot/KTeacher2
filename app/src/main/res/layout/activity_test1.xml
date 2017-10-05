@@ -8,89 +8,65 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp">
 
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/fPlayer"
+        android:name="com.begemot.KTeacher.PlayerFragment"
+        android:layout_width="396dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:theme="@style/KIButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_volume_down_black_24px" />
 
-    <TextView
-        android:id="@+id/tV1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:maxLines="5"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.begemot.KTeacher.FlowLayout
-        android:id="@+id/lLay2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:padding="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/lLay1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tV1"
-        style="@style/KFrame"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/lT"
+        tools:layout="@layout/fragment_player" />
 
-
-    <!--
-      android:background="@drawable/ic_flag_of_spain"
-      android:background="@drawable/ic_unionjack"
-
-    -->
-
-    <com.begemot.KTeacher.FlowLayout
-        android:id="@+id/lLay1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-
-        android:padding="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/KFrame"
-        
-        />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/bTest"
         style="@style/KButtonTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:onClick="clickTestEx"
         android:text="Test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lLay1"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <com.begemot.KTeacher.FlowLayout
+        android:id="@+id/lLay1"
+        style="@style/KFrame"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="8dp"
+
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:padding="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/bTest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.begemot.KTeacher.FlowLayout
+        android:id="@+id/lLay2"
+        style="@style/KFrame"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer" />
 
 
 </android.support.constraint.ConstraintLayout>

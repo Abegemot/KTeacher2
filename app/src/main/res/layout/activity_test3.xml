@@ -7,10 +7,10 @@
     tools:context="com.begemot.KTeacher.Test3Activity">
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fPlayer"
         android:name="com.begemot.KTeacher.PlayerFragment"
         android:layout_width="360dp"
-        android:layout_height="59dp"
+        android:layout_height="wrap_content"
 
 
         android:layout_marginEnd="8dp"
@@ -19,46 +19,51 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/lT"
         tools:layout="@layout/fragment_player" />
 
     <EditText
-        android:id="@+id/editText3"
-        android:layout_width="363dp"
-        android:layout_height="335dp"
+        android:id="@+id/eT1"
+        style="@style/KEdit"
+        android:layout_width="327dp"
+        android:layout_height="270dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        tools:text="this is a test to display to see how does it look"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/bTest"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment" />
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/bTest"
         style="@style/KButtonTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:onClick="clickTestEx"
+        android:onClick="testClick"
         android:text="Test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/lT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:text="Proba"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

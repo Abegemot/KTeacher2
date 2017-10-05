@@ -1,12 +1,18 @@
 package com.begemot.KTeacher
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.begemot.klib.KHelp
+import kotlinx.android.synthetic.main.fragment_player.*
+import java.io.File
+import java.io.IOException
 
 
 /**
@@ -17,13 +23,18 @@ import android.view.ViewGroup
  * Use the [PlayerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PlayerFragment : Fragment() {
-
+class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.OnErrorListener {
+    private  val  X = KHelp(this.javaClass.simpleName)
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
-
     private var mListener: OnFragmentInteractionListener? = null
+
+    var  player :  MediaPlayer?   = null
+    lateinit var  archivo: File
+    lateinit var path: File
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +70,68 @@ class PlayerFragment : Fragment() {
         super.onDetach()
         mListener = null
     }
+
+    override  fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+        path = File(Environment.getExternalStorageDirectory().getPath())
+        archivo = File(path,"MYSOUND1.3gp")
+
+        if(archivo.length()<2L) bPlay.isEnabled=false
+        else bPlay.isEnabled=true
+        bPlay.setOnClickListener({play(bPlay)})
+    }
+
+
+    fun play(v:View){  X.warn("REPRODUCIR")
+
+        if(archivo.length()==0L){ X.warn("-----------EMMPPPTY SOUND FILE"); return }
+        try {
+            bPlay.isEnabled=false
+            player = MediaPlayer()
+            player?.setOnCompletionListener(this)
+
+            player?.setDataSource(archivo.getAbsolutePath())
+            X.warn("length file in Bytes: ${archivo.length().toString()}")
+
+        } catch (e: IOException) {
+            X.warn(" no se ha podido detener: ${e.message}")
+            X.warn("${e.printStackTrace()}")
+        }
+
+        try {
+            player?.prepare()
+        } catch (e: IOException) {
+            X.warn(" exception en player prepare al reproducir: ${e.message}")
+            X.warn("${e.printStackTrace()}")
+        }
+        player?.start()
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        X.warn("")
+        player=null
+       // onCompletion(player!!)
+    }
+
+    override fun onCompletion(mp: MediaPlayer) {
+        X.warn("")
+        mp.reset()
+        mp.release()
+        bPlay?.isEnabled=true
+    }
+
+    override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
+        X.warn("Error Media Player  $p1 ,  $p2")
+        return true
+
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

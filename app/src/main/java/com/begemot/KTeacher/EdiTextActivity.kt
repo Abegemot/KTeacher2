@@ -27,7 +27,7 @@ class EdiTextActivity : AppCompatActivity() {
         eT1.imeOptions = EditorInfo.IME_ACTION_DONE
         eT1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
         eT1.setHorizontallyScrolling(false)
-        eT1.setLines(4)
+        eT1.setLines(9)
         eT1.setSelection(eT1.text.toString().length)
         //attachKeyboardListeners()
 

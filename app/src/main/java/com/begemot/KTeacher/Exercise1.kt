@@ -11,26 +11,17 @@ import kotlinx.android.synthetic.main.activity_exercise1.*
 import android.view.View
 import android.os.Environment
 import com.begemot.klib.KHelp
+import kotlinx.android.synthetic.main.savedeletetest.view.*
 import org.jetbrains.anko.toast
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.*
 
 
-class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRecorder.OnErrorListener {
+class Exercise1 : AppCompatActivity()   {
 
     private  val  X = KHelp(this.javaClass.simpleName)
-    var  recorder: MediaRecorder? = null
-    var  player :  MediaPlayer?   = null
-    lateinit var  archivo:  File
-
-    lateinit var path:File
-    val recTime:Int  =  10000                        //MAX TIME REC in ms
-
-
-
+    lateinit var  archivo: File
+    lateinit var  path: File
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
 
@@ -50,55 +41,36 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
         super.onCreate(savedInstanceState)
         X.warn("1")
         setContentView(R.layout.activity_exercise1)
-
-        //BEGIN POS
-
-       // idTexEx1.imeOptions = EditorInfo.IME_ACTION_DONE
-       // idTexEx1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
-       // idTexEx1.setLines(6)
-       // idTexEx1.setHorizontallyScrolling(false)
-//        idTexEx1.setPadding(0,0,0,0)
-
-       // idTexEx2.imeOptions = EditorInfo.IME_ACTION_DONE
-       // idTexEx2.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
-       // idTexEx2.setLines(6)
-       // idTexEx2.setHorizontallyScrolling(false)
-
-
-        //idTexEx1.setSingleLine()
-
-        //END POS
-
-
-
-
-
+        savedeletetest.bTest.setOnClickListener   { test(savedeletetest.bTest) }
+        savedeletetest.bDelete.setOnClickListener { delete(savedeletetest.bDelete) }
+        savedeletetest.bSave.setOnClickListener   { save(savedeletetest.bSave) }
 
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
+
+      //peta no init  X.warn("--1  ---- ${DBH.getDBNAme()}")
+
         DBH=DBHelp.getInstance(this)
-        X.warn("2")
+
+        X.warn("--2  ---- ${DBH.getDBNAme()}")
+
         lKindOf.text=DBH.getKindEx(0)
+
+        X.warn("--3  ---- ${DBH.getDBNAme()}")
 
         path = File(Environment.getExternalStorageDirectory().getPath())
         archivo = File(path,"MYSOUND1.3gp")
 
-        X.warn("3")
-
-        bRec.setOnClickListener  { grabar(bRec) }
-        bPlay.setOnClickListener { reproducir(bPlay) }
-        bStop.setOnClickListener { detener(bStop) }
 
         if(currentExerciseID==0L){
+
+            savedeletetest.bDelete.isEnabled=false
             lStatus.text=resources.getString(R.string.item_new)
-            bRec.isEnabled=true
-            bPlay.isEnabled=false
-            bStop.isEnabled=false
+            FileWriter(archivo).close()
+            X.warn("teoricament deixa l'arxiu a zero")
+
         }
         else{
-            bRec.isEnabled=true
-            bPlay.isEnabled=false
-            bStop.isEnabled=false
 
             lStatus.text=resources.getString(R.string.item_update)
             cExercise=DBH.loadExercise(currentExerciseID)
@@ -106,156 +78,65 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
             tVTranslated.setText(cExercise.TL2)
 
             X.warn("LONGITUD SONIDO: ${cExercise.S1.size.toString()}")
-            if(cExercise.S1.size>1) bPlay.isEnabled=true
 
-            var soundData:ByteArray=cExercise.S1
-            val path = File(Environment.getExternalStorageDirectory().getPath())
-
-            try {
-                val fos = FileOutputStream(archivo)
-                fos.write(soundData)
-                fos.close()
-
-            } catch (e: IOException) {
-                X.warn("Exception creating temp file: ${e.toString()} ")
-            }
-
-            X.warn("writeappend  datasize ${soundData.size.toString()}")
-
+           if(cExercise.S1.size>50) storeSoundtoFile()
+           else emptySoundFile()
         }
     }
 
 
-    fun grabar(view:View) {
+    fun storeSoundtoFile(){
+        var soundData:ByteArray=cExercise.S1
+        val path = File(Environment.getExternalStorageDirectory().getPath())
         try {
-            //archivo = File(path,"MYSOUND1.3gp")
-            //archivo.createNewFile()
-            recorder = MediaRecorder()
-            recorder?.setOnErrorListener(this)
-            //recorder?.setOnInfoListener()
+            val fos = FileOutputStream(archivo)
+            fos.write(soundData)
+            fos.close()
 
-
-            recorder?.setOnInfoListener(object : MediaRecorder.OnInfoListener {
-                override fun onInfo(mr: MediaRecorder, what: Int, extra: Int) {
-                    if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
-                        detener(bStop)
-                        toast("Max Recording time Exceeded  ${recTime/1000} (s)")
-                        X.warn("REC  TIME  EXCEDED   ${recTime/1000} (s)")
-                        //recorder?.stop()
-
-                    }
-                }
-            })
-            recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-            recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            recorder?.setMaxDuration(recTime)
-
-
-            X.warn("archivo creado en: $path")
         } catch (e: IOException) {
-            X.warn(" Exception no se ha podido crear archivo temp: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            X.warn("Exception creating temp file: ${e.toString()} ")
         }
-        recorder?.setOutputFile(archivo.getAbsolutePath())
-        try {
-            recorder?.prepare()
-        } catch (e: IOException) {
-            X.warn(" Exception recorder prepare: ${e.message}")
-            X.warn("${e.printStackTrace()}")
-        }
+        X.warn("writeappend  datasize ${soundData.size.toString()}")
 
-        recorder?.start()
-        lSound.setText("Grabando")
-        bRec.isEnabled  = false
-        bPlay.isEnabled = false
-        bStop.isEnabled = true
     }
 
-    fun detener(v: View) {
+    fun emptySoundFile(){
+        FileWriter(archivo).close()
+        X.warn("teoricament deixa l'arxiu a zero")
 
-        recorder?.stop()
-        recorder?.release()
-        recorder=null
+    }
+
+    fun save(v:View){
+       X.warn("I Will Save")
+
         //Salvem la nova grabacio
         BA=ByteArray(archivo.length().toInt())
-
         val fos = FileInputStream(archivo)
         fos.read(BA)
         fos.close()
 
-        bRec.isEnabled = true
-        bStop.isEnabled = false
-        bPlay.isEnabled = true
-        lSound.setText("Listo para reproducir")
-    }
-
-    fun reproducir(v: View) {
-        try {
-            player = MediaPlayer()
-            player?.setOnCompletionListener(this)
-
-            player?.setDataSource(archivo.getAbsolutePath())
-            X.warn("length file in Bytes: ${archivo.length().toString()}")
-
-        } catch (e: IOException) {
-            X.warn(" no se ha podido detener: ${e.message}")
-            X.warn("${e.printStackTrace()}")
-        }
-
-        try {
-            player?.prepare()
-        } catch (e: IOException) {
-            X.warn(" exception en player prepare al reproducir: ${e.message}")
-            X.warn("${e.printStackTrace()}")
-        }
-        player?.start()
-        bRec.isEnabled = false
-        bStop.isEnabled = false
-        bPlay.isEnabled = false
-        lSound.setText("Reproduciendo")
-    }
-
-    override fun onCompletion(mp: MediaPlayer) {
-        mp.reset()
-        mp.release()
-
-        bRec.isEnabled = true
-        bStop.isEnabled = false
-        bPlay.isEnabled = true
-        lSound.setText("Listo")
-    }
-
-     override fun onError(md:MediaRecorder,a:Int,b:Int){
-         X.warn("On error Recorder a  :$a    b  :$b")
-     }
-
-     fun MediaRecorder.OnInfoListener(md:MediaRecorder,what:Int,extra:Int){
-          X.warn("EXCEDED TIME REC")
-     }
-
-    fun save(v:View){
-       X.warn("I Will Save")
 
         val KE=KExercise()
         KE.ID=currentExerciseID
         KE.IDLesson=currentLessonID
         KE.TL1= tVOriginal.text.toString()
         KE.TL2= tVTranslated.text.toString()
-        KE.TypeOfEx = 1
+        KE.TypeOfEx = 0
         KE.S1=BA
         if(BA.size<100){
-            toast("sound archive less than 100 Bytes!!!!")
+            //toast("sound archive less than 100 Bytes!!!!")
         }
 
 
         if( currentExerciseID==0L){
             val idNewExercise=DBH.insertExerciseToLesson(KE)
             val intentMessage = getIntent()
+
             intentMessage.putExtra("IDNewExercise",idNewExercise )
             intentMessage.putExtra("Name",KE.TL1)
+            intentMessage.putExtra("TypeOfEx",0)
             setResult(Activity.RESULT_OK,intentMessage)
-            X.warn("I Saved  Created ex number: $idNewExercise")
+            X.warn("I Created ex : ${KE.toXString()}")
             finish()
 
        }else{
@@ -273,6 +154,12 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
     fun delete(v:View){
         X.warn("I Will Delete")
+        DBH.deleteExercise(currentExerciseID)
+        val i=getIntent()
+        i.putExtra("DELETE",true)
+        setResult(Activity.RESULT_CANCELED,i)
+        finish()
+        //i.req
     }
 
     fun test(v:View){
@@ -286,11 +173,6 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        recorder?.release()
-        player?.release()
-    }
 
     fun editTranslated(v:View){
         val intento1 = Intent(this, EdiTextActivity::class.java)
@@ -381,17 +263,6 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 */
     }
 
-
-
-
-
-
-
-
-
-
-
-
     override fun attachBaseContext(newBase: Context) {
         //curLang=getCurrentLang(newBase)
 
@@ -409,7 +280,7 @@ class Exercise1 : AppCompatActivity() , MediaPlayer.OnCompletionListener,MediaRe
 
         //val lang:String= newBase.getString(R.string.app_lang)
         //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-        val newLocale= Locale("${getCurrentLang(newBase)}")
+        val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 

@@ -91,7 +91,7 @@ class ZActivity : AppCompatActivity(), BlankFragment.OnFragmentInteractionListen
 
         //val lang:String= newBase.getString(R.string.app_lang)
         //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
-        val newLocale= Locale("${getCurrentLang(newBase)}")
+        val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 

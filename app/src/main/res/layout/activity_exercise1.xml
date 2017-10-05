@@ -9,129 +9,44 @@
     tools:layout_editor_absoluteY="81dp">
 
 
-    <TextView
-        android:id="@+id/lKindOf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <fragment
+        android:id="@+id/fPlayer"
+        android:name="com.begemot.KTeacher.BlankFragment"
+        android:layout_width="325dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="kind of exercise"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:id="@+id/bSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:onClick="save"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bDelete"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tVTranslated"
-        tools:style="@style/Widget.AppCompat.Button" />
-
-    <Button
-        android:id="@+id/bDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:onClick="delete"
-        android:text="Delete"
-        app:layout_constraintBaseline_toBaselineOf="@+id/bSave"
-        app:layout_constraintEnd_toStartOf="@+id/bTest"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bSave" />
-
-    <Button
-        android:id="@+id/bTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        android:onClick="test"
-        android:text="Test"
-        app:layout_constraintBaseline_toBaselineOf="@+id/bDelete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bDelete" />
-
-
-    <ImageButton
-        android:id="@+id/bRec"
-        style="@android:style/Widget.Holo.Light.ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/bStop"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lSound"
-        android:theme="@style/KIButton"
-        app:srcCompat="@android:drawable/ic_btn_speak_now" />
-
-    <ImageButton
-        android:id="@+id/bStop"
-        style="@android:style/Widget.Holo.Light.ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="38dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/bPlay"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bRec"
-        app:layout_constraintTop_toBottomOf="@+id/lSound"
-        android:theme="@style/KIButton"
-        app:srcCompat="@android:drawable/ic_media_pause" />
-
-    <ImageButton
-        android:id="@+id/bPlay"
-        style="@android:style/Widget.Holo.Light.ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/bStop"
-        app:layout_constraintTop_toBottomOf="@+id/lSound"
-        android:theme="@style/KIButton"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:layout_constraintTop_toBottomOf="@+id/lKindOf"
+        tools:layout="@layout/fragment_blank" />
 
 
     <TextView
-        android:id="@+id/lSound"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginStart="40dp"
+        android:id="@+id/lKindOf"
+        android:layout_width="267dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
-        android:text="Play"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lKindOf" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="kind of exercise I wana see you grow and grow and grow" />
 
     <TextView
         android:id="@+id/lStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toEndOf="@+id/lKindOf"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="PATATA" />
 
     <TextView
         android:id="@+id/lTranslated"
@@ -146,7 +61,7 @@
         android:text="@string/ex1_translated"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tVOriginal"
         tools:text="@string/ex1_translated" />
@@ -155,15 +70,18 @@
         android:id="@+id/tVTranslated"
         style="@style/KTextClickable"
         android:layout_width="350dp"
-        android:layout_height="124dp"
+        android:layout_height="136dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="editTranslated"
+        app:layout_constraintBottom_toTopOf="@+id/savedeletetest"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lTranslated" />
+        app:layout_constraintTop_toBottomOf="@+id/lTranslated"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="proba de text proba de text proba de text" />
 
     <TextView
         android:id="@+id/tVOriginal"
@@ -174,27 +92,43 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="editOriginal"
+        tools:text="proba de text proba de text proba de text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lOriginal" />
 
     <TextView
         android:id="@+id/lOriginal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:ems="10"
         android:onClick="editOriginal"
         android:text="@string/ex1_original"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bRec" />
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer" />
+
+
+    <include
+        android:id="@+id/savedeletetest"
+        layout="@layout/savedeletetest"
+        android:layout_width="317dp"
+        android:layout_height="44dp"
+
+        android:layout_marginEnd="8dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eT1"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 
 </android.support.constraint.ConstraintLayout>

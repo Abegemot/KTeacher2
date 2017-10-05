@@ -29,6 +29,7 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.app.AlarmManager
 import android.app.PendingIntent
+import com.begemot.KTeacher.KT.Companion.getCurrentLang
 
 //import java.awt.SplashScreen
 
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
              val SELECT_KINDOF_EXERCISE :Int = 10
              val GOTO_LESSON :Int = 20
              val ADD_LESSON  :Int = 30
+             val EDIT_LESSON :Int = 40
          }
     }
 
@@ -55,9 +57,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         X.warn("")
-        curLang=getCurrentLang(this)
+        curLang=KT.getCurrentLang(this)
 
         setContentView(R.layout.activity_main)
+        setTitle(resources.getString(R.string.klessons))
+
+
         setSupportActionBar(toolbar)
         myListAdapter =  ArrayAdapter(this,android.R.layout.simple_list_item_activated_1,lesonList)
 
@@ -72,16 +77,15 @@ class MainActivity : AppCompatActivity() {
                 goToLesson(id)
 
         } }
-        DBHelp.reopen()
-        DBH=DBHelp.getInstance(this,curLang)
+
+        DBHelp.reopen(curLang)
+        DBH=DBHelp.getInstance(this)
+        DBH.createEX1Examples(this)
+
         loadLessons()
 
 
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -120,33 +124,14 @@ class MainActivity : AppCompatActivity() {
     fun setSelectedLang(dI:DialogInterface,I:Int):Unit {
         //0 en 1 es
 
-        X.warn("POS old  ${getCurrentLang(this)}  new  $I")
-        if(getCurrentLang(this)=="en") if(I==0) return
-        if(getCurrentLang(this)=="es") if(I==1) return
-        if(I==0) { setCurrentLang("en"); return }
-        if(I==1) { setCurrentLang("es"); return }
+        X.warn("POS old  ${KT.getCurrentLang(this)}  new  $I")
+        if(KT.getCurrentLang(this)=="en") if(I==0) return
+        if(KT.getCurrentLang(this)=="es") if(I==1) return
+        if(I==0) { KT.setCurrentLang(this,"en",this); return }
+        if(I==1) { KT.setCurrentLang(this,"es",this); return }
         X.warn("POS  $I")
     }
 
-    fun APS(){
-        /*
-//        val mStartActivity = Intent(this@MainActivity, SplashScreen::class.java)
-        val mStartActivity = Intent(this,MainActivity::class.java)
-        val mPendingIntentId = 123456
-        val mPendingIntent = PendingIntent.getActivity(this@MainActivity, mPendingIntentId, mStartActivity,
-                PendingIntent.FLAG_CANCEL_CURRENT)
-        val mgr = this@MainActivity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
-        System.exit(0)
-*/
-
-        val i = baseContext.packageManager.getLaunchIntentForPackage(baseContext.packageName)
-        i!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        finish()
-        startActivity(i)
-
-
-    }
 
 
 
@@ -155,7 +140,8 @@ class MainActivity : AppCompatActivity() {
         val intento1 = Intent(this, SelectExerciseActivity::class.java)
         intento1.putExtra("lessonID",selectedLesson.id)
         intento1.putExtra("lessonName",selectedLesson.name)
-        startActivityForResult(intento1,RequestCode.GOTO_LESSON )
+        //startActivityForResult(intento1,RequestCode.GOTO_LESSON )
+        startActivity(intento1)
     }
 
 
@@ -172,9 +158,10 @@ class MainActivity : AppCompatActivity() {
         X.warn ("editLessonClick")
         //DBH.CEA()
         //val intento1 = Intent(this, ZActivity::class.java)
-        val intento1 = Intent(this, Exercise3::class.java)
-        startActivity(intento1)
-
+        val intento1 = Intent(this,Main2Activity::class.java)
+        intento1.putExtra("lessonID",selectedLesson.id)
+        intento1.putExtra("lessonName",selectedLesson.name)
+        startActivityForResult(intento1,RequestCode.EDIT_LESSON )
     }
 
     fun addLessonClick(view: View){
@@ -199,11 +186,26 @@ class MainActivity : AppCompatActivity() {
                 X.warn("new lesson ID ${idL.toString()}   name: $nameL")
             }
             else {
-                toast("${getString(R.string.err_leson)}")
+                //toast("${getString(R.string.err_leson)}")
             }
         }
         if(requestCode==RequestCode.GOTO_LESSON){
-            //toast("GOTOLESSON  ")
+            toast("GOTOLESSON  ")
+            // itwill never happen activity without result
+        }
+
+        if(requestCode==RequestCode.EDIT_LESSON){
+             if(resultCode==Activity.RESULT_OK){
+                val nameL =""+ data?.getStringExtra("NAME")
+                selectedLesson.name=nameL
+                myListAdapter.notifyDataSetChanged()
+
+            }
+            //if(resultCode==Activity.RESULT_CANCELED){
+            //   toast("Editleson result Canceled ")
+             //
+            //}
+
         }
 
 
@@ -214,6 +216,9 @@ class MainActivity : AppCompatActivity() {
         for(item in DBH.loadLessons()) lesonList.add(item)
         myListAdapter.notifyDataSetChanged()
         myList.setItemChecked(0,true)
+        selectedLesson = myList.getItemAtPosition(0) as KLesson
+
+
     }
 
     fun localize(){
@@ -242,18 +247,6 @@ fun getlang():String {
 
 
 
-    fun setCurrentLang(sLang:String){
-        val sharedpreferences = getSharedPreferences("KPref",Context.MODE_PRIVATE)
-        //if (sharedpreferences.contains("lang")) {
-        //    curLang=sharedpreferences.getString("lang", "none")
-        //} else curLang="en"
-        val editor = sharedpreferences.edit()
-        editor.putString("lang", sLang)
-        editor.commit()
-        X.warn(": current Lang = $curLang  newLang =$sLang")
-        APS()
-
-    }
 
     override fun attachBaseContext(newBase: Context) {
         curLang=getCurrentLang(newBase)

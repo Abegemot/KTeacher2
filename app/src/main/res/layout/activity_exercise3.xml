@@ -9,7 +9,7 @@
     tools:context="com.begemot.KTeacher.Exercise3">
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fPlayer"
         android:name="com.begemot.KTeacher.BlankFragment"
         android:layout_width="325dp"
         android:layout_height="59dp"
@@ -27,8 +27,8 @@
     <EditText
         android:id="@+id/eT1"
         style="@style/KEdit"
-        android:layout_width="289dp"
-        android:layout_height="172dp"
+        android:layout_width="352dp"
+        android:layout_height="232dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -37,7 +37,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tVoriginal" />
+        app:layout_constraintTop_toBottomOf="@+id/tVoriginal"
+        tools:text="text de prova testo di proba test text" />
 
     <include
         android:id="@+id/savedeletetest"
@@ -54,38 +55,41 @@
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eT1"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.964" />
 
     <TextView
         android:id="@+id/lKindOf"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="305dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/lStatus"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Kind Of Exercise" />
+        tools:text="Kind Of Exercise I wanna seyougrow and grow and grow " />
 
     <TextView
         android:id="@+id/tVoriginal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/ex1_original"
-        app:layout_constraintTop_toBottomOf="@+id/fragment"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer" />
 
     <TextView
         android:id="@+id/lStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/lKindOf"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="PATATA" />
 
 </android.support.constraint.ConstraintLayout>

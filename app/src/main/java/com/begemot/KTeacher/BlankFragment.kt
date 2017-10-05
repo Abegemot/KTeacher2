@@ -133,24 +133,32 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
 
     //setEnable(REC and PLAY and STOP)
     fun setEnable(i:Int){
-        if(i and 1 != 0) bRec.isEnabled=true else bRec.isEnabled=false
-        if(i and 2 != 0) bPlay.isEnabled=true else bPlay.isEnabled=false
-        if(i and 4 != 0) bStop.isEnabled=true else bStop.isEnabled=false
+        if(i and 1 != 0) bRec?.isEnabled=true else bRec?.isEnabled=false
+        if(i and 2 != 0) bPlay?.isEnabled=true else bPlay?.isEnabled=false
+        if(i and 4 != 0) bStop?.isEnabled=true else bStop?.isEnabled=false
         if(i and 8 != 0) {}
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        X.warn("")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        X.warn("1")
         bRec.setOnClickListener  { grabar(bRec) }
         bPlay.setOnClickListener { reproducir(bPlay) }
         bStop.setOnClickListener { detener(bStop) }
-
+        X.warn("2")
         path = File(Environment.getExternalStorageDirectory().getPath())
         archivo = File(path,"MYSOUND1.3gp")
         if(archivo.length()==0L) setEnable(REC)
         else setEnable(REC or PLAY)
         lSound.setText("${resources.getString(R.string.ready)}")
+        X.warn("3")
+
+
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        X.warn("")
     }
 
 
@@ -241,7 +249,7 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
         mp.reset()
         mp.release()
         setEnable(REC or PLAY)
-        lSound.setText("${resources.getString(R.string.ready)}")
+        lSound?.setText("${resources.getString(R.string.ready)}")
     }
 
     override fun onError(md:MediaRecorder,a:Int,b:Int){

@@ -1,5 +1,7 @@
 package com.begemot.KTeacher
 
+import android.content.Context
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,23 +9,39 @@ import android.widget.Button
 import kotlinx.android.synthetic.main.activity_test1.*
 import com.begemot.klib.KHelp
 import android.widget.LinearLayout.LayoutParams
+import kotlinx.android.synthetic.main.fragment_player.*
 import org.jetbrains.anko.custom.style
 import org.jetbrains.anko.toast
 import java.util.*
 
 
-class Test1Activity : AppCompatActivity() {
+class Test1Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionListener {
     private  val  X = KHelp(this.javaClass.simpleName)
     lateinit var pairLArroba:Pair<List<String>,List<String> >
     lateinit var lStringOk:List<String>
+    lateinit var lStringOk2:List<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test1)
-        tV1.text = intent.getStringExtra("TL1")
+        fPlayer.tV1.text = intent.getStringExtra("TL1")
         buildButtons(intent.getStringExtra("TL2"))
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        //Todo asegurar que hi a file
+        var f:PlayerFragment=fPlayer as PlayerFragment
+        f.play(bPlay)
+
+
+    }
+
+
+    override fun onFragmentInteraction(uri: Uri){
+        X.warn("")
     }
 
     fun buildButtons(s:String){
@@ -36,6 +54,7 @@ class Test1Activity : AppCompatActivity() {
         pairLArroba.first.size
         pairLArroba.second.size
         lStringOk=pairLArroba.second
+        lStringOk2=lStringOk
 
 
         X.warn("con @ ${pairLArroba.first.size}   sin @  ${pairLArroba.second.size}")
@@ -48,7 +67,7 @@ class Test1Activity : AppCompatActivity() {
         for(item in L2){
 
             if(item.length>0) {
-                X.warn("world : $item")
+       //         X.warn("world : $item")
                 val s=item.removePrefix("@")
                 val nB=createButton()
                 nB.id=i++
@@ -83,6 +102,17 @@ class Test1Activity : AppCompatActivity() {
         X.warn("pasa 2")
         lLay1.removeView(oldB)
         X.warn("pasa 3")
+            //oldB.setBackgroundColor()
+
+        val s_at = lStringOk[lLay2.childCount]
+        //Todo Shall see if every allready placed buttons feets ok (it might have been moved and no longer ok)
+
+        if(!s_at.equals(oldB.text.toString(),true)){
+            X.warn("s_at : $s_at   button : ${oldB.text}     childCount ${lLay2.childCount} " )
+            oldB.setBackgroundResource(R.drawable.abc_list_selector_background_transition_holo_dark)
+        }
+
+
         lLay2.addView(oldB)
         X.warn("pasa 4")
 
@@ -104,6 +134,8 @@ class Test1Activity : AppCompatActivity() {
         }*/
         v.setOnClickListener{clickL1(v)}
         lLay2.removeView(v)
+
+        v.setBackgroundResource(R.drawable.abc_btn_default_mtrl_shape)
         lLay1.addView(v)
 
 //        lLay2.invalidate()
@@ -146,6 +178,32 @@ class Test1Activity : AppCompatActivity() {
 
 
     }
+    override fun attachBaseContext(newBase: Context) {
+        //curLang=getCurrentLang(newBase)
+
+        /*   val sharedpreferences = newBase.getSharedPreferences("KPref",Context.MODE_PRIVATE)
+           if (sharedpreferences.contains("lang")) {
+               curLang=sharedpreferences.getString("lang", "none")
+           } else curLang="en"
+
+           val editor = sharedpreferences.edit()
+           editor.putString("lang", curLang)
+           editor.commit()
+           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+
+
+
+        //val lang:String= newBase.getString(R.string.app_lang)
+        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        val newLocale= Locale("${KT.getCurrentLang(newBase)}")
+
+        // .. create or get your new Locale object here.
+
+        val context = ContextWrapper.wrap(newBase, newLocale)
+        //X.warn("Current Language:   ${getlang()}")
+        super.attachBaseContext(context)
+    }
+
 
 }
 

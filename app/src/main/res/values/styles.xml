@@ -28,14 +28,22 @@
          <item name="android:background">@drawable/border_edit_text</item>
      </style>
 
-    <style name="KEdit">
+    <style name="KEdit" parent="android:Theme.Light">
         <item name="android:ems">10</item>
         <item name="android:gravity">top|left</item>
         <item name="android:inputType">textMultiLine</item>
-        <item name="android:textSize">@dimen/font_size_big</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
+        <item name="android:lines">10</item>
         <item name="android:padding">10dp</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:background">@drawable/border_edit_text</item>
     </style>
+
+    <style name="Klabel">
+        <item name="android:textSize">@dimen/font_size_medium</item>
+    </style>
+
     <style name="KEdit2" >
         <!--item name="android:ems">10</item>
         <item name="android:gravity">top|left</item>
@@ -45,6 +53,8 @@
     </style>
     <style name="KIButton" parent="Theme.AppCompat.Light">
         <item name="android:tint">@drawable/bimage_selector</item>
+        <item name="color">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
 <style name="KButtonEx">
