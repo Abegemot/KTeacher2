@@ -312,17 +312,43 @@ class DBHelp(ctx: Context) {
         X.warn(("NO EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
         var ds: SQLiteDatabase = DB2.writableDatabase
         ds.execSQL(KExercise.DBCreate)
-        val examplesOriginal   : Array<String> = ctx.resources.getStringArray(R.array.examples_original)
-        val examplesTranslated : Array<String> = ctx.resources.getStringArray(R.array.examples_translated)
+        var examplesOriginal   : Array<String> = ctx.resources.getStringArray(R.array.examples_original1)
+        var examplesTranslated : Array<String> = ctx.resources.getStringArray(R.array.examples_translated1)
 
-        var I=0
+
+
+        writeExExamples(2,0,examplesOriginal,examplesTranslated)
+
+        examplesOriginal    = ctx.resources.getStringArray(R.array.examples_original3)
+        examplesTranslated  = ctx.resources.getStringArray(R.array.examples_translated3)
+
+        writeExExamples(1,2,examplesOriginal,examplesTranslated)
+
+
+
+
+        /*var I=0
         for(item in examplesOriginal){
             val KE=KExercise(1,2,0,item,examplesTranslated[I])
             I++
             insertExerciseToLesson(KE)
-        }
+        }*/
 
     }
+
+    fun writeExExamples(IDLesson:Long,TEx:Int,arrOriginal:Array<String>,arrTrans:Array<String>){
+        var I=0
+        for(item in arrOriginal){
+            val KE=KExercise(1,IDLesson ,TEx ,item,arrTrans[I])
+            I++
+            insertExerciseToLesson(KE)
+        }
+
+
+
+    }
+
+
 
    fun existEX():Boolean{
        try {

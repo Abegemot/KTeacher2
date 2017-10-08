@@ -78,4 +78,19 @@
         <item name="android:windowBackground">@drawable/knigi</item>
     </style>
 
+    <style name="cat_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawablePadding">40dp</item>
+        <item name="android:drawableLeft">@drawable/icons8_black_cat_48</item>
+    </style>
+
+    <style name="cat_style2" parent="Theme.AppCompat.Light">
+        <item name="android:drawableLeft">@drawable/icons8_black_cat_48</item>
+        <item name="android:drawablePadding">50dp</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+
+
 </resources>

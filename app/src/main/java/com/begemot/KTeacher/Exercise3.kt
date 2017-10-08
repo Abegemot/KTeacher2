@@ -14,17 +14,20 @@ import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.activity_exercise3.*
 import kotlinx.android.synthetic.main.savedeletetest.view.*
 import org.jetbrains.anko.toast
-import java.io.File
-import java.io.FileInputStream
+import java.io.*
 import java.util.*
 
-class Exercise3 : AppCompatActivity() {
+open class Exercise3 : AppCompatActivity() {
 
     private  val  X = KHelp(this.javaClass.simpleName)
     lateinit var  DBH : DBHelp
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
     lateinit var  cExercise:KExercise
+    lateinit var  archivo: File
+    open   val typeofex = 2
+    //lateinit var  path: File
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,25 +47,54 @@ class Exercise3 : AppCompatActivity() {
 
         DBH=DBHelp.getInstance(this)
 
-        lKindOf.text=DBH.getKindEx(2)
+        lKindOf.text=DBH.getKindEx(typeofex)
 
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
 
+        val path = File(Environment.getExternalStorageDirectory().getPath())
+        archivo = File(path,"MYSOUND1.3gp")
+
+
         if(currentExerciseID==0L){
             lStatus.text=resources.getString(R.string.item_new)
             cExercise=KExercise(0,currentLessonID,0)
+            emptySoundFile()
+            X.warn("teoricament deixa l'arxiu de so a zero")
         }
         else {
             lStatus.text=resources.getString(R.string.item_update)
             cExercise=DBH.loadExercise(currentExerciseID)
             eT1.setText(cExercise.TL1)
             //Todo ad sound to file
+            if(cExercise.S1.size>50) storeSoundtoFile()
+            else emptySoundFile()
         }
 
 
 
     }
+
+    fun storeSoundtoFile(){
+        var soundData:ByteArray=cExercise.S1
+        val path = File(Environment.getExternalStorageDirectory().getPath())
+        try {
+            val fos = FileOutputStream(archivo)
+            fos.write(soundData)
+            fos.close()
+
+        } catch (e: IOException) {
+            X.warn("Exception creating temp file: ${e.toString()} ")
+        }
+        X.warn("writeappend  datasize ${soundData.size.toString()}")
+
+    }
+    fun emptySoundFile(){
+        FileWriter(archivo).close()
+        X.warn("teoricament deixa l'arxiu a zero")
+
+    }
+
 
     fun save(v: View){
         //toast("ISAVE")
@@ -79,7 +111,7 @@ class Exercise3 : AppCompatActivity() {
         KE.IDLesson=currentLessonID
         KE.TL1= eT1.text.toString()
         //KE.TL2= tVTranslated.text.toString()
-        KE.TypeOfEx = 2
+        KE.TypeOfEx = typeofex
 
 
         KE.S1=BA
@@ -95,7 +127,7 @@ class Exercise3 : AppCompatActivity() {
             val intentMessage = getIntent()
             intentMessage.putExtra("IDNewExercise",idNewExercise )
             intentMessage.putExtra("Name",KE.TL1)
-            intentMessage.putExtra("TypeOfEx",2)
+            intentMessage.putExtra("TypeOfEx",typeofex)
             setResult(Activity.RESULT_OK,intentMessage)
             X.warn("I Saved  Created ex number: $idNewExercise")
             finish()
@@ -122,7 +154,8 @@ class Exercise3 : AppCompatActivity() {
         finish()
 
     }
-    fun test(v: View){
+
+    open  fun test(v: View){
         val intento1 = Intent(this, Test3Activity::class.java)
         cExercise.TL1= eT1.text.toString()
         intento1.putExtra("TL1",cExercise.TL1)

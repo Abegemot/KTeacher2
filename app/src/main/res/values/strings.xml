@@ -40,16 +40,40 @@
         <item>Listen in Russian Write in English</item>
         <item>Listen in Russian Write in Russian</item>
     </string-array>
-    <string-array name="examples_original">
+    <string-array name="examples_original1">
         <item>Говорили, что на набережной появилось новое лицо: дама с собачкой</item>
         <item>Нет ничего лучше Невского проспекта, по крайней мере в Петербурге; для него он составляет все. </item>
         <item>Однажды весною, в час небывало жаркого заката, в Москве, на Патриарших прудах, появились два гражданина</item>
+        <item>У меня болит сердце и кружится голова</item>
     </string-array>
-    <string-array name="examples_translated">
+    <string-array name="examples_translated1">
         <item>It was said that a new person had appeared on the sea-front: a lady with a little dog</item>
         <item>There is nothing better than the Nevsky avenue, at least for the PeterBurgians, for them he represents everything </item>
         <item>One spring afternoon at the hour of an unusually hot sunset, in Moscow to the Patriarch ponds, two citizens apeared</item>
+        <item>My heart hurts and my head spins @dogs @and @cats</item>
     </string-array>
+
+    <string-array name="examples_original3">
+        <item>Что с вами? Вам плохо? </item>
+        <item>Ты будешь раскаиваться</item>
+        <item>Однажды эти два ножа встретились снова</item>
+    </string-array>
+
+    <string-array name="examples_translated3">
+        <item>What’s wrong with you? Do you feel bad?  </item>
+        <item>You will repent</item>
+        <item>One day, these two knives met again</item>
+    </string-array>
+
+
+
+
+    <!--
+        У меня болит сердце и кружится голова
+
+    -->
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

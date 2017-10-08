@@ -7,6 +7,7 @@
     tools:context="com.begemot.KTeacher.ZActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
+    android:background="@color/indigo"
     >
     <!--Border width and color-->
 
@@ -17,6 +18,7 @@
         android:layout_marginTop="8dp"
         android:onClick="clickButton1"
         android:text="Button1"
+        style="@style/cat_style"
         app:layout_constraintTop_toBottomOf="@+id/fPlayer"
         tools:layout_editor_absoluteX="45dp" />
 
@@ -103,6 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/knigi" />
@@ -118,7 +121,9 @@
         android:theme="@style/KIButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fPlayer"
-        app:srcCompat="@drawable/ic_volume_down_black_24px" />
+        app:srcCompat="@drawable/ic_volume_down_black_24px"
+
+        />
 
     <!--android:background="@android:color/holo_green_dark"
         android:elevation="10dp"
@@ -128,16 +133,15 @@
 
     <ImageButton
         android:id="@+id/ibMic"
-        android:layout_width="wrap_content"
+        android:layout_width="38dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:onClick="clickMicro"
+        android:theme="@style/KIButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibSpeaker"
-        app:srcCompat="@android:drawable/ic_btn_speak_now"
-        android:theme="@style/KIButton"
-        />
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
 
     <fragment

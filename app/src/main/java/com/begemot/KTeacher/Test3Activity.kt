@@ -4,20 +4,26 @@ import android.content.Context
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import com.begemot.KTeacher.KT.Companion.showResults
 import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.activity_test3.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import org.jetbrains.anko.toast
 import java.util.*
+import java.util.Collections.replaceAll
 
 
-class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionListener {
+
+
+open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionListener {
     private  val  X = KHelp(this.javaClass.simpleName)
-    lateinit var sAnswer:String
+    lateinit var sOk:String
     lateinit var  DBH : DBHelp
+    open   val typeofex = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +31,17 @@ class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionLi
         X.warn("entra")
         DBH=DBHelp.getInstance(this)
         //Todo Ui Ui Ui
-        //lT.text=DBHelp.getKindEx(2)
-        DBH.getKindEx(2)
+
+        lT.text=DBH.getKindEx(typeofex)
         X.warn("surt")
 
 
-        sAnswer=intent.getStringExtra("TL1")
+        sOk =intent.getStringExtra("TL1")
 
         eT1.imeOptions = EditorInfo.IME_ACTION_DONE
         eT1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
         eT1.setHorizontallyScrolling(false)
-        //eT1.setLines(4)
+        eT1.setLines(10)
         eT1.setSelection(eT1.text.toString().length)
     }
 
@@ -53,11 +59,48 @@ class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionLi
         X.warn("")
     }
 
-    fun testClick(v: View){
-        val s=eT1.text
-        val s2="proposed:  $s   real: $sAnswer"
-        toast(s2)
+    open fun testClick(v: View){
+        var mistakes = false
+        //eliminar puntuacio
+
+        var sTest = eT1.text.toString().replace(Regex("[^\\p{L}\\p{Z}\\p{Nd}]"), "")
+        val sOk2  = sOk.replace(Regex("[^\\p{L}\\p{Z}\\p{Nd}]"), "")
+
+        val lsOk    :List<String> = sOk2.split(" ")
+        val lsTest  :List<String> = sTest.split(" ")
+        val szTest = lsTest.size
+
+        X.warn("lsOk   after split ${lsOk.toString()}")
+        X.warn("lsTest after split ${lsTest.toString()}")
+
+        var I=0
+        var nTrue  = 0
+        var nFalse = 0
+        var sResp=StringBuilder("")
+        for(item in lsOk){
+            if(I>=szTest) break
+            val tWord=lsTest[I]
+            if(compareStrings(item.trim(),tWord.trim())){
+               sResp.append(" $tWord")
+               nTrue++
+            }else{
+               //X.warn("diferents  ????-------- OK='${item.trim()}' NEW='${tWord.trim()}'")
+               sResp.append(" <u>$tWord<u>")
+               mistakes=true
+               nFalse++
+            }
+            I++
+        }
+        if(nFalse+nTrue<szTest) mistakes = true
+        showResults(sOk,Html.fromHtml(sResp.toString()),this,mistakes)
+
     }
+
+    fun compareStrings(sOk:String,sTest:String):Boolean{
+        if(sOk.equals(sTest,true)) return true
+        else return false
+   }
+
 
 
     override fun attachBaseContext(newBase: Context) {

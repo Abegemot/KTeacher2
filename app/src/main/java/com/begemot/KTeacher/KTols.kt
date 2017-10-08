@@ -20,11 +20,14 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat.startActivity
+import android.support.v4.content.res.ResourcesCompat.getDrawable
+import android.text.Spanned
 
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import android.widget.*
+import com.begemot.KTeacher.R.color.pink
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
 import java.util.*
@@ -75,6 +78,32 @@ class KT(){
                   app.finish()
                   app.startActivity(i)
 
+
+            }
+
+
+            fun showResults(s1:String, s2: Spanned, app:AppCompatActivity,mistakes:Boolean){
+                  var tAlert=""
+                  if(mistakes) tAlert="ошибки !"
+                  else         tAlert="молодец !"
+                  app.alert {
+                        customView {
+                              verticalLayout {
+
+                                    if(mistakes) background=context.getDrawable(R.color.pink)
+                                    else background=context.getDrawable(R.color.green)
+                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                          horizontalMargin = dip(0)
+                                          padding=dip(1)
+                                    }
+
+                                    textView(s1){textSize=19f; padding=dip(8)}
+                                    textView(s2){textSize=19f; padding=dip(8)}
+
+                                    padding = dip(3)
+                              }
+                        }
+                  }.show()
 
             }
 

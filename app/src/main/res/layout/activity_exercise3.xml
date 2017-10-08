@@ -34,11 +34,12 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textMultiLine"
+        android:lines="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tVoriginal"
-        tools:text="text de prova testo di proba test text" />
+        tools:text="text de prova testo di proba test text ancora un po i poi anque un poco fini que siano piu di tre lineas" />
 
     <include
         android:id="@+id/savedeletetest"

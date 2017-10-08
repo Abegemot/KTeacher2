@@ -38,12 +38,19 @@
         <item>Escucha en Ruso y escribe en Ruso</item>
     </string-array>
 
-    <string-array name="examples_translated">
+    <string-array name="examples_translated1">
         <item>Se decia que en la orilla había aparecido una nueva cara: una dama con un perrito</item>
         <item>No hay nada mejor que la avenida Nievsky, al menos para los PeterBurgeses, para ellos lo representa todo </item>
         <item>Una tarde de primavera a la hora de una inusuallmente calida puesta de sol, en Moscu en los estanques del Patriarca, dos ciudadanos aparecieron</item>
+        <item>Me duele el corazón y me da vueltas la cabeza @perros @y @gatos</item>
     </string-array>
 
+
+    <string-array name="examples_translated3">
+        <item>Que le pasa? Se encuentra mal?</item>
+        <item>Te arrepentiras</item>
+        <item>Un día, estos dos cuchillos se encontraron de nuevo</item>
+    </string-array>
 
 
 </resources>

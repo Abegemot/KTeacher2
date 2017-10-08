@@ -51,6 +51,7 @@ class SelectExerciseActivity : AppCompatActivity() {
 
                       var intent1:Intent?=null
                       if(selectedExercise.TypeOfEx==0)  intent1 =Intent(this@SelectExerciseActivity, Exercise1::class.java)
+                      if(selectedExercise.TypeOfEx==1)  intent1 =Intent(this@SelectExerciseActivity, Exercise2::class.java)
                       if(selectedExercise.TypeOfEx==2)  intent1 =Intent(this@SelectExerciseActivity, Exercise3::class.java)
 
                       intent1?.putExtra("lessonID",currentLessonID)
@@ -166,8 +167,9 @@ class SelectExerciseActivity : AppCompatActivity() {
 
         var intento1:Intent? = null
         if(KindOf==1L) intento1=Intent(this, Exercise1::class.java)
+        if(KindOf==2L) intento1=Intent(this, Exercise2::class.java)
         if(KindOf==3L) intento1=Intent(this, Exercise3::class.java)
-        if(KindOf==2L){toast("NOT IMPLEMENTED"); return }
+        //if(KindOf==2L){toast("NOT IMPLEMENTED"); return }
 
         intento1?.putExtra("lessonID",currentLessonID)
         intento1?.putExtra("exerciseID",0L)

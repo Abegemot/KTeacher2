@@ -21,12 +21,12 @@ class Exercise1 : AppCompatActivity()   {
 
     private  val  X = KHelp(this.javaClass.simpleName)
     lateinit var  archivo: File
-    lateinit var  path: File
+//    lateinit var  path: File
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
 
     lateinit var  DBH : DBHelp
-    var  BA:ByteArray = byteArrayOf(0)
+  //  var  BA:ByteArray = byteArrayOf(0)
     lateinit var  cExercise:KExercise
 
     class RequestCode {
@@ -58,7 +58,7 @@ class Exercise1 : AppCompatActivity()   {
 
         X.warn("--3  ---- ${DBH.getDBNAme()}")
 
-        path = File(Environment.getExternalStorageDirectory().getPath())
+        val path = File(Environment.getExternalStorageDirectory().getPath())
         archivo = File(path,"MYSOUND1.3gp")
 
 
@@ -67,7 +67,7 @@ class Exercise1 : AppCompatActivity()   {
             savedeletetest.bDelete.isEnabled=false
             lStatus.text=resources.getString(R.string.item_new)
             FileWriter(archivo).close()
-            X.warn("teoricament deixa l'arxiu a zero")
+            X.warn("teoricament deixa l'arxiu de so a zero")
 
         }
         else{
@@ -110,10 +110,21 @@ class Exercise1 : AppCompatActivity()   {
        X.warn("I Will Save")
 
         //Salvem la nova grabacio
-        BA=ByteArray(archivo.length().toInt())
+//        BA=ByteArray(archivo.length().toInt())
+//       val fos = FileInputStream(archivo)
+//        fos.read(BA)
+//        fos.close()
+
+        val path = File(Environment.getExternalStorageDirectory().getPath())
+        val archivo = File(path,"MYSOUND1.3gp")
+        val BA=ByteArray(archivo.length().toInt())
         val fos = FileInputStream(archivo)
         fos.read(BA)
         fos.close()
+
+
+
+
 
 
         val KE=KExercise()

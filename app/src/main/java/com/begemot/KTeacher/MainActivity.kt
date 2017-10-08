@@ -1,5 +1,6 @@
 package com.begemot.KTeacher
 
+import android.R.id.background
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import android.widget.*
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
+
 import java.util.*
 //import com.sun.org.apache.xerces.internal.dom.DOMMessageFormatter.setLocale
 import android.os.Build
@@ -29,7 +31,12 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.support.v7.appcompat.R.id.text
+import android.text.Html
+import android.text.Spanned
 import com.begemot.KTeacher.KT.Companion.getCurrentLang
+import org.jetbrains.anko.custom.customView
+import org.w3c.dom.Text
 
 //import java.awt.SplashScreen
 
