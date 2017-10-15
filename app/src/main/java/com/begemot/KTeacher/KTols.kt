@@ -21,6 +21,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.content.res.ResourcesCompat.getDrawable
+import android.support.v7.app.AlertDialog
 import android.text.Spanned
 
 
@@ -30,11 +31,17 @@ import android.widget.*
 import com.begemot.KTeacher.R.color.pink
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
+import org.jetbrains.anko.appcompat.v7.Appcompat
 import java.util.*
+
+const val DEBUG=false
 
 class KT(){
       fun name():String="KT name"
+      //fun soundNameFile():String="MYSOUND1.3gp"
+
       companion object {
+            fun soundNameFile():String="MYSOUND1.3gp"
 
             fun getCurrentLang(ctx:Context):String{
                   var L:String = ""
@@ -86,7 +93,7 @@ class KT(){
                   var tAlert=""
                   if(mistakes) tAlert="ошибки !"
                   else         tAlert="молодец !"
-                  app.alert {
+                  app.alert(Appcompat) {
                         customView {
                               verticalLayout {
 
@@ -99,12 +106,90 @@ class KT(){
 
                                     textView(s1){textSize=19f; padding=dip(8)}
                                     textView(s2){textSize=19f; padding=dip(8)}
-
+                                    //yesButton {  }
                                     padding = dip(3)
                               }
                         }
                   }.show()
 
+            }
+
+
+            fun gimeADialog(s1:String, s2: Spanned, app:AppCompatActivity,mistakes:Boolean): AlertBuilder<AlertDialog> {
+                  var tAlert=""
+                  if(mistakes) tAlert="ошибки !"
+                  else         tAlert="молодец !"
+                  val A=app.alert(Appcompat) {
+                        customView {
+                              verticalLayout {
+
+                                    if(mistakes) background=context.getDrawable(R.color.pink)
+                                    else background=context.getDrawable(R.color.green)
+                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                          horizontalMargin = dip(0)
+                                          padding=dip(1)
+                                    }
+
+                                    textView(s1){textSize=19f; padding=dip(8)}
+                                    textView(s2){textSize=19f; padding=dip(8)}
+                                    //yesButton {  }
+                                    padding = dip(3)
+                              }
+                        }
+                  }
+                  return A
+
+            }
+
+            fun  getD(s1:String, s2: Spanned, app:AppCompatActivity,mistakes:Boolean):AlertDialog{
+                  var tAlert=""
+                  if(mistakes) tAlert="ошибки !"
+                  else         tAlert="молодец !"
+                  val A=app.alert(Appcompat) {
+                        customView {
+                              verticalLayout {
+
+                                    if(mistakes) background=context.getDrawable(R.color.pink)
+                                    else background=context.getDrawable(R.color.green)
+                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                          horizontalMargin = dip(0)
+                                          padding=dip(1)
+                                    }
+
+                                    textView(s1){textSize=19f; padding=dip(8)}
+                                    textView(s2){textSize=19f; padding=dip(8)}
+                                    //yesButton {  }
+                                    padding = dip(3)
+                              }
+                        }
+                  }
+                  return A.show()
+            }
+
+            fun  getAlertD(s2: Spanned, app:AppCompatActivity,mistakes:Boolean):AlertDialog{
+                  var tAlert=""
+                  if(mistakes) tAlert="ошибки !"
+                  else         tAlert="молодец !"
+                  val A=app.alert(Appcompat) {
+                        customView {
+                              verticalLayout {
+
+                                    if(mistakes) background=context.getDrawable(R.color.pink)
+                                    else background=context.getDrawable(R.color.green)
+                                    //themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.holo_blue_light)}.lparams(width = wrapContent) {
+
+                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                          height= dip(35)
+                                          horizontalMargin = dip(10)
+                                          padding=dip(1)
+                                    }
+                                    textView(s2){textSize=20f; horizontalPadding=dip(20); bottomPadding=dip(8)}
+                                    //yesButton {  }
+                                    padding = dip(0)
+                              }
+                        }
+                  }
+                  return A.show()
             }
 
 

@@ -11,51 +11,50 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
 
-    private val REC:Int=1
-    private val PLAY:Int=2
-    private val STOP:Int=4
-
 
 
 
     @Test
     fun addition_isCorrect() {
 
-        println("REC PLAY STOP")
-
-        setEnable(REC or PLAY or STOP)
-
-        println("REC")
-
-        setEnable(REC)
 
 
-        println("STOP")
+        //var RE=Regex("[^\\p{L} \\@ \\p{Z}\\p{Nd}]")
+        var RE=Regex("@\\p{L}+")
+        testRegExp(RE)
+        //test2()
 
-        setEnable(STOP)
+    }
 
-        println("STOP REC")
+    fun test2(){
+        val sT2="      me duele el corazon y.   .me da vuelta7s ?  121  ca@ca la cabeza @perros    @gatos   "
+        var L=sT2.split(" ")
+        //var L=s.split(Regex("\\P{L}+"))
+        //  \\s    "(?= )"
+        //elimina els strings nuls
+        var L3=L.filter { it.length>0 }
 
-        setEnable(STOP or REC)
+        println("L:${L.toString()}")
+
+        println("L3:${L3.toString()}")
 
 
-        assertEquals(4, 2 + 2)
+
     }
 
 
+
     //setEnable(REC&PLAY)
-    fun setEnable(i:Int){
-        println(i)
+    fun testRegExp(rx: Regex){
+        var sT2="      me duele el corazon y.   .me da vuelta7s ?  121  ca@ca la cabeza @perros    @gatos   "
 
-        println(i and (1 shl 0))
-        println(i and (1 shl 1))
-        println(i and (1 shl 2))
-        println(i and (1 shl 3))
+        var RE=Regex("[^\\p{L} \\@ \\p{Z}\\p{Nd}]")
 
-        if(i and (1 shl 0)!=0) {println("REC ENABLED")}
-        if(i and (1 shl 1)!=0) {println("PLAY ENABLED")}
-        if(i and (1 shl 2)!=0) {println("STOP ENABLED")}
-        if(i and (1 shl 3)!=0) {}
+        println(sT2)
+        var sOk  = sT2.replace(rx, " ")
+        println(sOk)
+
+
 
     }
 

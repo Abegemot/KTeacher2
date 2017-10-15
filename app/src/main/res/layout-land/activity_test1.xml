@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.begemot.KTeacher.Test3Activity">
+    tools:context="com.begemot.KTeacher.Test1Activity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
     <fragment
         android:id="@+id/fPlayer"
         android:name="com.begemot.KTeacher.PlayerFragment"
-        android:layout_width="360dp"
+        android:layout_width="396dp"
         android:layout_height="wrap_content"
 
 
@@ -17,48 +19,54 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lT"
         tools:layout="@layout/fragment_player" />
 
-    <EditText
-        android:id="@+id/eT1"
-        style="@style/KEdit"
-        android:layout_width="0dp"
-        android:layout_height="135dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:lines="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fPlayer"
-        tools:text="this is a test to display to see how does it look when there is more than 3 lines displayed" />
 
     <Button
         android:id="@+id/bTest"
         style="@style/KButtonTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:onClick="testClick"
+        android:onClick="clickTestEx"
         android:text="Test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/lT"
+    <com.begemot.KTeacher.FlowLayout
+        android:id="@+id/lLay1"
+        style="@style/KFrame"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="8dp"
+
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:padding="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/bTest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.begemot.KTeacher.FlowLayout
+        android:id="@+id/lLay2"
+        style="@style/KFrame"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        style="@style/KLabel"
-        tools:text="Proba id=lT here goes tipe of exercise"
+        android:padding="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer" />
 
 
 </android.support.constraint.ConstraintLayout>

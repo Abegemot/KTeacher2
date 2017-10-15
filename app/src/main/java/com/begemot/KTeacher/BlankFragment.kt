@@ -17,9 +17,7 @@ import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
 
 import kotlinx.android.synthetic.main.fragment_blank.*
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
+import java.io.*
 
 /**
  * A simple [Fragment] subclass.
@@ -36,12 +34,14 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
     private var mParam2: String? = null
     private var mListener: OnFragmentInteractionListener? = null
 
-
     var  recorder: MediaRecorder? = null
     var  player :  MediaPlayer?   = null
-    lateinit var  archivo: File
 
-    lateinit var path: File
+
+    lateinit var  archivo : File
+    lateinit var  dir : File
+
+   // lateinit var path: File
     val recTime:Int  =  10000                        //MAX TIME REC in ms
 
 
@@ -72,14 +72,14 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
 
 
 
-    override fun onAttach(context: Context?) {
+   /* override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
-    }
+    }*/
 
     override fun onDetach() {
         super.onDetach()
@@ -146,8 +146,10 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
         bPlay.setOnClickListener { reproducir(bPlay) }
         bStop.setOnClickListener { detener(bStop) }
         X.warn("2")
-        path = File(Environment.getExternalStorageDirectory().getPath())
-        archivo = File(path,"MYSOUND1.3gp")
+       // path = File(Environment.getExternalStorageDirectory().getPath())
+       // archivo = File(path,"MYSOUND1.3gp")
+        dir = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        archivo = File(dir,  KT.soundNameFile())
         if(archivo.length()==0L) setEnable(REC)
         else setEnable(REC or PLAY)
         lSound.setText("${resources.getString(R.string.ready)}")
@@ -187,12 +189,14 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
             recorder?.setMaxDuration(recTime)
 
 
-            X.warn("archivo creado en: $path")
+           // X.warn("archivo creado en: $path")
         } catch (e: IOException) {
             X.warn(" Exception no se ha podido crear archivo temp: ${e.message}")
             X.warn("${e.printStackTrace()}")
         }
         recorder?.setOutputFile(archivo.getAbsolutePath())
+
+
         try {
             recorder?.prepare()
         } catch (e: IOException) {

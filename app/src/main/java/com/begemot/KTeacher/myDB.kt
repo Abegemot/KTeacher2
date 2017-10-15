@@ -175,7 +175,7 @@ class DBHelp(ctx: Context) {
         X.warn("deleteTable  $tableName  returned = $nR")
     }
 
-    fun createLessons(){
+  /*  fun createLessons(){
         X.warn("Begin CreateLessons")
         envelopeX(Unit) {
 
@@ -189,7 +189,7 @@ class DBHelp(ctx: Context) {
             ds.insert(KLesson.tName,null,KLesson.values("6 PRIMERA LLICO U"))
         }
         X.warn("End CreateLessons")
-    }
+    }*/
 
     fun addLesson(lesson: String): KLesson {
         X.warn("addLesson")
@@ -211,9 +211,9 @@ class DBHelp(ctx: Context) {
         X.warn("returned = $nR")
     }
 
-    fun deleteAllLessons(){
+    /*fun deleteAllLessons(){
          deleteTable(KLesson.tName)
-    }
+    }*/
 
     fun loadLessons(): List<KLesson> {
 
@@ -233,7 +233,7 @@ class DBHelp(ctx: Context) {
     }
 
 
-    fun createKindOfExercises() {
+   /* fun createKindOfExercises() {
 
         X.warn("createKindOfExcercises")
            envelopeX(Unit) {
@@ -249,7 +249,7 @@ class DBHelp(ctx: Context) {
                //ds.insert("KINDOFEX", "T1" to "Form par of words to find antonims", "T2" to "")
                //ds.insert("KINDOFEX", "T1" to "who knows what", "T2" to "")
            }
-     }
+     }*/
 
     fun loadKindOfExercises(): List<KKindOfExercice> {
         X.warn( "LoadKindOfExcercises" )
@@ -315,15 +315,17 @@ class DBHelp(ctx: Context) {
         var examplesOriginal   : Array<String> = ctx.resources.getStringArray(R.array.examples_original1)
         var examplesTranslated : Array<String> = ctx.resources.getStringArray(R.array.examples_translated1)
 
-
-
         writeExExamples(2,0,examplesOriginal,examplesTranslated)
 
+
+
+
         examplesOriginal    = ctx.resources.getStringArray(R.array.examples_original3)
-        examplesTranslated  = ctx.resources.getStringArray(R.array.examples_translated3)
 
-        writeExExamples(1,2,examplesOriginal,examplesTranslated)
+        writeExExamples(1,2,examplesOriginal, null)
 
+        examplesTranslated  = ctx.resources.getStringArray(R.array.examples_translated2)
+        writeExExamples(1,1,examplesTranslated, null)
 
 
 
@@ -336,10 +338,17 @@ class DBHelp(ctx: Context) {
 
     }
 
-    fun writeExExamples(IDLesson:Long,TEx:Int,arrOriginal:Array<String>,arrTrans:Array<String>){
+    fun writeExExamples(IDLesson:Long,TEx:Int,arrOriginal:Array<String>,arrTrans:Array<String>?){
         var I=0
+        var KE:KExercise
+        var A:Array<String>
         for(item in arrOriginal){
-            val KE=KExercise(1,IDLesson ,TEx ,item,arrTrans[I])
+            if(arrTrans==null)         KE=KExercise(1,IDLesson ,TEx ,item,"")
+            else{
+                   A=arrTrans as Array<String>
+                   KE=KExercise(1,IDLesson ,TEx ,item,arrTrans[I])
+            }
+
             I++
             insertExerciseToLesson(KE)
         }
@@ -523,7 +532,8 @@ class DBHelp(ctx: Context) {
 fun <T> envelopeX (default: T, letter: () -> T) = try {
     letter()
 } catch (e: Exception) {
-    DBHelp.X.warn("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
+    val X:KHelp=DBHelp.X
+    X.warn("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
     default
 }
 

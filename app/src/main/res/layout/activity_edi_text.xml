@@ -8,20 +8,18 @@
 
     <TextView
         android:id="@+id/tW1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/KLabel"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         tools:text="proba de text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/eT1"
         style="@style/KEdit"
-        android:layout_width="331dp"
-        android:layout_height="193dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

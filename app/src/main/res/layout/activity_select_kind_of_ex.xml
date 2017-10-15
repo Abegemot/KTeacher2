@@ -21,7 +21,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.514"
         tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="-31dp" />
+        tools:layout_editor_absoluteY="-31dp"
+        style="@style/KList"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.view.View
 import android.os.Environment
 import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.savedeletetest.view.*
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.toast
 import java.io.*
 import java.util.*
@@ -24,6 +25,7 @@ class Exercise1 : AppCompatActivity()   {
 //    lateinit var  path: File
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
+    val typeofex = 0
 
     lateinit var  DBH : DBHelp
   //  var  BA:ByteArray = byteArrayOf(0)
@@ -58,14 +60,19 @@ class Exercise1 : AppCompatActivity()   {
 
         X.warn("--3  ---- ${DBH.getDBNAme()}")
 
-        val path = File(Environment.getExternalStorageDirectory().getPath())
-        archivo = File(path,"MYSOUND1.3gp")
+        //val path = File(Environment.getExternalStorageDirectory().getPath())
+        //archivo = File(path,"MYSOUND1.3gp")
+
+
+        val dir = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        archivo = File(dir,  KT.soundNameFile())
 
 
         if(currentExerciseID==0L){
 
             savedeletetest.bDelete.isEnabled=false
             lStatus.text=resources.getString(R.string.item_new)
+            cExercise=KExercise(0,currentLessonID,typeofex)
             FileWriter(archivo).close()
             X.warn("teoricament deixa l'arxiu de so a zero")
 
@@ -87,7 +94,13 @@ class Exercise1 : AppCompatActivity()   {
 
     fun storeSoundtoFile(){
         var soundData:ByteArray=cExercise.S1
-        val path = File(Environment.getExternalStorageDirectory().getPath())
+//        val path = File(Environment.getExternalStorageDirectory().getPath())
+
+        val dir = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        archivo = File(dir,  KT.soundNameFile())
+
+
+
         try {
             val fos = FileOutputStream(archivo)
             fos.write(soundData)
@@ -115,19 +128,22 @@ class Exercise1 : AppCompatActivity()   {
 //        fos.read(BA)
 //        fos.close()
 
-        val path = File(Environment.getExternalStorageDirectory().getPath())
-        val archivo = File(path,"MYSOUND1.3gp")
+        //val path = File(Environment.getExternalStorageDirectory().getPath())
+        //val archivo = File(path,"MYSOUND1.3gp")
+
+        val dir = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        archivo = File(dir,  KT.soundNameFile())
         val BA=ByteArray(archivo.length().toInt())
         val fos = FileInputStream(archivo)
         fos.read(BA)
         fos.close()
+        cExercise.S1=BA
 
 
 
 
 
-
-        val KE=KExercise()
+       /* val KE=KExercise()
         KE.ID=currentExerciseID
         KE.IDLesson=currentLessonID
         KE.TL1= tVOriginal.text.toString()
@@ -136,25 +152,27 @@ class Exercise1 : AppCompatActivity()   {
         KE.S1=BA
         if(BA.size<100){
             //toast("sound archive less than 100 Bytes!!!!")
-        }
+        }*/
+        cExercise.TL1=tVOriginal.text.toString()
+        cExercise.TL2= tVTranslated.text.toString()
 
 
         if( currentExerciseID==0L){
-            val idNewExercise=DBH.insertExerciseToLesson(KE)
+            val idNewExercise=DBH.insertExerciseToLesson(cExercise)
             val intentMessage = getIntent()
 
             intentMessage.putExtra("IDNewExercise",idNewExercise )
-            intentMessage.putExtra("Name",KE.TL1)
-            intentMessage.putExtra("TypeOfEx",0)
+            intentMessage.putExtra("Name",cExercise.TL1)
+            intentMessage.putExtra("TypeOfEx",typeofex)
             setResult(Activity.RESULT_OK,intentMessage)
-            X.warn("I Created ex : ${KE.toXString()}")
+            X.warn("I Created ex : ${cExercise.toXString()}")
             finish()
 
        }else{
-            DBH.updateExercise(KE)
+            DBH.updateExercise(cExercise)
             val intentMessage = getIntent()
 //            intentMessage.putExtra("IDNewExcercise",idNewExercise )
-            intentMessage.putExtra("Name",KE.TL1)
+            intentMessage.putExtra("Name",cExercise.TL1)
             setResult(Activity.RESULT_OK,intentMessage)
             finish()
             X.warn("I Saved Updated")

@@ -4,21 +4,28 @@ import android.content.Context
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.text.Html
 import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_test1.*
 import com.begemot.klib.KHelp
 import android.widget.LinearLayout.LayoutParams
 import kotlinx.android.synthetic.main.fragment_player.*
+import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.custom.style
+import org.jetbrains.anko.singleLine
 import org.jetbrains.anko.toast
 import java.util.*
 
 
-class Test1Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionListener {
+class Test1Activity : AppCompatActivity() {
     private  val  X = KHelp(this.javaClass.simpleName)
+
+    var ADiag: AlertDialog? = null
     lateinit var pairLArroba:Pair<List<String>,List<String> >
-    lateinit var lStringOk:List<String>
+    lateinit var lStringOk : List<String>
+    lateinit var sOrig : String
   //  lateinit var lStringOk2:List<String>
 
     val falseBkGr = R.drawable.abc_btn_borderless_material
@@ -31,38 +38,43 @@ class Test1Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test1)
-        fPlayer.tV1.text = intent.getStringExtra("TL1")
+      //  fPlayer.tV1.text = intent.getStringExtra("TL1")
         buildButtons(intent.getStringExtra("TL2"))
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        //Todo asegurar que hi a file
-        var f:PlayerFragment=fPlayer as PlayerFragment
-        f.play(bPlay)
-
-
-    }
-
-
-    override fun onFragmentInteraction(uri: Uri){
+    override fun onStart() {//
         X.warn("")
+        super.onStart()
+        val fragment = getFragmentManager().findFragmentById(R.id.fPlayer)
+        if(fragment!=null) {
+            val f2: PlayerFragment = fragment as PlayerFragment
+            f2.tV1.text = intent.getStringExtra("TL1")
+            f2.play(bPlay)
+        }else X.warn("PUTU FRAMGMENT NULL")
+
     }
+
+
+    //override fun onFragmentInteraction(uri: Uri){
+    //    X.warn("")
+    //}
+
 
     fun buildButtons(s:String){
-        X.warn("OriginalString:$s")
-        var L=s.split(" ")
+        sOrig=s
+        X.warn("OriginalString:$sOrig")
+        var sOrigOk=sOrig.trim()   //eliminem blank dels extrems
+        sOrigOk=sOrigOk.replace(Regex("[^\\p{L} \\@ \\p{Z}\\p{Nd}]")," ") //eliminem ?!".
+        sOrigOk=sOrigOk.replace(Regex("[ \\t]+"),"-@@-")   // eliminem blanks en els estrings
 
 
+        var L=sOrigOk.split("-@@-")
+        X.warn("L:${L.toString()}")
         pairLArroba=L.partition { it.startsWith("@") }
 
-      //  pairLArroba.first.size
-      //  pairLArroba.second.size
         lStringOk=pairLArroba.second
-        //lStringOk2=lStringOk
-
-
+        X.warn("lStringOk:${lStringOk.toString()}  size=${lStringOk.size}")
         X.warn("con @ ${pairLArroba.first.size}   sin @  ${pairLArroba.second.size}")
 
         X.warn("${L.size}")
@@ -114,95 +126,104 @@ class Test1Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionLi
                 X.warn("s_at : $s_at   button : ${oldB.text}     childCount ${lLay2.childCount} ")
                 //oldB.setBackgroundResource(R.drawable.abc_list_selector_background_transition_holo_dark)
                 oldB.setBackgroundResource(falseBkGr)
+                //oldB.id=0
+                oldB.tag=false
             }
-        } else  oldB.setBackgroundResource(falseBkGr)
+        } else{  oldB.setBackgroundResource(falseBkGr)
+            //oldB.id=1
+            oldB.tag=true
+        }
 
         lLay2.addView(oldB)
 
-
- //R.drawable.abc_btn_check_material
-
-
-        //lLay2.addView(oldB)
-        X.warn("pasa 4")
-
-  //      lLay2.invalidate()
-  //      lLay1.invalidate()
+        if(!aretheyMistakes()) {
+            displayAlert(false)
+        }
     }
 
     fun clickL2(v: View) {
-
+        //toast("PUM")
         v.setOnClickListener{clickL1(v)}
         lLay2.removeView(v)
 
         v.setBackgroundResource(trueBkGr)
+        v.tag=true
         lLay1.addView(v)
 
         val n    = lLay2.childCount
         val nsOk = lStringOk.size
         var i=0
-        for(i in 0..n-1){
-            var b=lLay2.getChildAt(i) as Button
-            var s=lStringOk[i]
+        for(i in 0..n-1) {
+            var b = lLay2.getChildAt(i) as Button
+            var s = lStringOk[i]
 
-            if(s.equals(b.text.toString(),true)){
-                b.setBackgroundResource(trueBkGr )
+            if (s.equals(b.text.toString(), true)) {
+                b.setBackgroundResource(trueBkGr)
+               // b.id = 1
+                b.tag=true
 
-            }else{
+            } else {
                 b.setBackgroundResource(falseBkGr)
+                //b.id = 0
+                b.tag=false
             }
-         for(i in nsOk..n-1){
-             X.warn("i=$i")
-           //  var b=lLay2.getChildAt(i) as Button
-           //  b.setBackgroundResource(R.drawable.abc_btn_check_material)
-         }
 
 
         }
 
+    }
+
+    fun aretheyMistakes():Boolean{
+        val n    = lLay2.childCount
+        val nsOk = lStringOk.size
+        if(n==nsOk){
+            X.warn("n=$n  nsOk=$nsOk")
+            if(n==0) return true
+            for(i in 0..n-1){
+                var b=lLay2.getChildAt(i) as Button
+                // if(b.id==0){
+                if(b.tag==false){
+                    X.warn("troba un id false amb text ${b.text}  i numero de boto $i")
+                    return true
+                }
+            }
+            X.warn("en principi OK")
+            return false
+        }
+        return true
+
+
+    }
 
 
 
-//        lLay2.invalidate()
-//        lLay1.invalidate()
-
+    fun displayAlert(mistakes:Boolean){
+        X.warn("mistakes=$mistakes")
+        val sOrigOk=sOrig.replace(Regex("@\\p{L}+"),"")  //elimina nomes tot el que comença per @
+        if(mistakes) ADiag= KT.getAlertD(Html.fromHtml("<br> $sOrigOk"), this, true)
+        else ADiag= KT.getAlertD(Html.fromHtml("<br> $sOrigOk"), this, false)
     }
 
     fun clickTestEx(v:View){
-        //toast("I Will Test")
-        var n_aciertos = 0
-        var n_errors  = 0
-        val n=lLay2.childCount
-       for(i in 0..n-1){
-            var b=lLay2.getChildAt(i) as Button
-            var c=b.text.toString()
-            var original=lStringOk[i]
-           //X.warn("Original: $original  ")
-
-            if(c.equals(original)){
-               n_aciertos++
-            } else n_errors++
-        }
-
-        toast("Number Of guesses: $n_aciertos  Number of mistakes: $n_errors  total words: ${lStringOk.size}")
-        //showOk()
-
+        X.warn("")
+        displayAlert(aretheyMistakes())
     }
 
-    fun showOk(){
-        val n=lLay2.childCount
-        for(i in 0..n-1){
-            var b=lLay2.getChildAt(i) as Button
-            var c=b.text.toString()
-            var original=lStringOk[i]
 
-            if(c.equals(original)){
-                b.setBackgroundColor(9999999)
+    override fun onPause(){
+        super.onPause()
+        X.warn("On PAUSE")
+        if(ADiag!=null){
+            val d=ADiag
+            if(d is AlertDialog){
+                d.dismiss()
             }
+            ADiag = null
         }
 
-
     }
+
+
     override fun attachBaseContext(newBase: Context) {
         //curLang=getCurrentLang(newBase)
 

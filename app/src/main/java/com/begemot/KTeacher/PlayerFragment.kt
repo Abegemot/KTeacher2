@@ -5,12 +5,14 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.support.v4.app.Fragment
+//import android.support.v4.app.Fragment
+import android.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.fragment_player.*
+import org.jetbrains.anko.ctx
 import java.io.File
 import java.io.IOException
 
@@ -32,8 +34,7 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
 
     var  player :  MediaPlayer?   = null
     lateinit var  archivo: File
-    lateinit var path: File
-
+    lateinit var  dir: File
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +43,12 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
             mParam1 = arguments.getString(ARG_PARAM1)
             mParam2 = arguments.getString(ARG_PARAM2)
         }
+        X.warn("")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        X.warn("")
         // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_player, container, false)
     }
@@ -57,14 +60,14 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
         }
     }
 
-    override fun onAttach(context: Context?) {
+    /*override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
-    }
+    }*/
 
     override fun onDetach() {
         super.onDetach()
@@ -73,14 +76,20 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
 
     override  fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+         X.warn("entra")
 
+        //path = File(Environment.getExternalStorageDirectory().getPath())
+        //archivo = File(path,"MYSOUND1.3gp")
 
-        path = File(Environment.getExternalStorageDirectory().getPath())
-        archivo = File(path,"MYSOUND1.3gp")
+        dir = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        archivo = File(dir, (KT.soundNameFile()))
+
 
         if(archivo.length()<2L) bPlay.isEnabled=false
         else bPlay.isEnabled=true
         bPlay.setOnClickListener({play(bPlay)})
+        X.warn("surt")
+
     }
 
 

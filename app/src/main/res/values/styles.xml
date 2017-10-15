@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">sans-serif-light"</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -26,23 +27,49 @@
          <item name="android:textSize">@dimen/font_size_medium</item>
          <item name="android:textColor">@android:color/black</item>
          <item name="android:background">@drawable/border_edit_text</item>
+
      </style>
 
-    <style name="KEdit" parent="android:Theme.Light">
-        <item name="android:ems">10</item>
+    <style name="KEdit">
+        <item name="android:ems">100</item>
         <item name="android:gravity">top|left</item>
         <item name="android:inputType">textMultiLine</item>
-        <item name="android:textSize">@dimen/font_size_medium</item>
         <item name="android:lines">10</item>
         <item name="android:padding">10dp</item>
-        <item name="android:typeface">serif</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:background">@drawable/border_edit_text</item>
+
+    </style>
+
+    <style name="KList">
         <item name="android:background">@drawable/border_edit_text</item>
     </style>
 
-    <style name="Klabel">
-        <item name="android:textSize">@dimen/font_size_medium</item>
+
+   <!--
+   <item name="android:textSize">@dimen/font_size_medium</item>
+   <item name="android:textAppearance">@android:style/TextAppearance.DeviceDefault.Medium</item>
+   <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
+   <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+   <item name="android:textSize">@dimen/font_size_medium</item>
+   -->
+
+
+
+    <style name="KLabel">
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="KListHeader">
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+
 
     <style name="KEdit2" >
         <!--item name="android:ems">10</item>
@@ -51,10 +78,17 @@
         <item name="android:padding">10dp</item>
         <item name="android:background">@drawable/border_edit_text</item-->
     </style>
-    <style name="KIButton" parent="Theme.AppCompat.Light">
+    <style name="KIButton" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:tint">@drawable/bimage_selector</item>
         <item name="color">@color/colorAccent</item>
         <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="KButtonNormal" parent="android:Widget.Button.Inset">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
     </style>
 
 <style name="KButtonEx">
@@ -72,6 +106,8 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/button_test</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="KSplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -81,15 +117,10 @@
     <style name="cat_style">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@null</item>
-        <item name="android:drawablePadding">40dp</item>
+        <item name="android:drawablePadding">25dp</item>
         <item name="android:drawableLeft">@drawable/icons8_black_cat_48</item>
     </style>
 
-    <style name="cat_style2" parent="Theme.AppCompat.Light">
-        <item name="android:drawableLeft">@drawable/icons8_black_cat_48</item>
-        <item name="android:drawablePadding">50dp</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
-    </style>
 
 
 

@@ -24,22 +24,20 @@
 
         <Button
             android:id="@+id/editLeson"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/KButtonNormal"
             android:onClick="editLessonClick"
             android:text="@string/edit" />
 
         <Button
             android:id="@+id/bAddLesson"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/KButtonNormal"
             android:onClick="addLessonClick"
             android:text="@string/add" />
 
         <Button
             android:id="@+id/bDeleteLesson"
-            android:layout_width="98dp"
-            android:layout_height="wrap_content"
+            android:enabled="false"
+            style="@style/KButtonNormal"
             android:layout_weight="1"
             android:onClick="deleteLessonClick"
             android:text="@string/delete" />
@@ -47,15 +45,20 @@
 
     </LinearLayout>
 
+    <!--
+    android:background="?android:attr/activatedBackgroundIndicator"
+    -->
+
     <ListView
         android:id="@+id/myList"
-        android:layout_width="328dp"
-        android:layout_height="436dp"
+        style="@style/KList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="?android:attr/activatedBackgroundIndicator"
+        android:padding="2dp"
         android:choiceMode="singleChoice"
         android:entries="@android:drawable/alert_dark_frame"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"

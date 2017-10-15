@@ -11,7 +11,7 @@
     <fragment
         android:id="@+id/fPlayer"
         android:name="com.begemot.KTeacher.PlayerFragment"
-        android:layout_width="396dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
 
 

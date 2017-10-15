@@ -16,8 +16,8 @@
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lKindOf"
+        app:layout_constraintStart_toEndOf="@+id/lKindOf"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_blank" />
 
 
@@ -44,56 +44,58 @@
     <TextView
         android:id="@+id/lTranslated"
         style="@style/KLabel"
+        android:layout_width="280dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:ems="10"
         android:onClick="editTranslated"
         android:text="@string/ex1_translated"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tVOriginal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer"
         tools:text="@string/ex1_translated" />
 
     <TextView
         android:id="@+id/tVTranslated"
         style="@style/KTextClickable"
-        android:layout_width="0dp"
-        android:layout_height="132dp"
-
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="277dp"
+        android:layout_height="120dp"
         android:layout_marginTop="8dp"
         android:onClick="editTranslated"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/tVOriginal"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lTranslated"
+        app:layout_constraintTop_toBottomOf="@+id/lOriginal"
         tools:text=" tv Transated proba de text proba de text proba de text" />
 
     <TextView
         android:id="@+id/tVOriginal"
         style="@style/KTextClickable"
-        android:layout_width="0dp"
-        android:layout_height="135dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="281dp"
+        android:layout_height="120dp"
         android:layout_marginTop="8dp"
         android:onClick="editOriginal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lOriginal"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tVTranslated"
+        app:layout_constraintTop_toBottomOf="@+id/lTranslated"
         tools:text="tvOriginal proba de text proba de text proba de text" />
 
     <TextView
         android:id="@+id/lOriginal"
         style="@style/KLabel"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:clickable="true"
         android:ems="10"
         android:onClick="editOriginal"
         android:text="@string/ex1_original"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fPlayer"
+        app:layout_constraintTop_toBottomOf="@+id/lKindOf"
         tools:text="@string/ex1_original" />
 
 
@@ -106,12 +108,10 @@
         android:layout_marginEnd="8dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tVTranslated" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

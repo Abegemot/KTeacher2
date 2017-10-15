@@ -155,13 +155,17 @@ class MainActivity : AppCompatActivity() {
 
 //TODO erase the lesson clicked
     fun deleteLessonClick(view: View){
-        X.warn ("deleteLessonClick")
-        DBH.deleteLesson(10)
-        lesonList.clear()
-        myListAdapter.notifyDataSetChanged()
+        //X.warn ("deleteLessonClick")
+        //DBH.deleteLesson(10)
+        //lesonList.clear()
+        //myListAdapter.notifyDataSetChanged()
+        //toast("I'm so sorry this is not gonna happen today :)")
+        //    toast("Que passa Nennnnnggg")
+
     }
 
     fun editLessonClick(view: View){
+        //toast("editlesson")
         X.warn ("editLessonClick")
         //DBH.CEA()
         //val intento1 = Intent(this, ZActivity::class.java)

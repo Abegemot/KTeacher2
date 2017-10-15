@@ -8,23 +8,26 @@
 
     <Button
         android:id="@+id/bSave"
+        style="@style/KButtonNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+
         android:text="@string/save" />
 
     <Button
         android:id="@+id/bDelete"
+        style="@style/KButtonNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+
         android:text="@string/delete" />
 
     <Button
         android:id="@+id/bTest"
+        style="@style/KButtonNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+
         android:text="Test" />
 
 </LinearLayout>

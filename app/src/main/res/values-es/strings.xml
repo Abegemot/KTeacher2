@@ -18,8 +18,11 @@
     <string name="new_lesson">Nueva Leccion</string>
     <string name="empty_lesson">No estan permitidas Lecciones sin titulo</string>
     <string name="lesson">Lección</string>
-    <string name="ex1_translated">Texto Traducido</string>
-    <string name="ex1_original">Texto Original</string>
+    <string name="ex1_translated">Texto en Español</string>
+    <string name="ex1_original">Texto en Ruso</string>
+    <string name="posible_answers">Respuestas posibles</string>
+    <string name="gived_answer">Respuesta dada</string>
+
     <string name="item_new">NUEVO</string>
     <string name="item_update">EDITAR</string>
 
@@ -41,15 +44,16 @@
     <string-array name="examples_translated1">
         <item>Se decia que en la orilla había aparecido una nueva cara: una dama con un perrito</item>
         <item>No hay nada mejor que la avenida Nievsky, al menos para los PeterBurgeses, para ellos lo representa todo </item>
-        <item>Una tarde de primavera a la hora de una inusuallmente calida puesta de sol, en Moscu en los estanques del Patriarca, dos ciudadanos aparecieron</item>
+        <item>Una tarde de primavera a la hora de una inusuallmente calida puesta de sol, en Moscu en los estanques del Patriarca, dos ciudadanos aparecierón</item>
         <item>Me duele el corazón y me da vueltas la cabeza @perros @y @gatos</item>
     </string-array>
 
 
-    <string-array name="examples_translated3">
+    <string-array name="examples_translated2">
         <item>Que le pasa? Se encuentra mal?</item>
         <item>Te arrepentiras</item>
         <item>Un día, estos dos cuchillos se encontraron de nuevo</item>
+        <item>Es una buena persona @Es un chico majo</item>
     </string-array>
 
 

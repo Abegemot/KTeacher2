@@ -11,15 +11,15 @@
     <fragment
         android:id="@+id/fPlayer"
         android:name="com.begemot.KTeacher.BlankFragment"
-        android:layout_width="325dp"
-        android:layout_height="59dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
 
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lKindOf"
         tools:layout="@layout/fragment_blank" />
@@ -27,62 +27,58 @@
     <EditText
         android:id="@+id/eT1"
         style="@style/KEdit"
-        android:layout_width="352dp"
-        android:layout_height="232dp"
+        android:layout_width="0dp"
+        android:layout_height="139dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:lines="10"
+        android:lines="7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tVoriginal"
-        tools:text="text de prova testo di proba test text ancora un po i poi anque un poco fini que siano piu di tre lineas" />
+        tools:text="text de prova testo di proba test text ancora un po i poi anque un poco fini que siano piu di tre lineas ole" />
 
     <include
         android:id="@+id/savedeletetest"
         layout="@layout/savedeletetest"
-        android:layout_width="317dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
 
         android:layout_marginEnd="8dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eT1"
-        app:layout_constraintVertical_bias="0.964" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/lKindOf"
-        android:layout_width="305dp"
+        style="@style/KLabel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="36dp"
         android:layout_marginTop="8dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+        app:layout_constraintEnd_toStartOf="@+id/lStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Kind Of Exercise I wanna seyougrow and grow and grow " />
+        tools:text="Kind Of Exercise I wanna seyougrow and grow and grow id=lKindOf " />
 
     <TextView
         android:id="@+id/tVoriginal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        style="@style/KLabel"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/ex1_original"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fPlayer" />
+        app:layout_constraintTop_toBottomOf="@+id/fPlayer"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <TextView
         android:id="@+id/lStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/KLabel"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
 

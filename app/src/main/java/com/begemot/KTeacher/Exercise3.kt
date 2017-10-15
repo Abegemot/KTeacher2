@@ -13,6 +13,7 @@ import com.begemot.KTeacher.R.id.tVOriginal
 import com.begemot.klib.KHelp
 import kotlinx.android.synthetic.main.activity_exercise3.*
 import kotlinx.android.synthetic.main.savedeletetest.view.*
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.toast
 import java.io.*
 import java.util.*
@@ -42,7 +43,7 @@ open class Exercise3 : AppCompatActivity() {
         eT1.imeOptions = EditorInfo.IME_ACTION_DONE
         eT1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
         eT1.setHorizontallyScrolling(false)
-        eT1.setLines(4)
+        eT1.setLines(5)
         eT1.setSelection(eT1.text.toString().length)
 
         DBH=DBHelp.getInstance(this)
@@ -52,13 +53,13 @@ open class Exercise3 : AppCompatActivity() {
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
 
-        val path = File(Environment.getExternalStorageDirectory().getPath())
-        archivo = File(path,"MYSOUND1.3gp")
+        val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        archivo = File(path,KT.soundNameFile())
 
 
         if(currentExerciseID==0L){
             lStatus.text=resources.getString(R.string.item_new)
-            cExercise=KExercise(0,currentLessonID,0)
+            cExercise=KExercise(0,currentLessonID,typeofex)
             emptySoundFile()
             X.warn("teoricament deixa l'arxiu de so a zero")
         }
@@ -77,7 +78,8 @@ open class Exercise3 : AppCompatActivity() {
 
     fun storeSoundtoFile(){
         var soundData:ByteArray=cExercise.S1
-        val path = File(Environment.getExternalStorageDirectory().getPath())
+        //val path = File(Environment.getExternalStorageDirectory().getPath())
+        val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
         try {
             val fos = FileOutputStream(archivo)
             fos.write(soundData)
@@ -98,23 +100,21 @@ open class Exercise3 : AppCompatActivity() {
 
     fun save(v: View){
         //toast("ISAVE")
-        val path = File(Environment.getExternalStorageDirectory().getPath())
-        val archivo = File(path,"MYSOUND1.3gp")
+        //val path = File(Environment.getExternalStorageDirectory().getPath())
+        val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
+        val archivo = File(path,KT.soundNameFile())
         val BA=ByteArray(archivo.length().toInt())
         val fos = FileInputStream(archivo)
         fos.read(BA)
         fos.close()
 
 
-        val KE=KExercise()
-        KE.ID=currentExerciseID
-        KE.IDLesson=currentLessonID
-        KE.TL1= eT1.text.toString()
+        cExercise.TL1= eT1.text.toString()
         //KE.TL2= tVTranslated.text.toString()
-        KE.TypeOfEx = typeofex
+        //KE.TypeOfEx = typeofex
 
 
-        KE.S1=BA
+        cExercise.S1=BA
         if(BA.size<100){
             //toast("sound archive less than 100 Bytes!!!!")
         }
@@ -123,20 +123,20 @@ open class Exercise3 : AppCompatActivity() {
 
 
         if( currentExerciseID==0L){
-            val idNewExercise=DBH.insertExerciseToLesson(KE)
+            val idNewExercise=DBH.insertExerciseToLesson(cExercise)
             val intentMessage = getIntent()
             intentMessage.putExtra("IDNewExercise",idNewExercise )
-            intentMessage.putExtra("Name",KE.TL1)
+            intentMessage.putExtra("Name",cExercise.TL1)
             intentMessage.putExtra("TypeOfEx",typeofex)
             setResult(Activity.RESULT_OK,intentMessage)
             X.warn("I Saved  Created ex number: $idNewExercise")
             finish()
 
         }else{
-            DBH.updateExercise(KE)
+            DBH.updateExercise(cExercise)
             val intentMessage = getIntent()
 //            intentMessage.putExtra("IDNewExcercise",idNewExercise )
-            intentMessage.putExtra("Name",KE.TL1)
+            intentMessage.putExtra("Name",cExercise.TL1)
             setResult(Activity.RESULT_OK,intentMessage)
             finish()
             X.warn("I Saved Updated")
