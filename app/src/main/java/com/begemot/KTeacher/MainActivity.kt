@@ -63,11 +63,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        X.warn("")
+        if(DEBUG)X.warn("")
         curLang=KT.getCurrentLang(this)
 
         setContentView(R.layout.activity_main)
-        setTitle(resources.getString(R.string.klessons))
+       // setTitle(resources.getString(R.string.klessons))
 
 
         setSupportActionBar(toolbar)
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         myList.adapter=myListAdapter
         myList.onItemClickListener = object : OnItemClickListener {override fun onItemClick
                 (parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                X.warn("onItemClickListener position = $position    id= $id")
+                if(DEBUG)X.warn("onItemClickListener position = $position    id= $id")
 
                 selectedLesson = myList.getItemAtPosition(position) as KLesson
                 //selectedLesson.name="PATATA"
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        X.warn("")
+        if(DEBUG)X.warn("")
         return when (item.itemId) {
             R.id.action_settings -> true
             R.id.select_language->consume{ selectLanguage()}
@@ -131,19 +131,19 @@ class MainActivity : AppCompatActivity() {
     fun setSelectedLang(dI:DialogInterface,I:Int):Unit {
         //0 en 1 es
 
-        X.warn("POS old  ${KT.getCurrentLang(this)}  new  $I")
+        if(DEBUG)X.warn("POS old  ${KT.getCurrentLang(this)}  new  $I")
         if(KT.getCurrentLang(this)=="en") if(I==0) return
         if(KT.getCurrentLang(this)=="es") if(I==1) return
         if(I==0) { KT.setCurrentLang(this,"en",this); return }
         if(I==1) { KT.setCurrentLang(this,"es",this); return }
-        X.warn("POS  $I")
+        if(DEBUG)X.warn("POS  $I")
     }
 
 
 
 
     fun goToLesson(iD:Long){
-        X.warn("")
+        if(DEBUG)X.warn("")
         val intento1 = Intent(this, SelectExerciseActivity::class.java)
         intento1.putExtra("lessonID",selectedLesson.id)
         intento1.putExtra("lessonName",selectedLesson.name)
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
 
 //TODO erase the lesson clicked
     fun deleteLessonClick(view: View){
-        //X.warn ("deleteLessonClick")
+        //if(DEBUG)X.warn ("deleteLessonClick")
         //DBH.deleteLesson(10)
         //lesonList.clear()
         //myListAdapter.notifyDataSetChanged()
@@ -166,7 +166,8 @@ class MainActivity : AppCompatActivity() {
 
     fun editLessonClick(view: View){
         //toast("editlesson")
-        X.warn ("editLessonClick")
+//        toast("EDIT LESSON")
+        if(DEBUG)X.warn ("editLessonClick")
         //DBH.CEA()
         //val intento1 = Intent(this, ZActivity::class.java)
         val intento1 = Intent(this,Main2Activity::class.java)
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addLessonClick(view: View){
-        X.warn("")
+        if(DEBUG)X.warn("")
         val intento1 = Intent(this, Main2Activity::class.java)
         startActivityForResult(intento1,RequestCode.ADD_LESSON )
     }
@@ -184,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        X.warn ("onActivityResult requestCode: $requestCode  resultCode: $resultCode")
+        if(DEBUG)X.warn ("onActivityResult requestCode: $requestCode  resultCode: $resultCode")
 
         if(requestCode==RequestCode.ADD_LESSON){
             if(resultCode==Activity.RESULT_OK) {
@@ -194,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                 myListAdapter.notifyDataSetChanged()
                 myList.setItemChecked(myListAdapter.count-1,true)
                 myList.setSelection(myListAdapter.count-1)
-                X.warn("new lesson ID ${idL.toString()}   name: $nameL")
+                if(DEBUG)X.warn("new lesson ID ${idL.toString()}   name: $nameL")
             }
             else {
                 //toast("${getString(R.string.err_leson)}")
@@ -223,7 +224,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadLessons(){
-        X.warn ("loadLessons  $curLang")
+        if(DEBUG)X.warn ("loadLessons  $curLang")
         for(item in DBH.loadLessons()) lesonList.add(item)
         myListAdapter.notifyDataSetChanged()
         myList.setItemChecked(0,true)
@@ -233,8 +234,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun localize(){
-        X.warn("start")
-         X.warn("fin")
+        if(DEBUG)X.warn("start")
+         if(DEBUG)X.warn("fin")
     }
 
 
@@ -270,18 +271,18 @@ fun getlang():String {
         val editor = sharedpreferences.edit()
         editor.putString("lang", curLang)
         editor.commit()
-        X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+        if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("$curLang")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

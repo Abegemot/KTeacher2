@@ -4,9 +4,9 @@
 
     <uses-sdk android:minSdkVersion="21" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" -->
     <!--uses-permission android:name="android.permission.READ_PHONE_STATE" -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- To access Google+ APIs: -->
@@ -34,32 +34,31 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Main2Activity"
             android:label="@string/lesson"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+
         <activity android:name=".SelectExerciseActivity" android:label="KLesson" />
         <activity android:name=".SelectKindOfEx" />
-        <activity android:name=".Exercise1" />
+        <activity android:name=".Exercise1" android:label="@string/kex"/>
 
         <!-- android:windowSoftInputMode="adjustResize|stateHidden" -->
 
-        <activity android:name=".Test1Activity" />
+        <activity android:name=".Test1Activity" android:label="KTest"/>
         <activity
             android:name=".ZActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".EdiTextActivity"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name=".Exercise3" />
-        <activity android:name=".Test3Activity"></activity>
+        <activity android:name=".Exercise3" android:label="@string/kex"/>
+        <activity android:name=".Test3Activity" android:label="KTest"></activity>
 
-        <activity android:name=".Exercise2"> </activity>
-        <activity android:name=".Test2Activity"> </activity>
+        <activity android:name=".Exercise2" android:label="@string/kex"> </activity>
+        <activity android:name=".Test2Activity" android:label="KTest"> </activity>
 
     </application>
 

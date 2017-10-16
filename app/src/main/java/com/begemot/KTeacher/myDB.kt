@@ -23,11 +23,11 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
 
         @Synchronized
         fun getInstance(ctx: Context,lang: String=""): myDB {
-            X.warn("get instance lang=$lang")
+            if(DEBUG)X.warn("get instance lang=$lang")
 
             if (instance == null) {
                 instance = myDB(ctx.getApplicationContext(),lang)
-                X.warn("create instance lang=$lang")
+                if(DEBUG)X.warn("create instance lang=$lang")
             }
             return instance!!
         }
@@ -44,7 +44,7 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
 
     override fun onCreate(db: SQLiteDatabase) {
         // Here you create tables
-        X.warn("onCreateDB")
+        if(DEBUG)X.warn("onCreateDB")
         //if(L.equals("en"))
 
 
@@ -75,7 +75,7 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
 //            db.insert(KKindOfExercice.tName,null,KKindOfExercice.values(2L,"who knows what",""))
 
 //            db.execSQL(KExercise.DBCreate)
-//            X.warn("after DBCreate")
+//            if(DEBUG)X.warn("after DBCreate")
 //            db.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
 //            db.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
 //            db.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
@@ -85,7 +85,7 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
 
 
         }
-        X.warn("End CreateLessons")
+        if(DEBUG)X.warn("End CreateLessons")
 
 
 
@@ -94,7 +94,7 @@ class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDataba
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Here you can upgrade tables, as usual
-        X.warn("onUpgradeDB")
+        if(DEBUG)X.warn("onUpgradeDB")
         //db.dropTable("User", true)
     }
 }
@@ -115,7 +115,7 @@ class DBHelp(ctx: Context) {
 
         @Synchronized
         fun getInstance2(ctx: Context,lang: String=""): DBHelp {
-            X.warn("$lang")
+            if(DEBUG)X.warn("$lang")
             if (instance == null) {
 
                 instance   = DBHelp(ctx.getApplicationContext()  )
@@ -124,7 +124,7 @@ class DBHelp(ctx: Context) {
 
 
 
-                X.warn("create instance $lang")
+                if(DEBUG)X.warn("create instance $lang")
             }
             return instance!!
         }
@@ -137,7 +137,7 @@ class DBHelp(ctx: Context) {
                 instance   = DBHelp(ctx.getApplicationContext() )
                 DB2        = myDB.getInstance(ctx, dbLang)
                 KOE        = ctx.resources.getStringArray(R.array.kind_of_ex)
-                X.warn("create instance $dbLang")
+                if(DEBUG)X.warn("create instance $dbLang")
             }
             return instance!!
         }
@@ -172,11 +172,11 @@ class DBHelp(ctx: Context) {
         var ds: SQLiteDatabase = DB2.writableDatabase
        // val nR = envelopeX(0L){   ds.delete("$tableName").toLong()   }
         val nR = envelopeX(0L){   ds.dropTable("$tableName",false)  }
-        X.warn("deleteTable  $tableName  returned = $nR")
+        if(DEBUG)X.warn("deleteTable  $tableName  returned = $nR")
     }
 
   /*  fun createLessons(){
-        X.warn("Begin CreateLessons")
+        if(DEBUG)X.warn("Begin CreateLessons")
         envelopeX(Unit) {
 
             var ds: SQLiteDatabase = DB2.writableDatabase
@@ -188,18 +188,18 @@ class DBHelp(ctx: Context) {
             ds.insert(KLesson.tName,null,KLesson.values("5 PRIMERA LLICO W"))
             ds.insert(KLesson.tName,null,KLesson.values("6 PRIMERA LLICO U"))
         }
-        X.warn("End CreateLessons")
+        if(DEBUG)X.warn("End CreateLessons")
     }*/
 
     fun addLesson(lesson: String): KLesson {
-        X.warn("addLesson")
+        if(DEBUG)X.warn("addLesson")
         var nR: Long = 0
         var k: KLesson = KLesson(10,"pepe")
         nR = envelopeX(0L){
             var ds: SQLiteDatabase = DB2.writableDatabase
             ds.insert(KLesson.tName, "NAME" to lesson)
         }
-        X.warn("Numero retornat per InsertLesson $nR  nameLesson = $lesson")
+        if(DEBUG)X.warn("Numero retornat per InsertLesson $nR  nameLesson = $lesson")
         k.id = nR
         k.name = lesson
         return k
@@ -208,7 +208,7 @@ class DBHelp(ctx: Context) {
     fun deleteLesson(id:Long) {
         var ds: SQLiteDatabase = DB2.writableDatabase
         val nR = envelopeX(0L){     ds.delete(KLesson.tName,"ID=$id").toLong()    }
-        X.warn("returned = $nR")
+        if(DEBUG)X.warn("returned = $nR")
     }
 
     /*fun deleteAllLessons(){
@@ -217,10 +217,10 @@ class DBHelp(ctx: Context) {
 
     fun loadLessons(): List<KLesson> {
 
-        X.warn("LoadLesons in ${DB2.databaseName}")
+        if(DEBUG)X.warn("LoadLesons in ${DB2.databaseName}")
         val L2: List<KLesson> = envelopeX(emptyList()) {    DB2.use { select(KLesson.tName,*KLesson.tSelect).exec { parseList(classParser<KLesson>()) } } }
-        X.warn("SIZE Lessons: ${L2.size}")
-        //for (item in L2) X.warn(item.toString())
+        if(DEBUG)X.warn("SIZE Lessons: ${L2.size}")
+        //for (item in L2) if(DEBUG)X.warn(item.toString())
         return L2
     }
 
@@ -235,7 +235,7 @@ class DBHelp(ctx: Context) {
 
    /* fun createKindOfExercises() {
 
-        X.warn("createKindOfExcercises")
+        if(DEBUG)X.warn("createKindOfExcercises")
            envelopeX(Unit) {
                var ds: SQLiteDatabase = DB2.writableDatabase
                ds.execSQL(KKindOfExercice.DBCreate)
@@ -252,11 +252,11 @@ class DBHelp(ctx: Context) {
      }*/
 
     fun loadKindOfExercises(): List<KKindOfExercice> {
-        X.warn( "LoadKindOfExcercises" )
+        if(DEBUG)X.warn( "LoadKindOfExcercises" )
         var ds: SQLiteDatabase = DB2!!.writableDatabase
         val L2: List<KKindOfExercice> = envelopeX(emptyList()) {  DB2.use { select("KINDOFEX", "ID", "T1", "T2").exec { parseList(classParser<KKindOfExercice>()) } } }
-        X.warn("SIZE List KindOfLessons: ${L2.size}")
-        for (item in L2) X.warn(item.toString())
+        if(DEBUG)X.warn("SIZE List KindOfLessons: ${L2.size}")
+        for (item in L2) if(DEBUG)X.warn(item.toString())
         return L2
     }
 
@@ -275,41 +275,41 @@ class DBHelp(ctx: Context) {
     fun createExerciseTable(){
 
         //val rowParser = classParser<KExercise>()
-        X.warn("enter createExerciseTable")
+        if(DEBUG)X.warn("enter createExerciseTable")
         var l:List<Any> =envelopeX(emptyList()) {
-            X.warn("enter enve  lope")
+            if(DEBUG)X.warn("enter enve  lope")
             var ds: SQLiteDatabase = DB2.writableDatabase
             ds.execSQL(KExercise.DBCreate)
-            X.warn("after DBCreate")
+            if(DEBUG)X.warn("after DBCreate")
             ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
             ds.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
             ds.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
             ds.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
             ds.close()
-            X.warn("after Insert")
+            if(DEBUG)X.warn("after Insert")
             //DB2.use { select(KExercise.tName, *KExercise.tSelect).exec { parseList(rowParser) }}
             DB2.use { select(KExercise.tName, *KExercise.tSelect).exec { getListKE() }}
         }
-       X.warn("leaving createExerciseTable: ${l.size}")
+       if(DEBUG)X.warn("leaving createExerciseTable: ${l.size}")
     }
 
     fun insertExerciseToLesson(idLesson:Long){
-        X.warn("enter ")
+        if(DEBUG)X.warn("enter ")
         envelopeX(0) {
             var ds: SQLiteDatabase = DB2.writableDatabase
             ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(10)))
             ds.close()
         }
-        X.warn(" exit " )
+        if(DEBUG)X.warn(" exit " )
     }
 
     fun createEX1Examples(ctx:Context){
         //this.context
         if(existEX()){
-            X.warn(("JA EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
+            if(DEBUG)X.warn(("JA EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
             return
         }
-        X.warn(("NO EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
+        if(DEBUG)X.warn(("NO EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXISTEIX LA TAULA EXERCISIS"))
         var ds: SQLiteDatabase = DB2.writableDatabase
         ds.execSQL(KExercise.DBCreate)
         var examplesOriginal   : Array<String> = ctx.resources.getStringArray(R.array.examples_original1)
@@ -371,7 +371,7 @@ class DBHelp(ctx: Context) {
 
 
     fun insertExerciseToLesson(KE:KExercise):Long{
-        X.warn("enter ")
+        if(DEBUG)X.warn("enter ")
         var nR:Long=0
         nR = envelopeX(0L) {
             var N:Long=0
@@ -380,7 +380,7 @@ class DBHelp(ctx: Context) {
             ds.close()
             return@envelopeX N
         }
-        X.warn(" exit " )
+        if(DEBUG)X.warn(" exit " )
         return nR
     }
 
@@ -396,7 +396,7 @@ class DBHelp(ctx: Context) {
     fun deleteExercise(id:Long) {
         var ds: SQLiteDatabase = DB2.writableDatabase
         val nR = envelopeX(0L){     ds.delete(KExercise.tName,"ID=$id").toLong()    }
-        X.warn("returned = $nR")
+        if(DEBUG)X.warn("returned = $nR")
     }
 
     fun deleteExerciceTable(){
@@ -410,18 +410,18 @@ class DBHelp(ctx: Context) {
 
 
     fun loadLessonExercises(lesonID: Long): List<KExercise> {
-        X.warn("entra  DB NAME: ${DB2.databaseName}")
+        if(DEBUG)X.warn("entra  DB NAME: ${DB2.databaseName}")
         DB2.databaseName
         val L2: List<KExercise> = envelopeX(emptyList()) {
            DB2.use {  select(KExercise.tName,*KExercise.tSelectmin).whereSimple("IDL=?",lesonID.toString()).exec { getListminKE() }  }
         }
-        X.warn("SIZE List OfExcecises Of X Lesson: $lesonID =  ${L2.size}")
-        //for (item in L2)  X.warn(item.toString())
+        if(DEBUG)X.warn("SIZE List OfExcecises Of X Lesson: $lesonID =  ${L2.size}")
+        //for (item in L2)  if(DEBUG)X.warn(item.toString())
         return L2
     }
 
     fun loadExercise(exerciseID: Long): KExercise {
-        X.warn("entra")
+        if(DEBUG)X.warn("entra")
         val L2: KExercise = envelopeX(KExercise()) {
             DB2.use {  select(KExercise.tName,*KExercise.tSelect).whereSimple("ID=?",exerciseID.toString()).exec { getKEcercise() }  }
         }
@@ -430,7 +430,7 @@ class DBHelp(ctx: Context) {
 
 
     fun Cursor.getListKE():List<KExercise>  {
-        X.warn("entra")
+        if(DEBUG)X.warn("entra")
         val L:MutableList<KExercise> = mutableListOf<KExercise>()
         if(this.moveToFirst()){
                do {
@@ -445,14 +445,14 @@ class DBHelp(ctx: Context) {
                    L.add(KE)
 
                }while(this.moveToNext())
-            X.warn("surt")
+            if(DEBUG)X.warn("surt")
             return L
            }
            return emptyList()
     }
 
     fun Cursor.getListminKE():List<KExercise>  {
-        X.warn("entra")
+        if(DEBUG)X.warn("entra")
         val L:MutableList<KExercise> = mutableListOf<KExercise>()
         if(this.moveToFirst()){
             do {
@@ -467,7 +467,7 @@ class DBHelp(ctx: Context) {
                 L.add(KE)
 
             }while(this.moveToNext())
-            X.warn("surt")
+            if(DEBUG)X.warn("surt")
             return L
         }
         return emptyList()
@@ -490,15 +490,15 @@ class DBHelp(ctx: Context) {
 
 
     fun printAll(){
-        X.warn("begin printAll")
+        if(DEBUG)X.warn("begin printAll")
 
-        X.warn("end printAll")
+        if(DEBUG)X.warn("end printAll")
 
     }
 
 
     fun CEA(){
-        X.warn("entering CEA ")
+        if(DEBUG)X.warn("entering CEA ")
 
         /*
         deleteAllLessons()
@@ -519,7 +519,7 @@ class DBHelp(ctx: Context) {
         deleteExerciceTable()
         createExerciseTable()
 
-        X.warn("leaving CEA ")
+        if(DEBUG)X.warn("leaving CEA ")
     }
 
 
@@ -533,7 +533,7 @@ fun <T> envelopeX (default: T, letter: () -> T) = try {
     letter()
 } catch (e: Exception) {
     val X:KHelp=DBHelp.X
-    X.warn("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
+    if(DEBUG)X.warn("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
     default
 }
 

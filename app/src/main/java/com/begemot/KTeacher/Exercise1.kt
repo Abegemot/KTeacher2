@@ -41,7 +41,7 @@ class Exercise1 : AppCompatActivity()   {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        X.warn("1")
+        if(DEBUG)X.warn("1")
         setContentView(R.layout.activity_exercise1)
         savedeletetest.bTest.setOnClickListener   { test(savedeletetest.bTest) }
         savedeletetest.bDelete.setOnClickListener { delete(savedeletetest.bDelete) }
@@ -50,15 +50,15 @@ class Exercise1 : AppCompatActivity()   {
         currentLessonID = intent.getLongExtra("lessonID",0)
         currentExerciseID = intent.getLongExtra("exerciseID",0)
 
-      //peta no init  X.warn("--1  ---- ${DBH.getDBNAme()}")
+      //peta no init  if(DEBUG)X.warn("--1  ---- ${DBH.getDBNAme()}")
 
         DBH=DBHelp.getInstance(this)
 
-        X.warn("--2  ---- ${DBH.getDBNAme()}")
+        if(DEBUG)X.warn("--2  ---- ${DBH.getDBNAme()}")
 
         lKindOf.text=DBH.getKindEx(0)
 
-        X.warn("--3  ---- ${DBH.getDBNAme()}")
+        if(DEBUG)X.warn("--3  ---- ${DBH.getDBNAme()}")
 
         //val path = File(Environment.getExternalStorageDirectory().getPath())
         //archivo = File(path,"MYSOUND1.3gp")
@@ -74,7 +74,7 @@ class Exercise1 : AppCompatActivity()   {
             lStatus.text=resources.getString(R.string.item_new)
             cExercise=KExercise(0,currentLessonID,typeofex)
             FileWriter(archivo).close()
-            X.warn("teoricament deixa l'arxiu de so a zero")
+            if(DEBUG)X.warn("teoricament deixa l'arxiu de so a zero")
 
         }
         else{
@@ -84,7 +84,7 @@ class Exercise1 : AppCompatActivity()   {
             tVOriginal.setText(cExercise.TL1)
             tVTranslated.setText(cExercise.TL2)
 
-            X.warn("LONGITUD SONIDO: ${cExercise.S1.size.toString()}")
+            if(DEBUG)X.warn("LONGITUD SONIDO: ${cExercise.S1.size.toString()}")
 
            if(cExercise.S1.size>50) storeSoundtoFile()
            else emptySoundFile()
@@ -107,20 +107,20 @@ class Exercise1 : AppCompatActivity()   {
             fos.close()
 
         } catch (e: IOException) {
-            X.warn("Exception creating temp file: ${e.toString()} ")
+            if(DEBUG)X.warn("Exception creating temp file: ${e.toString()} ")
         }
-        X.warn("writeappend  datasize ${soundData.size.toString()}")
+        if(DEBUG)X.warn("writeappend  datasize ${soundData.size.toString()}")
 
     }
 
     fun emptySoundFile(){
         FileWriter(archivo).close()
-        X.warn("teoricament deixa l'arxiu a zero")
+        if(DEBUG)X.warn("teoricament deixa l'arxiu a zero")
 
     }
 
     fun save(v:View){
-       X.warn("I Will Save")
+       if(DEBUG)X.warn("I Will Save")
 
         //Salvem la nova grabacio
 //        BA=ByteArray(archivo.length().toInt())
@@ -165,7 +165,7 @@ class Exercise1 : AppCompatActivity()   {
             intentMessage.putExtra("Name",cExercise.TL1)
             intentMessage.putExtra("TypeOfEx",typeofex)
             setResult(Activity.RESULT_OK,intentMessage)
-            X.warn("I Created ex : ${cExercise.toXString()}")
+            if(DEBUG)X.warn("I Created ex : ${cExercise.toXString()}")
             finish()
 
        }else{
@@ -175,14 +175,14 @@ class Exercise1 : AppCompatActivity()   {
             intentMessage.putExtra("Name",cExercise.TL1)
             setResult(Activity.RESULT_OK,intentMessage)
             finish()
-            X.warn("I Saved Updated")
+            if(DEBUG)X.warn("I Saved Updated")
 
         }
 
     }
 
     fun delete(v:View){
-        X.warn("I Will Delete")
+        if(DEBUG)X.warn("I Will Delete")
         DBH.deleteExercise(currentExerciseID)
         val i=getIntent()
         i.putExtra("DELETE",true)
@@ -192,7 +192,7 @@ class Exercise1 : AppCompatActivity()   {
     }
 
     fun test(v:View){
-        X.warn("I Will Test")
+        if(DEBUG)X.warn("I Will Test")
         val intento1 = Intent(this, Test1Activity::class.java)
         cExercise.TL1= tVOriginal.text.toString()
         cExercise.TL2= tVTranslated.text.toString()
@@ -241,14 +241,14 @@ class Exercise1 : AppCompatActivity()   {
 
         }
       /*  if(requestCode==RequestCode.SELECT_KINDOF_EXERCISE) {
-            X.warn("REQUESTCODE=SELECT_KINDOF_EXERCISE")
+            if(DEBUG)X.warn("REQUESTCODE=SELECT_KINDOF_EXERCISE")
 
             val KoEx = data?.getLongExtra("IDKind",0)
-            X.warn (" KindOf Excercise:   $KoEx  ")
+            if(DEBUG)X.warn (" KindOf Excercise:   $KoEx  ")
             if(KoEx!=null)
                 when(KoEx){
                     1L ->{
-                        X.warn("asw")
+                        if(DEBUG)X.warn("asw")
                         val intento1 = Intent(this, Exercise1::class.java)
                         intento1.putExtra("lessonID",currentLessonID)
                         intento1.putExtra("exerciseID",0L)
@@ -257,13 +257,13 @@ class Exercise1 : AppCompatActivity()   {
                     }
                     else -> {
                         toast("NOT IMPLEMENTED")
-                        X.warn("NOT IMPLEMENTED")
+                        if(DEBUG)X.warn("NOT IMPLEMENTED")
                     }
                 }
 
         }
         if(requestCode==RequestCode.EDIT_EXERCISE){
-            X.warn("REQUESTCODE=EDIT_EXERCISE")
+            if(DEBUG)X.warn("REQUESTCODE=EDIT_EXERCISE")
             if(resultCode== Activity.RESULT_OK){
                 val nameE =""+ data?.getStringExtra("Name")
                 selectedExercise = myListExercises.getItemAtPosition(currentPosition) as KExercise
@@ -275,16 +275,16 @@ class Exercise1 : AppCompatActivity()   {
 
         }
         if(requestCode==RequestCode.ADD_EXERCISE){
-            X.warn("REQUEST CODE = ADD_EXERCISE")
+            if(DEBUG)X.warn("REQUEST CODE = ADD_EXERCISE")
             if(resultCode== Activity.RESULT_OK){
                 val nameE =""+ data?.getStringExtra("Name")
                 val idE = data?.getLongExtra("IDNewExercise", 0L)
                 exercisesList.add(KExercise(idE!!,currentLessonID,1,nameE))
                 exercisesListAdapter.notifyDataSetChanged()
-                X.warn("now ID = $idE")
+                if(DEBUG)X.warn("now ID = $idE")
                 //myList.setItemChecked(myListAdapter.count-1,true)
                 //myList.setSelection(myListAdapter.count-1)
-                //X.warn("new lesson ID ${idL.toString()}   name: $nameL")
+                //if(DEBUG)X.warn("new lesson ID ${idL.toString()}   name: $nameL")
 
             }
 
@@ -303,18 +303,18 @@ class Exercise1 : AppCompatActivity()   {
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

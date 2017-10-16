@@ -141,11 +141,11 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        X.warn("1")
+        if(DEBUG)X.warn("1")
         bRec.setOnClickListener  { grabar(bRec) }
         bPlay.setOnClickListener { reproducir(bPlay) }
         bStop.setOnClickListener { detener(bStop) }
-        X.warn("2")
+        if(DEBUG)X.warn("2")
        // path = File(Environment.getExternalStorageDirectory().getPath())
        // archivo = File(path,"MYSOUND1.3gp")
         dir = ctx.getDir("KDir",Context.MODE_PRIVATE)
@@ -153,19 +153,19 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
         if(archivo.length()==0L) setEnable(REC)
         else setEnable(REC or PLAY)
         lSound.setText("${resources.getString(R.string.ready)}")
-        X.warn("3")
+        if(DEBUG)X.warn("3")
 
 
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        X.warn("")
+        if(DEBUG)X.warn("")
     }
 
 
     fun grabar(v:View){
-        X.warn("GRABAR")
+        if(DEBUG)X.warn("GRABAR")
         try {
             recorder = MediaRecorder()
             recorder?.setOnErrorListener(this)
@@ -174,7 +174,7 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
                     if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
                         detener(bStop)
                         toast("${resources.getString(R.string.max_time)}  ${recTime/1000} (s)")
-                        X.warn("REC  TIME  EXCEDED   ${recTime/1000} (s)")
+                        if(DEBUG)X.warn("REC  TIME  EXCEDED   ${recTime/1000} (s)")
                         //recorder?.stop()
 
                     }
@@ -189,10 +189,10 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
             recorder?.setMaxDuration(recTime)
 
 
-           // X.warn("archivo creado en: $path")
+           // if(DEBUG)X.warn("archivo creado en: $path")
         } catch (e: IOException) {
-            X.warn(" Exception no se ha podido crear archivo temp: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            if(DEBUG)X.warn(" Exception no se ha podido crear archivo temp: ${e.message}")
+            if(DEBUG)X.warn("${e.printStackTrace()}")
         }
         recorder?.setOutputFile(archivo.getAbsolutePath())
 
@@ -200,8 +200,8 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
         try {
             recorder?.prepare()
         } catch (e: IOException) {
-            X.warn(" Exception recorder prepare: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            if(DEBUG)X.warn(" Exception recorder prepare: ${e.message}")
+            if(DEBUG)X.warn("${e.printStackTrace()}")
         }
 
         recorder?.start()
@@ -212,24 +212,24 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
     }
 
     fun reproducir(v:View){
-        X.warn("REPRODUCIR")
+        if(DEBUG)X.warn("REPRODUCIR")
         try {
             player = MediaPlayer()
             player?.setOnCompletionListener(this)
 
             player?.setDataSource(archivo.getAbsolutePath())
-            X.warn("length file in Bytes: ${archivo.length().toString()}")
+            if(DEBUG)X.warn("length file in Bytes: ${archivo.length().toString()}")
 
         } catch (e: IOException) {
-            X.warn(" no se ha podido detener: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            if(DEBUG)X.warn(" no se ha podido detener: ${e.message}")
+            if(DEBUG)X.warn("${e.printStackTrace()}")
         }
 
         try {
             player?.prepare()
         } catch (e: IOException) {
-            X.warn(" exception en player prepare al reproducir: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            if(DEBUG)X.warn(" exception en player prepare al reproducir: ${e.message}")
+            if(DEBUG)X.warn("${e.printStackTrace()}")
         }
         player?.start()
         setEnable(DISABLE_ALL)
@@ -260,7 +260,7 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
     }
 
     override fun onError(md:MediaRecorder,a:Int,b:Int){
-        X.warn("On error Recorder a  :$a    b  :$b")
+        if(DEBUG)X.warn("On error Recorder a  :$a    b  :$b")
     }
 
 

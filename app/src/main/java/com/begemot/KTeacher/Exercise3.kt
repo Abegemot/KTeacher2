@@ -61,7 +61,7 @@ open class Exercise3 : AppCompatActivity() {
             lStatus.text=resources.getString(R.string.item_new)
             cExercise=KExercise(0,currentLessonID,typeofex)
             emptySoundFile()
-            X.warn("teoricament deixa l'arxiu de so a zero")
+            if(DEBUG)X.warn("teoricament deixa l'arxiu de so a zero")
         }
         else {
             lStatus.text=resources.getString(R.string.item_update)
@@ -86,14 +86,14 @@ open class Exercise3 : AppCompatActivity() {
             fos.close()
 
         } catch (e: IOException) {
-            X.warn("Exception creating temp file: ${e.toString()} ")
+            if(DEBUG)X.warn("Exception creating temp file: ${e.toString()} ")
         }
-        X.warn("writeappend  datasize ${soundData.size.toString()}")
+        if(DEBUG)X.warn("writeappend  datasize ${soundData.size.toString()}")
 
     }
     fun emptySoundFile(){
         FileWriter(archivo).close()
-        X.warn("teoricament deixa l'arxiu a zero")
+        if(DEBUG)X.warn("teoricament deixa l'arxiu a zero")
 
     }
 
@@ -129,7 +129,7 @@ open class Exercise3 : AppCompatActivity() {
             intentMessage.putExtra("Name",cExercise.TL1)
             intentMessage.putExtra("TypeOfEx",typeofex)
             setResult(Activity.RESULT_OK,intentMessage)
-            X.warn("I Saved  Created ex number: $idNewExercise")
+            if(DEBUG)X.warn("I Saved  Created ex number: $idNewExercise")
             finish()
 
         }else{
@@ -139,7 +139,7 @@ open class Exercise3 : AppCompatActivity() {
             intentMessage.putExtra("Name",cExercise.TL1)
             setResult(Activity.RESULT_OK,intentMessage)
             finish()
-            X.warn("I Saved Updated")
+            if(DEBUG)X.warn("I Saved Updated")
 
         }
 
@@ -174,18 +174,18 @@ open class Exercise3 : AppCompatActivity() {
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

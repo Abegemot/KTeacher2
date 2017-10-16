@@ -20,7 +20,7 @@ class Main2Activity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        X.warn("")
+        if(DEBUG)X.warn("")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         setTitle(resources.getString(R.string.lesson))
@@ -37,7 +37,7 @@ class Main2Activity : AppCompatActivity() {
     }
 
     fun onClickAddLesson(view:View){
-        X.warn("")
+        if(DEBUG)X.warn("")
         val intent = Intent()
         var stitleLesson=eT1.text.toString()
         stitleLesson.trim()
@@ -56,7 +56,7 @@ class Main2Activity : AppCompatActivity() {
 
            val nL=DBH.addLesson(eT1.text.toString())
            val i=nL.id.toInt()
-           X.warn("new ID = $i")
+           if(DEBUG)X.warn("new ID = $i")
            intent.putExtra("NAME", nL.name)
            intent.putExtra("ID", nL.id)
            if(i>-1)  setResult(Activity.RESULT_OK, intent)
@@ -84,18 +84,18 @@ class Main2Activity : AppCompatActivity() {
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 }

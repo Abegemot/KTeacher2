@@ -37,9 +37,9 @@ class Test2Activity:Test3Activity(){
 
         //llista frases OK delimitades per @
 
-        X.warn("sOK   '$sOk'")
+        if(DEBUG)X.warn("sOK   '$sOk'")
         val lsOk    :List<String> = sOk.split("@")
-        X.warn("lsOK   $lsOk")
+        if(DEBUG)X.warn("lsOK   $lsOk")
 
         for(item in lsOk){
             mistakes=compareSentences(item,sTest)
@@ -70,8 +70,8 @@ fun compareSentences(sOk: String,sUser:String):Boolean{
     val lsOk    :List<String> = sOk.split(" ")
     val lsTest  :List<String> = sUser.trim().split(" ")
     val szTest = lsTest.size
-    X.warn("compare sentences: sOk    :$sOk")
-    X.warn("compare sentences: sUser  :$sUser")
+    if(DEBUG)X.warn("compare sentences: sOk    :$sOk")
+    if(DEBUG)X.warn("compare sentences: sUser  :$sUser")
 
     //var sResp=StringBuilder("")
     for(item in lsOk){
@@ -81,7 +81,7 @@ fun compareSentences(sOk: String,sUser:String):Boolean{
             //sResp.append(" $tWord")
             nTrue++
         }else{
-            //X.warn("diferents  ????-------- OK='${item.trim()}' NEW='${tWord.trim()}'")
+            //if(DEBUG)X.warn("diferents  ????-------- OK='${item.trim()}' NEW='${tWord.trim()}'")
       //      sResp.append(" <u>$tWord<u>")
             mistakes=true
             nFalse++

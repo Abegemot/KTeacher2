@@ -63,7 +63,7 @@ class KT(){
                   val editor = sharedpreferences.edit()
                   editor.putString("lang", sLang)
                   editor.commit()
-                  //X.warn(": current Lang = $curLang  newLang =$sLang")
+                  //if(DEBUG)X.warn(": current Lang = $curLang  newLang =$sLang")
                   APS2(ctx,app)
 
             }

@@ -4,6 +4,8 @@
     <string name="title_activity_main3">Main3Activity</string>
     <string name="Ex1">Traduce esta frase</string>
     <string name="klessons">KLecciones</string>
+    <string name="kex">KEjercicio</string>
+
 
     <string name="add_exercise">Añadir Ejercicio</string>
     <string name="sel_kind_ofex">Seleciona el tipo de ejercicio</string>

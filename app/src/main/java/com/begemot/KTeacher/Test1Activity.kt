@@ -44,40 +44,40 @@ class Test1Activity : AppCompatActivity() {
     }
 
     override fun onStart() {//
-        X.warn("")
+        if(DEBUG)X.warn("")
         super.onStart()
         val fragment = getFragmentManager().findFragmentById(R.id.fPlayer)
         if(fragment!=null) {
             val f2: PlayerFragment = fragment as PlayerFragment
             f2.tV1.text = intent.getStringExtra("TL1")
             f2.play(bPlay)
-        }else X.warn("PUTU FRAMGMENT NULL")
+        }else if(DEBUG)X.warn("PUTU FRAMGMENT NULL")
 
     }
 
 
     //override fun onFragmentInteraction(uri: Uri){
-    //    X.warn("")
+    //    if(DEBUG)X.warn("")
     //}
 
 
     fun buildButtons(s:String){
         sOrig=s
-        X.warn("OriginalString:$sOrig")
+        if(DEBUG)X.warn("OriginalString:$sOrig")
         var sOrigOk=sOrig.trim()   //eliminem blank dels extrems
         sOrigOk=sOrigOk.replace(Regex("[^\\p{L} \\@ \\p{Z}\\p{Nd}]")," ") //eliminem ?!".
         sOrigOk=sOrigOk.replace(Regex("[ \\t]+"),"-@@-")   // eliminem blanks en els estrings
 
 
         var L=sOrigOk.split("-@@-")
-        X.warn("L:${L.toString()}")
+        if(DEBUG)X.warn("L:${L.toString()}")
         pairLArroba=L.partition { it.startsWith("@") }
 
         lStringOk=pairLArroba.second
-        X.warn("lStringOk:${lStringOk.toString()}  size=${lStringOk.size}")
-        X.warn("con @ ${pairLArroba.first.size}   sin @  ${pairLArroba.second.size}")
+        if(DEBUG)X.warn("lStringOk:${lStringOk.toString()}  size=${lStringOk.size}")
+        if(DEBUG)X.warn("con @ ${pairLArroba.first.size}   sin @  ${pairLArroba.second.size}")
 
-        X.warn("${L.size}")
+        if(DEBUG)X.warn("${L.size}")
         var i=0
 
         val L2= shuffle(L as MutableList<String>)
@@ -85,7 +85,7 @@ class Test1Activity : AppCompatActivity() {
         for(item in L2){
 
             if(item.length>0) {
-       //         X.warn("world : $item")
+       //         if(DEBUG)X.warn("world : $item")
                 val s=item.removePrefix("@")
                 val nB=createButton()
                 nB.id=i++
@@ -109,7 +109,7 @@ class Test1Activity : AppCompatActivity() {
 
 
     fun clickL1(v: View) {
-        X.warn("")
+        if(DEBUG)X.warn("")
 
         val oldB: Button = v as Button
         oldB.setOnClickListener { clickL2(oldB) }
@@ -123,7 +123,7 @@ class Test1Activity : AppCompatActivity() {
             //Todo Shall see if every allready placed button feets ok (they might have been moved and no longer ok)
 
             if (!s_at.equals(oldB.text.toString(), true)) {
-                X.warn("s_at : $s_at   button : ${oldB.text}     childCount ${lLay2.childCount} ")
+                if(DEBUG)X.warn("s_at : $s_at   button : ${oldB.text}     childCount ${lLay2.childCount} ")
                 //oldB.setBackgroundResource(R.drawable.abc_list_selector_background_transition_holo_dark)
                 oldB.setBackgroundResource(falseBkGr)
                 //oldB.id=0
@@ -177,17 +177,17 @@ class Test1Activity : AppCompatActivity() {
         val n    = lLay2.childCount
         val nsOk = lStringOk.size
         if(n==nsOk){
-            X.warn("n=$n  nsOk=$nsOk")
+            if(DEBUG)X.warn("n=$n  nsOk=$nsOk")
             if(n==0) return true
             for(i in 0..n-1){
                 var b=lLay2.getChildAt(i) as Button
                 // if(b.id==0){
                 if(b.tag==false){
-                    X.warn("troba un id false amb text ${b.text}  i numero de boto $i")
+                    if(DEBUG)X.warn("troba un id false amb text ${b.text}  i numero de boto $i")
                     return true
                 }
             }
-            X.warn("en principi OK")
+            if(DEBUG)X.warn("en principi OK")
             return false
         }
         return true
@@ -198,21 +198,21 @@ class Test1Activity : AppCompatActivity() {
 
 
     fun displayAlert(mistakes:Boolean){
-        X.warn("mistakes=$mistakes")
+        if(DEBUG)X.warn("mistakes=$mistakes")
         val sOrigOk=sOrig.replace(Regex("@\\p{L}+"),"")  //elimina nomes tot el que comença per @
         if(mistakes) ADiag= KT.getAlertD(Html.fromHtml("<br> $sOrigOk"), this, true)
         else ADiag= KT.getAlertD(Html.fromHtml("<br> $sOrigOk"), this, false)
     }
 
     fun clickTestEx(v:View){
-        X.warn("")
+        if(DEBUG)X.warn("")
         displayAlert(aretheyMistakes())
     }
 
 
     override fun onPause(){
         super.onPause()
-        X.warn("On PAUSE")
+        if(DEBUG)X.warn("On PAUSE")
         if(ADiag!=null){
             val d=ADiag
             if(d is AlertDialog){
@@ -235,18 +235,18 @@ class Test1Activity : AppCompatActivity() {
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

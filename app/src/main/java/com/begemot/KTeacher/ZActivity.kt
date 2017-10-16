@@ -20,7 +20,7 @@ class ZActivity : AppCompatActivity(), BlankFragment.OnFragmentInteractionListen
     lateinit var  DBH : DBHelp
 
     override fun onFragmentInteraction(uri: Uri){
-             X.warn("")
+             if(DEBUG)X.warn("")
     }
 
 
@@ -85,18 +85,18 @@ class ZActivity : AppCompatActivity(), BlankFragment.OnFragmentInteractionListen
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

@@ -33,11 +33,11 @@ class SelectKindOfEx : AppCompatActivity() {
 
         myListKindOfExercises.onItemClickListener = object : AdapterView.OnItemClickListener {override fun onItemClick
                 (parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            X.warn("onItemClickListener position = $position    id= $id")
+            if(DEBUG)X.warn("onItemClickListener position = $position    id= $id")
 
             val intentMessage = getIntent()
             val KOF:KKindOfExercice = myListKindOfExercises.getItemAtPosition(position) as KKindOfExercice
-            X.warn("SELECTED KOF   $KOF" )
+            if(DEBUG)X.warn("SELECTED KOF   $KOF" )
             intentMessage.putExtra("IDKind",KOF.ID )
             setResult(Activity.RESULT_OK,intentMessage)
             finish()
@@ -54,7 +54,7 @@ class SelectKindOfEx : AppCompatActivity() {
 
     }
     fun loadKindOfExercises(){
-        X.warn ("")
+        if(DEBUG)X.warn ("")
 /*        val a:List<KKindOfExercice> = DBH.loadKindOfExercises()
         for(item in a)   KOfexercisesList.add(item)
         KOfexercisesListAdapter.notifyDataSetChanged()
@@ -81,18 +81,18 @@ class SelectKindOfEx : AppCompatActivity() {
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

@@ -43,11 +43,11 @@ class SelectExerciseActivity : AppCompatActivity() {
         myListExercises.onItemClickListener = object : AdapterView.OnItemClickListener {override fun onItemClick
                 (parent: AdapterView<*>, view: View, position: Int, id: Long) {
                  //selectedLesson = myList.getItemAtPosition(position) as KLesson
-                      X.warn("onItemClickListener position = $position    id= $id")
+                      if(DEBUG)X.warn("onItemClickListener position = $position    id= $id")
                       selectedExercise = myListExercises.getItemAtPosition(position) as KExercise
                       currentPosition=position
 
-                      X.warn("Selected ex = ${selectedExercise.toXString()}")
+                      if(DEBUG)X.warn("Selected ex = ${selectedExercise.toXString()}")
 
                       var intent1:Intent?=null
                       if(selectedExercise.TypeOfEx==0)  intent1 =Intent(this@SelectExerciseActivity, Exercise1::class.java)
@@ -57,15 +57,15 @@ class SelectExerciseActivity : AppCompatActivity() {
                       intent1?.putExtra("lessonID",currentLessonID)
                       intent1?.putExtra("exerciseID",selectedExercise.ID)
                       //intent1?.putExtra("typeOfEx",selectedExercise.TypeOfEx)
-                      X.warn("before start activity for result")
+                      if(DEBUG)X.warn("before start activity for result")
 
             try {
-                if(intent1==null) X.warn("!!!!!!!!!!!!!  XXXXXXXXXXXXXXXXXXXXXXXXXXXXX     CAGADA     INTENT NULL    XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-                else              X.warn("!!!!!!!!!!!!!  XXXXXXXXXXXXXXXXXXXXXXXXXXXXX     INTENT     NO NULL    XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                if(intent1==null) if(DEBUG)X.warn("!!!!!!!!!!!!!  XXXXXXXXXXXXXXXXXXXXXXXXXXXXX     CAGADA     INTENT NULL    XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                else              if(DEBUG)X.warn("!!!!!!!!!!!!!  XXXXXXXXXXXXXXXXXXXXXXXXXXXXX     INTENT     NO NULL    XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                 startActivityForResult(intent1,RequestCode.EDIT_EXERCISE )
 
             } catch (ignored: Exception) {
-                X.warn("EXCEPTION")
+                if(DEBUG)X.warn("EXCEPTION")
             }
 
 
@@ -85,7 +85,7 @@ class SelectExerciseActivity : AppCompatActivity() {
     }
 
     fun addExerciseClick(view: View) {
-        X.warn("")
+        if(DEBUG)X.warn("")
         val intento1 = Intent(this, SelectKindOfEx::class.java)
         //intento1.putExtra("lessonID",iD)
         startActivityForResult(intento1,RequestCode.SELECT_KINDOF_EXERCISE )
@@ -95,15 +95,15 @@ class SelectExerciseActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==RequestCode.SELECT_KINDOF_EXERCISE) {
-            X.warn("REQUESTCODE=SELECT_KINDOF_EXERCISE")
+            if(DEBUG)X.warn("REQUESTCODE=SELECT_KINDOF_EXERCISE")
 
         val KoEx = data?.getLongExtra("IDKind",0)
-        X.warn (" KindOf Excercise:   $KoEx  ")
+        if(DEBUG)X.warn (" KindOf Excercise:   $KoEx  ")
         if(KoEx!=null)
         newExercise(KoEx)
        /* when(KoEx){
             1L ->{
-                   X.warn("asw")
+                   if(DEBUG)X.warn("asw")
                    val intento1 = Intent(this, Exercise1::class.java)
                    intento1.putExtra("lessonID",currentLessonID)
                    intento1.putExtra("exerciseID",0L)
@@ -112,13 +112,13 @@ class SelectExerciseActivity : AppCompatActivity() {
             }
             else -> {
                 toast("NOT IMPLEMENTED")
-                X.warn("NOT IMPLEMENTED")
+                if(DEBUG)X.warn("NOT IMPLEMENTED")
             }
         }*/
 
         }
         if(requestCode==RequestCode.EDIT_EXERCISE){
-            X.warn("REQUESTCODE=EDIT_EXERCISE")
+            if(DEBUG)X.warn("REQUESTCODE=EDIT_EXERCISE")
             if(resultCode== Activity.RESULT_OK){
                 val nameE =""+ data?.getStringExtra("Name")
                 selectedExercise = myListExercises.getItemAtPosition(currentPosition) as KExercise
@@ -141,7 +141,7 @@ class SelectExerciseActivity : AppCompatActivity() {
 
         }
         if(requestCode==RequestCode.ADD_EXERCISE){
-            X.warn("REQUEST CODE = ADD_EXERCISE")
+            if(DEBUG)X.warn("REQUEST CODE = ADD_EXERCISE")
             if(resultCode== Activity.RESULT_OK){
                 val nameE =""+ data?.getStringExtra("Name")
                 val idE = data?.getLongExtra("IDNewExercise", 0L)
@@ -150,10 +150,10 @@ class SelectExerciseActivity : AppCompatActivity() {
                 val t=0+type!!
                 exercisesList.add(KExercise(idE!!,currentLessonID,t  ,nameE))
                 exercisesListAdapter.notifyDataSetChanged()
-                X.warn("now ID = $idE")
+                if(DEBUG)X.warn("now ID = $idE")
                 //myList.setItemChecked(myListAdapter.count-1,true)
                 //myList.setSelection(myListAdapter.count-1)
-                //X.warn("new lesson ID ${idL.toString()}   name: $nameL")
+                //if(DEBUG)X.warn("new lesson ID ${idL.toString()}   name: $nameL")
 
             }
 
@@ -182,7 +182,7 @@ class SelectExerciseActivity : AppCompatActivity() {
 
 
     fun loadExercises(lessonID:Long){
-        X.warn ("lessonID=$lessonID")
+        if(DEBUG)X.warn ("lessonID=$lessonID")
         val a:List<KExercise> = DBH.loadLessonExercises(lessonID)
         for(item in a)   exercisesList.add(item)
         exercisesListAdapter.notifyDataSetChanged()
@@ -200,18 +200,18 @@ class SelectExerciseActivity : AppCompatActivity() {
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        //X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        //if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 

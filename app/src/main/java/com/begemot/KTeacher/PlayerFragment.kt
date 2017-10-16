@@ -43,12 +43,12 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
             mParam1 = arguments.getString(ARG_PARAM1)
             mParam2 = arguments.getString(ARG_PARAM2)
         }
-        X.warn("")
+        if(DEBUG)X.warn("")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        X.warn("")
+        if(DEBUG)X.warn("")
         // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_player, container, false)
     }
@@ -76,7 +76,7 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
 
     override  fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-         X.warn("entra")
+         if(DEBUG)X.warn("entra")
 
         //path = File(Environment.getExternalStorageDirectory().getPath())
         //archivo = File(path,"MYSOUND1.3gp")
@@ -88,32 +88,32 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
         if(archivo.length()<2L) bPlay.isEnabled=false
         else bPlay.isEnabled=true
         bPlay.setOnClickListener({play(bPlay)})
-        X.warn("surt")
+        if(DEBUG)X.warn("surt")
 
     }
 
 
-    fun play(v:View){  X.warn("REPRODUCIR")
+    fun play(v:View){  if(DEBUG)X.warn("REPRODUCIR")
 
-        if(archivo.length()==0L){ X.warn("-----------EMMPPPTY SOUND FILE"); return }
+        if(archivo.length()==0L){ if(DEBUG)X.warn("-----------EMMPPPTY SOUND FILE"); return }
         try {
             bPlay.isEnabled=false
             player = MediaPlayer()
             player?.setOnCompletionListener(this)
 
             player?.setDataSource(archivo.getAbsolutePath())
-            X.warn("length file in Bytes: ${archivo.length().toString()}")
+            if(DEBUG)X.warn("length file in Bytes: ${archivo.length().toString()}")
 
         } catch (e: IOException) {
-            X.warn(" no se ha podido detener: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            if(DEBUG)X.warn(" no se ha podido detener: ${e.message}")
+            if(DEBUG)X.warn("${e.printStackTrace()}")
         }
 
         try {
             player?.prepare()
         } catch (e: IOException) {
-            X.warn(" exception en player prepare al reproducir: ${e.message}")
-            X.warn("${e.printStackTrace()}")
+            if(DEBUG)X.warn(" exception en player prepare al reproducir: ${e.message}")
+            if(DEBUG)X.warn("${e.printStackTrace()}")
         }
         player?.start()
 
@@ -122,20 +122,20 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
 
     override fun onPause() {
         super.onPause()
-        X.warn("")
+        if(DEBUG)X.warn("")
         player=null
        // onCompletion(player!!)
     }
 
     override fun onCompletion(mp: MediaPlayer) {
-        X.warn("")
+        if(DEBUG)X.warn("")
         mp.reset()
         mp.release()
         bPlay?.isEnabled=true
     }
 
     override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-        X.warn("Error Media Player  $p1 ,  $p2")
+        if(DEBUG)X.warn("Error Media Player  $p1 ,  $p2")
         return true
 
     }

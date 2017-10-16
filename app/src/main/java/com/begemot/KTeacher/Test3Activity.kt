@@ -33,47 +33,47 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
     open   val typeofex = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        X.warn("entra")
+        if(DEBUG)X.warn("entra")
         super.onCreate(savedInstanceState)
-        X.warn("1")
+        if(DEBUG)X.warn("1")
         setContentView(R.layout.activity_test3)
-        X.warn("2")
+        if(DEBUG)X.warn("2")
         DBH=DBHelp.getInstance(this)
         //Todo Ui Ui Ui
-        X.warn("3")
+        if(DEBUG)X.warn("3")
 
         lT.text=DBH.getKindEx(typeofex)
-        X.warn("4")
+        if(DEBUG)X.warn("4")
 
 
         sOk =intent.getStringExtra("TL1")
-        X.warn("5")
+        if(DEBUG)X.warn("5")
 
         eT1.imeOptions = EditorInfo.IME_ACTION_DONE
         eT1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
         eT1.setHorizontallyScrolling(false)
         eT1.setLines(10)
         eT1.setSelection(eT1.text.toString().length)
-        X.warn("6")
+        if(DEBUG)X.warn("6")
 
     }
 
     override fun onStart() {
-       X.warn("")
+       if(DEBUG)X.warn("")
         super.onStart()
         val fragment = getFragmentManager().findFragmentById(R.id.fPlayer)
         if(fragment!=null) {
             val f2: PlayerFragment = fragment as PlayerFragment
             f2.play(bPlay)
-        }else X.warn("PUTU FRAMGMENT NULL")
-        X.warn("surt")
+        }else if(DEBUG)X.warn("PUTU FRAMGMENT NULL")
+        if(DEBUG)X.warn("surt")
     }
 
 
 
 
     override fun onFragmentInteraction(uri: Uri){
-       X.warn("")
+       if(DEBUG)X.warn("")
     }
 
     open fun testClick(v: View){
@@ -87,8 +87,8 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
         val lsTest  :List<String> = sTest.trim().split(" ")
         val szTest = lsTest.size
 
-       X.warn("lsOk   after split ${lsOk.toString()}")
-       X.warn("lsTest after split ${lsTest.toString()}")
+       if(DEBUG)X.warn("lsOk   after split ${lsOk.toString()}")
+       if(DEBUG)X.warn("lsTest after split ${lsTest.toString()}")
 
         var I=0
         var nTrue  = 0
@@ -104,7 +104,7 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
                sResp.append(" $tWord")
                nTrue++
             }else{
-               //X.warn("diferents  ????-------- OK='${item.trim()}' NEW='${tWord.trim()}'")
+               //if(DEBUG)X.warn("diferents  ????-------- OK='${item.trim()}' NEW='${tWord.trim()}'")
                sResp.append(" <u>$tWord</u>")
                mistakes=true
                nFalse++
@@ -113,7 +113,7 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
         }
         if(nFalse+nTrue<szTest) mistakes = true
         ADiag=getAlertD(Html.fromHtml(sResp.toString()),this,mistakes)
-        X.warn("sResp=$sResp")
+        if(DEBUG)X.warn("sResp=$sResp")
 
     }
 
@@ -124,7 +124,7 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
 
     override fun onPause(){
         super.onPause()
-        X.warn("On PAUSE")
+        if(DEBUG)X.warn("On PAUSE")
         if(ADiag!=null){
             val d=ADiag
             if(d is AlertDialog){
@@ -147,18 +147,18 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
            val editor = sharedpreferences.edit()
            editor.putString("lang", curLang)
            editor.commit()
-           X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
+           if(DEBUG)X.warn("ZXXXXXXXXXXXXXXXX   lang  $curLang")*/
 
 
 
         //val lang:String= newBase.getString(R.string.app_lang)
-        // X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
+        // if(DEBUG)X.warn("XXXXXXXXXXXXXXXX   lang  $lang")
         val newLocale= Locale("${KT.getCurrentLang(newBase)}")
 
         // .. create or get your new Locale object here.
 
         val context = ContextWrapper.wrap(newBase, newLocale)
-        //X.warn("Current Language:   ${getlang()}")
+        //if(DEBUG)X.warn("Current Language:   ${getlang()}")
         super.attachBaseContext(context)
     }
 
