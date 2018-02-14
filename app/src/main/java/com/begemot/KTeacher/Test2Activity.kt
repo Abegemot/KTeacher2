@@ -1,15 +1,11 @@
 package com.begemot.KTeacher
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.view.View
-import com.begemot.KTeacher.KT.Companion.gimeADialog
+import com.begemot.klib.DEBUG
+import com.begemot.klib.KT
 import kotlinx.android.synthetic.main.activity_test3.*
-import org.jetbrains.anko.AlertBuilder
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
 
 /**
  * Created by dad on 08/10/2017.

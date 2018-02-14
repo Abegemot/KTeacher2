@@ -15,18 +15,23 @@
     <string name="klessons">KLessons</string>
 
 
-    <string name="app_lang" translatable="false">en</string>
+    <string name="app_lang">en</string>
     <string name="sel_lang">Select Language</string>
     <string name="err_leson">Lesson could not be added</string>
     <string name="empty_lesson">Lessons with empty title not allowed</string>
     <string name="lesson">Lesson</string>
+    <string name="lessons">Lessons</string>
+    <string name="namelesson">Lesson Name</string>
+    <string name="altnamelesson">Translated</string>
+    <string name="romanization">Romanization</string>
+    <string name="level">Level</string>
     <string name="new_lesson">New Lesson</string>
     <string name="ex1_translated">Text in English</string>
     <string name="ex1_original">Text in Russian</string>
     <string name="posible_answers">Possible answers</string>
     <string name="gived_answer">Your Answer</string>
-    <string name="item_new">NEW</string>
-    <string name="item_update">UPDATE</string>
+    <string name="item_new">new</string>
+    <string name="item_update">update</string>
 
     <string name="ready">Ready</string>
     <string name="play">Play</string>
@@ -34,7 +39,23 @@
     <string name="rec">Recording</string>
     <string name="max_time">Max Recording time Exceeded</string>
 
+    <string name="choselang">Select Languages</string>
+    <string name="choselevel">Select Level</string>
 
+
+    <string name="langtoteach">Language to teach</string>
+    <string name="langstudents">Language of my students</string>
+    <string name="firsttimelang">It is the first time you use the app you must select languages</string>
+    <string name="noequallang">Languages can not be equal</string>
+    <string name="bothlang">You must select both languages</string>
+
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>Russian</item>
+        <item>Chinese</item>
+    </string-array>
 
 
     <string-array name="kind_of_ex">
@@ -73,8 +94,6 @@
         У меня болит сердце и кружится голова
 
     -->
-
-
 
 
 </resources>

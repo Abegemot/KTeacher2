@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="examples_original1" translatable="false">
+        <item>Говорили, что на набережной появилось новое лицо: дама с собачкой</item>
+        <item>Нет ничего лучше Невского проспекта, по крайней мере в Петербурге; для него он составляет все. </item>
+        <item>Однажды весною, в час небывало жаркого заката, в Москве, на Патриарших прудах, появились два гражданина</item>
+        <item>У меня болит сердце и кружится голова</item>
+    </string-array>
+
+    <string-array name="examples_original3" translatable="false">
+        <item>Что с вами? Вам плохо? </item>
+        <item>Ты будешь раскаиваться</item>
+        <item>Однажды эти два ножа встретились снова</item>
+    </string-array>
+
+
+</resources>

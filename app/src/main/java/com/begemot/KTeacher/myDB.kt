@@ -4,14 +4,12 @@
 package com.begemot.KTeacher
 
 import android.content.Context
-import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.begemot.KTeacher.myDB.Companion.getInstance
-import com.begemot.KTeacher.myDB.Companion.reopen
-import com.begemot.klib.KHelp
+import com.begemot.klib.*
 import org.jetbrains.anko.db.*
 
+/*
 
 
 class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDatabase$lang", null, 1) {
@@ -155,7 +153,8 @@ class DBHelp(ctx: Context) {
     }
 
     fun getKOE():Array<String>{
-        //testing bug -->  val rowParser = classParser<KExercise>()
+        //testing bug -->
+        // val rowParser = classParser<KExercise>()
         return KOE
     }
 
@@ -194,7 +193,7 @@ class DBHelp(ctx: Context) {
     fun addLesson(lesson: String): KLesson {
         if(DEBUG)X.warn("addLesson")
         var nR: Long = 0
-        var k: KLesson = KLesson(10,"pepe")
+        var k: KLesson = KLesson(10, "pepe")
         nR = envelopeX(0L){
             var ds: SQLiteDatabase = DB2.writableDatabase
             ds.insert(KLesson.tName, "NAME" to lesson)
@@ -224,10 +223,10 @@ class DBHelp(ctx: Context) {
         return L2
     }
 
-    fun updateLesson(KL:KLesson){
+    fun updateLesson(KL: KLesson){
 
         var ds: SQLiteDatabase = DB2.writableDatabase
-        val nR= envelopeX(0L){ds.update(KLesson.tName,KLesson.values(KL),"ID=${KL.id}",null)}
+        val nR= envelopeX(0L){ds.update(KLesson.tName, KLesson.values(KL),"ID=${KL.id}",null)}
 
 
     }
@@ -281,10 +280,10 @@ class DBHelp(ctx: Context) {
             var ds: SQLiteDatabase = DB2.writableDatabase
             ds.execSQL(KExercise.DBCreate)
             if(DEBUG)X.warn("after DBCreate")
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
-            ds.insert(KExercise.tName,null,KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null, KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null, KExercise.values(0,1,"segon exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null, KExercise.values(0,1,"tercer exercisi","exercisi",S1 = kotlin.ByteArray(0)))
+            ds.insert(KExercise.tName,null, KExercise.values(1,1,"cuart exercisi","exercisi",S1 = kotlin.ByteArray(0)))
             ds.close()
             if(DEBUG)X.warn("after Insert")
             //DB2.use { select(KExercise.tName, *KExercise.tSelect).exec { parseList(rowParser) }}
@@ -297,7 +296,7 @@ class DBHelp(ctx: Context) {
         if(DEBUG)X.warn("enter ")
         envelopeX(0) {
             var ds: SQLiteDatabase = DB2.writableDatabase
-            ds.insert(KExercise.tName,null,KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(10)))
+            ds.insert(KExercise.tName,null, KExercise.values(0,1,"primer exercisi","exercisi",S1 = kotlin.ByteArray(10)))
             ds.close()
         }
         if(DEBUG)X.warn(" exit " )
@@ -340,13 +339,13 @@ class DBHelp(ctx: Context) {
 
     fun writeExExamples(IDLesson:Long,TEx:Int,arrOriginal:Array<String>,arrTrans:Array<String>?){
         var I=0
-        var KE:KExercise
+        var KE: KExercise
         var A:Array<String>
         for(item in arrOriginal){
-            if(arrTrans==null)         KE=KExercise(1,IDLesson ,TEx ,item,"")
+            if(arrTrans==null)         KE= KExercise(1, IDLesson, TEx, item, "")
             else{
                    A=arrTrans as Array<String>
-                   KE=KExercise(1,IDLesson ,TEx ,item,arrTrans[I])
+                   KE= KExercise(1, IDLesson, TEx, item, arrTrans[I])
             }
 
             I++
@@ -370,13 +369,13 @@ class DBHelp(ctx: Context) {
 
 
 
-    fun insertExerciseToLesson(KE:KExercise):Long{
+    fun insertExerciseToLesson(KE: KExercise):Long{
         if(DEBUG)X.warn("enter ")
         var nR:Long=0
         nR = envelopeX(0L) {
             var N:Long=0
             var ds: SQLiteDatabase = DB2.writableDatabase
-            N=ds.insert(KExercise.tName,null,KExercise.values2(KE))
+            N=ds.insert(KExercise.tName,null, KExercise.values2(KE))
             ds.close()
             return@envelopeX N
         }
@@ -384,11 +383,11 @@ class DBHelp(ctx: Context) {
         return nR
     }
 
-    fun updateExercise(KE:KExercise){
+    fun updateExercise(KE: KExercise){
 
         var ds: SQLiteDatabase = DB2.writableDatabase
 
-        val nR= envelopeX(0L){ds.update(KExercise.tName,KExercise.values2(KE),"ID=${KE.ID}",null)}
+        val nR= envelopeX(0L){ds.update(KExercise.tName, KExercise.values2(KE),"ID=${KE.ID}",null)}
 
 
     }
@@ -434,7 +433,7 @@ class DBHelp(ctx: Context) {
         val L:MutableList<KExercise> = mutableListOf<KExercise>()
         if(this.moveToFirst()){
                do {
-                   val KE:KExercise=KExercise()
+                   val KE: KExercise = KExercise()
                    //"ID","IDL","TOE","T1","T2","S1"
                    KE.ID=this.getLong(0)
                    KE.IDLesson=this.getLong(1)
@@ -456,7 +455,7 @@ class DBHelp(ctx: Context) {
         val L:MutableList<KExercise> = mutableListOf<KExercise>()
         if(this.moveToFirst()){
             do {
-                val KE:KExercise=KExercise()
+                val KE: KExercise = KExercise()
                 //"ID","IDL","TOE","T1","T2","S1"
                 KE.ID=this.getLong(0)
                 KE.IDLesson=this.getLong(1)
@@ -474,9 +473,9 @@ class DBHelp(ctx: Context) {
     }
 
 
-    fun Cursor.getKEcercise():KExercise {
+    fun Cursor.getKEcercise(): KExercise {
         this.moveToFirst()
-        val KE:KExercise=KExercise()
+        val KE: KExercise = KExercise()
         //"ID","IDL","TOE","T1","T2","S1"
         KE.ID       =this.getLong(0)
         KE.IDLesson =this.getLong(1)
@@ -524,6 +523,13 @@ class DBHelp(ctx: Context) {
 
 
 
+    fun exportLesson(lesonID: Long){
+        if(DEBUG)X.warn("Glups ...... ")
+        //myCloud.exportLesson(1L,this)
+
+
+    }
+
 
  }
 
@@ -537,7 +543,7 @@ fun <T> envelopeX (default: T, letter: () -> T) = try {
     default
 }
 
-
+*/
 
 
 

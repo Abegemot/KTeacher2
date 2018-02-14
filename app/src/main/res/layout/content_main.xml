@@ -13,7 +13,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:orientation="horizontal"
@@ -25,21 +25,21 @@
         <Button
             android:id="@+id/editLeson"
             style="@style/KButtonNormal"
-            android:onClick="editLessonClick"
+
             android:text="@string/edit" />
 
         <Button
             android:id="@+id/bAddLesson"
             style="@style/KButtonNormal"
-            android:onClick="addLessonClick"
+
             android:text="@string/add" />
 
         <Button
             android:id="@+id/bDeleteLesson"
-            android:enabled="false"
+            android:enabled="true"
             style="@style/KButtonNormal"
             android:layout_weight="1"
-            android:onClick="deleteLessonClick"
+
             android:text="@string/delete" />
 
 

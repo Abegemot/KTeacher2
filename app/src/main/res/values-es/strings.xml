@@ -25,8 +25,8 @@
     <string name="posible_answers">Respuestas posibles</string>
     <string name="gived_answer">Respuesta dada</string>
 
-    <string name="item_new">NUEVO</string>
-    <string name="item_update">EDITAR</string>
+    <string name="item_new">crear</string>
+    <string name="item_update">editar</string>
 
     <string name="ready">Listo</string>
     <string name="play">Reproducir</string>
@@ -36,6 +36,12 @@
 
 
     <!--   -->
+    <string-array name="languages">
+        <item>Ingles</item>
+        <item>Castellano</item>
+        <item>Ruso</item>
+        <item>Chino</item>
+    </string-array>
 
     <string-array name="kind_of_ex">
         <item>Traduce esta frase escogiendo de un conjunto de palabras</item>
@@ -57,6 +63,18 @@
         <item>Un día, estos dos cuchillos se encontraron de nuevo</item>
         <item>Es una buena persona @Es un chico majo</item>
     </string-array>
+    <string name="firsttimelang">Es la primera vez que usa la applicación debe seleccionar los idiomas</string>
+    <string name="noequallang">Los Idiomas no pueden ser iguales</string>
+    <string name="bothlang">Deben seleccionarse ambos idiomas</string>
+    <string name="langtoteach">Idioma a enseñar</string>
+    <string name="langstudents">Idioma de mis estudiantes</string>
+    <string name="choselang">Seleccion de Idiomas</string>
+    <string name="choselevel">Seleccione el nivel</string>
+    <string name="lessons">Lecciones</string>
+    <string name="level">Nivel</string>
+    <string name="namelesson">Nombre Lección</string>
+    <string name="altnamelesson">Traducción</string>
+    <string name="romanization">Romanización</string>
 
 
 </resources>

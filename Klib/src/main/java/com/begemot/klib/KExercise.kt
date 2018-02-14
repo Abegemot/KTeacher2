@@ -1,8 +1,6 @@
-package com.begemot.KTeacher
+package com.begemot.klib
 
 import android.content.ContentValues
-import android.renderscript.Short2
-import java.security.PKCS12Attribute
 
 /**
  * Created by Dad on 28-Aug-17.
@@ -21,7 +19,7 @@ data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var
      companion object {
          val tName   : String = "KEXERCISE"
 
-         val DBCreate= "CREATE TABLE if not exists $tName(ID  integer PRIMARY KEY ,IDL integer,TOE integer,T1  text,T2  text,S1 blob)"
+         val DBCreate= "CREATE TABLE if not exists ${tName}(ID  integer PRIMARY KEY ,IDL integer,TOE integer,T1  text,T2  text,S1 blob)"
 
          val tSelect: Array<String> = arrayOf("ID","IDL","TOE","T1","T2","S1")
 
@@ -37,7 +35,7 @@ data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var
              return A
          }
 
-         fun values2(KE:KExercise)  : ContentValues {
+         fun values2(KE: KExercise)  : ContentValues {
              val A=ContentValues()
              A.put("IDL",KE.IDLesson)
              A.put("TOE",KE.TypeOfEx)
@@ -54,9 +52,9 @@ data class KExercise(var ID:Long=0, var IDLesson:Long=0, var TypeOfEx:Int=0, var
         try {
             val BA:ByteArray=ByteArray(0)
             val VA:ByteArray= byteArrayOf(1)
-            val a:KExercise = KExercise(1,2,1,"jj","jj",BA )
-            val b:KExercise= KExercise(S1 = BA)
-            val c:KExercise= KExercise()
+            val a: KExercise = KExercise(1, 2, 1, "jj", "jj", BA)
+            val b: KExercise = KExercise(S1 = BA)
+            val c: KExercise = KExercise()
             val L:List<KExercise> = listOf(KExercise())
 
         } catch (e: Exception) {

@@ -1,7 +1,6 @@
 package com.begemot.KTeacher
 
 import android.content.Context
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -11,11 +10,10 @@ import android.widget.Button
 import kotlinx.android.synthetic.main.activity_test1.*
 import com.begemot.klib.KHelp
 import android.widget.LinearLayout.LayoutParams
+import com.begemot.klib.ContextWrapper
+import com.begemot.klib.DEBUG
+import com.begemot.klib.KT
 import kotlinx.android.synthetic.main.fragment_player.*
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.custom.style
-import org.jetbrains.anko.singleLine
-import org.jetbrains.anko.toast
 import java.util.*
 
 

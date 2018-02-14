@@ -1,40 +1,28 @@
-package com.begemot.KTeacher
+package com.begemot.klib
 
 /**
  * Created by Dad on 02-Sep-17.
  */
 import android.content.Context
-import org.jetbrains.anko.AnkoLogger
 import java.util.*
-import android.app.Activity
 
-import android.os.Bundle
-import android.support.design.widget.Snackbar
+//import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 
-import android.widget.AdapterView.OnItemClickListener
 import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.content.res.ResourcesCompat.getDrawable
 import android.support.v7.app.AlertDialog
 import android.text.Spanned
 
 
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import android.widget.*
-import com.begemot.KTeacher.R.color.pink
-import com.begemot.klib.KHelp
+//import kotlinx.android.synthetic.main.activity_main.*
+//import kotlinx.android.synthetic.main.content_main.*
+//import com.begemot.KTeacher.R.color.pink
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.Appcompat
-import java.util.*
 
-const val DEBUG=false
+const val DEBUG=true
 
 class KT(){
       fun name():String="KT name"
@@ -64,7 +52,7 @@ class KT(){
                   editor.putString("lang", sLang)
                   editor.commit()
                   //if(DEBUG)X.warn(": current Lang = $curLang  newLang =$sLang")
-                  APS2(ctx,app)
+                  APS2(ctx, app)
 
             }
 
@@ -99,7 +87,7 @@ class KT(){
 
                                     if(mistakes) background=context.getDrawable(R.color.pink)
                                     else background=context.getDrawable(R.color.green)
-                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                    themedButton(R.style.cat_style2){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
                                           horizontalMargin = dip(0)
                                           padding=dip(1)
                                     }
@@ -125,7 +113,7 @@ class KT(){
 
                                     if(mistakes) background=context.getDrawable(R.color.pink)
                                     else background=context.getDrawable(R.color.green)
-                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                    themedButton(R.style.cat_style2){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
                                           horizontalMargin = dip(0)
                                           padding=dip(1)
                                     }
@@ -151,7 +139,7 @@ class KT(){
 
                                     if(mistakes) background=context.getDrawable(R.color.pink)
                                     else background=context.getDrawable(R.color.green)
-                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                    themedButton(R.style.cat_style2){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
                                           horizontalMargin = dip(0)
                                           padding=dip(1)
                                     }
@@ -178,7 +166,7 @@ class KT(){
                                     else background=context.getDrawable(R.color.green)
                                     //themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.holo_blue_light)}.lparams(width = wrapContent) {
 
-                                    themedButton(R.style.cat_style){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
+                                    themedButton(R.style.cat_style2){text=tAlert;background=context.getDrawable(android.R.color.transparent)}.lparams(width = wrapContent) {
                                           height= dip(35)
                                           horizontalMargin = dip(10)
                                           padding=dip(1)

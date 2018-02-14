@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KTeacher</string>
+    <string name="add">xin-add</string>
+    <string name="save">xin-save</string>
+    <string name="delete">xin-delete</string>
+    <string name="edit">xin-edit</string>
+</resources>

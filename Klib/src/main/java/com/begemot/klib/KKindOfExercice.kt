@@ -1,4 +1,4 @@
-package com.begemot.KTeacher
+package com.begemot.klib
 
 import android.content.ContentValues
 
@@ -11,7 +11,7 @@ data class KKindOfExercice( var ID:Long=0,var T1:String=" ",var T2:String=" " ){
      companion object{
           val tName   : String = "KINDOFEX"
 
-          val DBCreate= "CREATE TABLE if not exists $tName(ID  integer PRIMARY KEY ,T1 text,T2 text)"
+          val DBCreate= "CREATE TABLE if not exists ${tName}(ID  integer PRIMARY KEY ,T1 text,T2 text)"
 
           val tSelect: Array<String> = arrayOf("ID","T1","T2")
 

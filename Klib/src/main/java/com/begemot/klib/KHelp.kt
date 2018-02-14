@@ -1,6 +1,7 @@
 package com.begemot.klib
 
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 import org.jetbrains.anko.warn
 
 
@@ -16,6 +17,10 @@ class KHelp(s:String) {
     private fun iwarn(s: String) {
         LOG.warn("$s")
     }
+    private fun ierr(s: String){
+        LOG.error(message = s)
+    }
+
 
     companion object {
         //fun create(s:String): KHelp = KHelp(s:String)
@@ -24,10 +29,6 @@ class KHelp(s:String) {
         //fun setClassName(s:String) = { sClass=s }
 //        private fun iwarn(s:String )={LOG.warn("$s")}
         //fun lamaraqueetvaparir(){ LOG.warn("COLLONS") }
-        @JvmStatic public fun main(args: Array<String>) {
-            println("Hello, world!  Test")
-        }
-
         private fun getCallerName(): String {
             val    index      = 4     // <== Index in call stack array
             val    methodName = "Log" //
@@ -47,5 +48,9 @@ class KHelp(s:String) {
 
      fun warn(s: String) {
        iwarn("$sClassName:${getCallerName()}  $s")
+    }
+
+    fun err(s: String){
+        ierr("$sClassName:${getCallerName()}  $s")
     }
 }

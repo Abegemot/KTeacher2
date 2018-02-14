@@ -1,1 +1,1 @@
-include ':app', ':Klib'
+include ':app', ':Klib', ':protolib', ':mylibrary'

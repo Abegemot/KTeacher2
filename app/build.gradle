@@ -6,7 +6,16 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.google.protobuf'
+
 android {
+    configurations.all {
+        // resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
+        resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib:1.2.21'
+    }
+
+
     compileSdkVersion 26
 
     defaultConfig {
@@ -16,14 +25,14 @@ android {
         versionCode 5
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        resConfigs "en", "es"
+        resConfigs "en", "es", "zh", "ru"
     }
     flavorDimensions "firstFlavor"
 
-    productFlavors{
-        demo{
-          versionName="0.1-demo"
-          dimension "firstFlavor"
+    productFlavors {
+        demo {
+            versionName = "0.1-demo"
+            dimension "firstFlavor"
         }
     }
     buildTypes {
@@ -33,41 +42,68 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+
 }
+
+
+
+
+
 
 dependencies {
     //implementation 'com.google.android.gms:play-services-plus:11.4.0'
     println("Hola Garrulo")
-    println("$kotlin_version")
+    println("kotlin version $kotlin_version")
+    println("anco version   $anko_version")
     project.logger.info('my info message')
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(include: ['*.jar'], dir: 'Klib')
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.2.21'
+
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    //compile group: 'mysql', name: 'mysql-connector-java', version:'5.1.38'
+    //compile group: 'com.google.cloud.sql',name:'mysql-socket-factory',version: '1.0.2'
+
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-:$kotlin_version_lib"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta3'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta4'
+    implementation "com.android.support:design:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    //testImplementation 'junit:junit:4.12'
+    //androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-sqlite:$anko_version"
 
-    implementation "org.jetbrains.anko:anko-sdk25:$anko_version" // sdk15, sdk19, sdk21, sdk23 are also available
+    implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
+    implementation "org.jetbrains.anko:anko-sdk25-listeners:$anko_version"
+    // sdk15, sdk19, sdk21, sdk23 are also available
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
 
     // Coroutine listeners for Anko Layouts
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
+    implementation "org.jetbrains.anko:anko-constraint-layout:$anko_version"
+    implementation "org.jetbrains.anko:anko-support-v4:$anko_version"
+    implementation "org.jetbrains.anko:anko-design:$anko_version"
+    implementation "org.jetbrains.anko:anko-design-coroutines:$anko_version"
 
-
-
-
+    //  implementation project(':protolib')
     implementation project(':Klib')
+    //implementation 'com.google.protobuf:protobuf-lite:3.0.0'
+
+/*    implementation 'io.grpc:grpc-okhttp:1.7.0' // CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-protobuf-lite:1.7.0' // CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-stub:1.7.0' // CURRENT_GRPC_VERSION
+    implementation 'javax.annotation:javax.annotation-api:1.2'*/
+
+    implementation "io.grpc:grpc-stub:$grpc"
+    implementation "io.grpc:grpc-okhttp:$grpc"
+    implementation "io.grpc:grpc-protobuf-lite:$grpc"
+    compile project(':protolib')
 }

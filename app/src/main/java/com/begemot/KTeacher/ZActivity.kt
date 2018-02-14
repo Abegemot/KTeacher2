@@ -1,17 +1,18 @@
 package com.begemot.KTeacher
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.activity_z.*
-import android.view.MotionEvent
-import com.begemot.KTeacher.DBHelp.Companion.X
+import com.begemot.klib.ContextWrapper
+import com.begemot.klib.DBHelp
+import com.begemot.klib.DBHelp.Companion.X
+import com.begemot.klib.DEBUG
+import com.begemot.klib.KT
 import org.jetbrains.anko.toast
 import java.util.*
 

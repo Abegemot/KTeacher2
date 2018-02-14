@@ -4,62 +4,93 @@
 
     <uses-sdk android:minSdkVersion="21" />
 
-    <!--uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" -->
-    <!--uses-permission android:name="android.permission.READ_PHONE_STATE" -->
-    <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" -->
+    <!-- uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" -->
+    <!-- uses-permission android:name="android.permission.READ_PHONE_STATE" -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    >
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!-- To access Google+ APIs: -->
-    <!--uses-permission android:name="android.permission.INTERNET" -->
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- To access Google+ APIs: -->
+    <!-- uses-permission android:name="android.permission.INTERNET" -->
     <application
+        android:name=".KApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/KSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/klessons"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/klessons">
+            <!--android:theme="@style/AppTheme.NoActionBar"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main2Activity"
+            android:name=".EditLessonActivity"
             android:label="@string/lesson"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"
+            />
+        <activity
+            android:name=".ExercisesLessonActivity"
+            android:label="KLesson" />
 
-        <activity android:name=".SelectExerciseActivity" android:label="KLesson" />
-        <activity android:name=".SelectKindOfEx" />
-        <activity android:name=".Exercise1" android:label="@string/kex"/>
+        <!--activity android:name=".SelectKindOfEx"
+            android:label="@string/sel_kind_ofex"
+           -->
+
+        <activity
+            android:name=".Exercise1"
+            android:label="@string/kex" />
 
         <!-- android:windowSoftInputMode="adjustResize|stateHidden" -->
 
-        <activity android:name=".Test1Activity" android:label="KTest"/>
+        <activity
+            android:name=".Test1Activity"
+            android:label="KTest" />
         <activity
             android:name=".ZActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".EdiTextActivity"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name=".Exercise3" android:label="@string/kex"/>
-        <activity android:name=".Test3Activity" android:label="KTest"></activity>
+        <activity
+            android:name=".Exercise3"
+            android:label="@string/kex" />
+        <activity
+            android:name=".Test3Activity"
+            android:label="KTest" />
+        <activity
+            android:name=".Exercise2"
+            android:label="@string/kex"/>
+        <activity
+            android:name=".Test2Activity"
+            android:label="KTest"/>
+        <activity
+            android:name=".SelectLangActivity"
+            android:label="SelectLangActivity"/>
+        <activity
+            android:name=".SelectLevelActivity"
+            android:label="SelectLevel"/>
+        <activity
+            android:name=".LessonsLevelActivity"
+            android:label="LessonsActivity"
 
-        <activity android:name=".Exercise2" android:label="@string/kex"> </activity>
-        <activity android:name=".Test2Activity" android:label="KTest"> </activity>
-
+            />
     </application>
 
 </manifest>

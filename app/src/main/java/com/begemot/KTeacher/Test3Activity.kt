@@ -4,26 +4,20 @@ import android.content.Context
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.begemot.KTeacher.KT.Companion.getAlertD
-import com.begemot.KTeacher.KT.Companion.getD
-import com.begemot.KTeacher.KT.Companion.showResults
+import com.begemot.klib.ContextWrapper
+import com.begemot.klib.DEBUG
+import com.begemot.klib.KT.Companion.getAlertD
 import com.begemot.klib.KHelp
+import com.begemot.klib.KT
 import kotlinx.android.synthetic.main.activity_test3.*
 import kotlinx.android.synthetic.main.fragment_player.*
-import org.jetbrains.anko.contentView
-import org.jetbrains.anko.find
-import org.jetbrains.anko.toast
 import java.util.*
-import java.util.Collections.replaceAll
-
-
-
+import com.begemot.klib.DBHelp
 
 open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteractionListener {
     val  X = KHelp(this.javaClass.simpleName)

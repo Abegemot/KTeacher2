@@ -10,15 +10,6 @@ package com.begemot.klib
 
 
 //class PatataKt(){
-    object PatataKt  {
-        fun tName()   : String = "KEXERCISE"
-        val tSelect: Array<String> = arrayOf("ID","T1","T2")
-        @JvmStatic fun main(args : Array<String>) {
-            println("Hello, world!")
-            // println("${KHelp.tName()}")
-        }
-
-    }
 
 
 //}

@@ -47,7 +47,7 @@ but when trying to use
 
 val rowParser = classParser<KExercise>()
 
-I've got an exception stating that : " Can’t initialize object parser for com.begemot.KTeacher.KExercise, no acceptable constructors found"
+I've got an exception stating that : " Can’t initialize object parser for com.begemot.klib.KExercise, no acceptable constructors found"
 
 
 Looking at the classParser constructor I've found the expected parameters passed as they should (after //), but at a certain moment a ::hasApplicableType is called for each argument of the constructor for the class you
@@ -59,10 +59,10 @@ After all someone wrote "parseRow accepts a list of Any (the type of Any could p
 
 
 
-internal fun <T> classParser(clazz: Class<T>): RowParser<T> {   //clazz: "class com.begemot.KTeacher.KExercise"
-    val applicableConstructors = clazz.declaredConstructors.filter { ctr ->  //clazz: "class com.begemot.KTeacher.KExercise" ctr:"public com.begemot.KTeacher.KExercise(long,long,int,java.lang.String,java.lang.String,byte[])"
+internal fun <T> classParser(clazz: Class<T>): RowParser<T> {   //clazz: "class com.begemot.klib.KExercise"
+    val applicableConstructors = clazz.declaredConstructors.filter { ctr ->  //clazz: "class com.begemot.klib.KExercise" ctr:"public com.begemot.klib.KExercise(long,long,int,java.lang.String,java.lang.String,byte[])"
         if (ctr.isVarArgs || !Modifier.isPublic(ctr.modifiers)) return@filter false
-        val types = ctr.parameterTypes   //types: Clas[6]@4569 ctr: "public com.begemot.KTeacher.KExercise(long,long,int,java.lang.String,java.lang.String,byte[])"
+        val types = ctr.parameterTypes   //types: Clas[6]@4569 ctr: "public com.begemot.klib.KExercise(long,long,int,java.lang.String,java.lang.String,byte[])"
          return@filter types != null && types.isNotEmpty() && types.all(::hasApplicableType)
     }
 

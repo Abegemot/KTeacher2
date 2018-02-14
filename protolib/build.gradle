@@ -1,0 +1,59 @@
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile 'com.google.protobuf:protobuf-lite:3.0.1'
+    compile 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+    compile 'io.grpc:protoc-gen-grpc-java:1.9.0'
+    compile 'io.grpc:grpc-stub:1.9.0'
+    compile 'io.grpc:grpc-protobuf-lite:1.9.0'
+}
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/src"
+
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.5.1'
+    }
+    plugins {
+        javalite {
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+
+        }
+        grpc{
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.9.0'
+        }
+    }
+
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // In most cases you don't need the full Java output
+                // if you use the lite output.
+                remove java
+            }
+            task.plugins {
+                javalite { }
+                grpc{ option 'lite'
+                    outputSubDir ='java'
+                }
+
+            }
+        }
+    }
+
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs +=
+                    file("${protobuf.generatedFilesBaseDir}/main/javalite")
+        }
+    }
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
