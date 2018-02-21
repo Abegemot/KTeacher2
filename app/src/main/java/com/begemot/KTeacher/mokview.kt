@@ -2,6 +2,7 @@ package com.begemot.KTeacher
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.support.constraint.ConstraintLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -18,6 +19,7 @@ import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PARALLAX
 import android.support.design.widget.CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
+import android.support.v4.content.res.ResourcesCompat
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -47,6 +49,8 @@ class MockView : AnkoComponent<MockActivity> {
         val editLeson = 3
         val linearLayout = 4
         val myList = 5
+        val myButton=6
+        val myText=7
     }
 
     lateinit var KStringsLAdapter: ArrayAdapter<String>
@@ -55,36 +59,75 @@ class MockView : AnkoComponent<MockActivity> {
 
     override fun createView(ui: AnkoContext<MockActivity>)=with(ui) {
         mAdapter = MyAdapter3(null)
-       /* coordinatorLayout {
-            lparams(width = matchParent, height = matchParent)
-            themedAppBarLayout(R.style.ThemeOverlay_AppCompat_Dark_ActionBar)
-            {
-                /*var toolbar = toolbar().lparams(width = matchParent, height = wrapContent) {
-                    scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS or SCROLL_FLAG_SNAP
-                    inflateMenu(R.menu.langmenu)
 
-                }*/
-                toolbar {
-                    inflateMenu(R.menu.langmenu)
-                    //title
+
+        constraintLayout {
+
+            val myText=themedEditText(theme=R.style.KEdit){
+                id=Ids.myText
+                setText("aleluya")
+                //background=R.drawable.border_edit_text
+                background = ResourcesCompat.getDrawable(resources, R.drawable.border_edit_text, null)
+            }.lparams(dip(275),dip(50)){
+
+                topMargin=dip(2)
+                leftMargin=dip(2)
+                //padding=dip(10)
+            }
+            imageButton(R.drawable.ic_search_black_24dp){
+                id=Ids.myButton
+                //background=
+                //setBackgroundColor(Color.TRANSPARENT)
+
+
+            }.lparams(dip(75),dip(50)){rightMargin=dip(8)
+
+            }
+            val pb=progressBar(){
+                isIndeterminate=true
+                visibility=View.VISIBLE
+
+
+
+            }
+
+           // themedButton("My Button1                        zzz", theme = R.attr.layout_insetEdge)
+           // themedButton("My Button2", theme = R.style.cat_style)
+
+            listView {
+                adapter = mAdapter
+                id=Ids.myList
+                setOnItemClickListener { parent, view, position, id -> startActivity<LessonsLevelActivity>("level" to id) }
+            }
+            applyConstraintSet{
+                Ids.myText{
+                    connect(
+                            START of Ids.myText to START of PARENT_ID,
+                            TOP of Ids.myText to TOP of PARENT_ID
+                            //,
+                            //END of Ids.myText to START of Ids.myButton
+                    )
+                }
+                Ids.myButton{
+                    connect(
+                            TOP of Ids.myButton to TOP of PARENT_ID,
+                            END of Ids.myButton to END of PARENT_ID
+                    )
+                }
+                Ids.myList{
+                    connect(
+                            TOP of Ids.myList to BOTTOM of Ids.myText,
+                            BOTTOM of Ids.myList to BOTTOM of PARENT_ID,
+                            START of Ids.myList to START of PARENT_ID,
+                            END of Ids.myList to END of PARENT_ID
+
+                    )
                 }
 
-
-            }.lparams(width = matchParent, height = wrapContent)
-
-
-*/
-        //inflateMenu(R.menu.langmenu)
-
-
-            verticalLayout {
-                listView {
-                    adapter = mAdapter
-                    setOnItemClickListener { parent, view, position, id -> startActivity<LessonsLevelActivity>("level" to id) }
-                }
             }
         }
-    //}
+    }
+
 
      fun createView3(ui: AnkoContext<MockActivity>)=with(ui) {
         //mAdapter = MyAdapter3(null)
@@ -205,7 +248,7 @@ class MockView : AnkoComponent<MockActivity> {
 
 }
 class MyAdapter3(val activity: MockActivity?) : BaseAdapter() {
-    var list = arrayListOf<String>("pepe", "juan", "ramon", "maria \n luisa", "louisa")
+    var list = arrayListOf<String>("pepes", "juan", "ramon", "maria \n luisa", "louisa")
     //var list=activity.getDataProvider()
     //val list= ArrayList<String>()
 

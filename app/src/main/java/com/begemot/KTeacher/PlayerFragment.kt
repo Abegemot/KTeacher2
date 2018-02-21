@@ -101,7 +101,6 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
             bPlay.isEnabled=false
             player = MediaPlayer()
             player?.setOnCompletionListener(this)
-
             player?.setDataSource(archivo.getAbsolutePath())
             if(DEBUG)X.warn("length file in Bytes: ${archivo.length().toString()}")
 

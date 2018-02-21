@@ -89,8 +89,24 @@
         <activity
             android:name=".LessonsLevelActivity"
             android:label="LessonsActivity"
-
             />
+
+        <activity
+            android:name=".DictionaryActivity"
+            android:label="DictionaryActivity"
+            />
+
+        <activity
+            android:name=".WordActivity"
+            android:label="WordActivity"
+            />
+
+        <activity
+            android:name=".SubjectsActivity"
+            android:label="SubjectsActivity"
+            />
+
+
     </application>
 
 </manifest>

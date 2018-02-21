@@ -5,16 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.begemot.KTeacher.R.id.tVOriginal
-import com.begemot.klib.KHelp
+import com.begemot.klib.*
 import kotlinx.android.synthetic.main.activity_exercise3.*
 import kotlinx.android.synthetic.main.savedeletetest.view.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.toast
 import java.io.*
 import java.util.*
 
@@ -24,7 +21,7 @@ open class Exercise3 : AppCompatActivity() {
     lateinit var  DBH : DBHelp
     private  var  currentLessonID : Long = 0
     private  var  currentExerciseID : Long = 0
-    lateinit var  cExercise:KExercise
+    lateinit var  cExercise: KExercise
     lateinit var  archivo: File
     open   val typeofex = 2
     //lateinit var  path: File
@@ -54,12 +51,12 @@ open class Exercise3 : AppCompatActivity() {
         currentExerciseID = intent.getLongExtra("exerciseID",0)
 
         val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
-        archivo = File(path,KT.soundNameFile())
+        archivo = File(path, KT.soundNameFile())
 
 
         if(currentExerciseID==0L){
             lStatus.text=resources.getString(R.string.item_new)
-            cExercise=KExercise(0,currentLessonID,typeofex)
+            cExercise= KExercise(0, currentLessonID, typeofex)
             emptySoundFile()
             if(DEBUG)X.warn("teoricament deixa l'arxiu de so a zero")
         }
@@ -102,7 +99,7 @@ open class Exercise3 : AppCompatActivity() {
         //toast("ISAVE")
         //val path = File(Environment.getExternalStorageDirectory().getPath())
         val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
-        val archivo = File(path,KT.soundNameFile())
+        val archivo = File(path, KT.soundNameFile())
         val BA=ByteArray(archivo.length().toInt())
         val fos = FileInputStream(archivo)
         fos.read(BA)

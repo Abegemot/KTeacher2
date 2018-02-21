@@ -83,6 +83,8 @@ class MainActivity : KBaseActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             R.id.select_language->consume{ selectLanguage()}
+            R.id.select_language2->{ startActivity<DictionaryActivity>(); return true}
+            R.id.menusubjects->{startActivity<SubjectsActivity>();return true}
             else -> super.onOptionsItemSelected(item)
         }
     }

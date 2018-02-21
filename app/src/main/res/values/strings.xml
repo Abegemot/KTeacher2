@@ -25,6 +25,7 @@
     <string name="altnamelesson">Translated</string>
     <string name="romanization">Romanization</string>
     <string name="level">Level</string>
+    <string name="dictionary">Dictionary</string>
     <string name="new_lesson">New Lesson</string>
     <string name="ex1_translated">Text in English</string>
     <string name="ex1_original">Text in Russian</string>
@@ -48,7 +49,7 @@
     <string name="firsttimelang">It is the first time you use the app you must select languages</string>
     <string name="noequallang">Languages can not be equal</string>
     <string name="bothlang">You must select both languages</string>
-
+    <string name="dictionarysearch">Dictionary Search</string>
 
     <string-array name="languages">
         <item>English</item>

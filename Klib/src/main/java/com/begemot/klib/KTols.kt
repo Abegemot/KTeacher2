@@ -10,6 +10,7 @@ import java.util.*
 import android.support.v7.app.AppCompatActivity
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.content.res.ResourcesCompat.getDrawable
 import android.support.v7.app.AlertDialog
@@ -21,15 +22,83 @@ import android.text.Spanned
 //import com.begemot.KTeacher.R.color.pink
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.Appcompat
+import java.io.File
+import java.io.FileOutputStream
+import java.io.FileWriter
+import java.io.IOException
 
 const val DEBUG=true
 
 class KT(){
       fun name():String="KT name"
       //fun soundNameFile():String="MYSOUND1.3gp"
-
       companion object {
+            private  val  X = KHelp(this.javaClass.simpleName)
+
             fun soundNameFile():String="MYSOUND1.3gp"
+
+            fun saveSoundToFile(ctx: Context,soundData:ByteArray){
+                //val path = File(Environment.getExternalStorageDirectory().getPath())
+                val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
+                val archivo = File(path, soundNameFile())
+
+                try {
+                    val fos = FileOutputStream(archivo)
+                    fos.write(soundData)
+                    fos.close()
+
+                } catch (e: IOException) {
+                    X.err("Exception creating temp file: ${e.toString()} ")
+                }
+                X.err("writeappend  datasize ${soundData.size.toString()}")
+            }
+
+          fun emptySoundFile(ctx: Context){
+              val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
+              val archivo = File(path, soundNameFile())
+              FileWriter(archivo).close()
+              X.err("teoricament deixa l'arxiu a zero")
+          }
+
+          fun playSound(ctx: Context){
+              val path = ctx.getDir("KDir",Context.MODE_PRIVATE)
+              val archivo = File(path, soundNameFile())
+              lateinit var player: MediaPlayer
+              lateinit var mediaListener:MediaPlayer.OnCompletionListener
+
+
+              mediaListener=object:MediaPlayer.OnCompletionListener{
+                  override fun onCompletion(p0: MediaPlayer?) {
+                      p0?.reset()
+                      p0?.release()
+                  }
+              }
+
+
+              if(archivo.length()==0L){ if(DEBUG)X.warn("-----------EMMPPPTY SOUND FILE"); return }
+              try {
+                  player = MediaPlayer()
+                  player?.setOnCompletionListener(mediaListener)
+                  player?.setDataSource(archivo.getAbsolutePath())
+                  if(DEBUG)X.warn("length file in Bytes: ${archivo.length().toString()}")
+
+              } catch (e: IOException) {
+                  if(DEBUG)X.warn(" no se ha podido detener: ${e.message}")
+                  if(DEBUG)X.warn("${e.printStackTrace()}")
+              }
+
+              try {
+                  player?.prepare()
+              } catch (e: IOException) {
+                  if(DEBUG)X.warn(" exception en player prepare al reproducir: ${e.message}")
+                  if(DEBUG)X.warn("${e.printStackTrace()}")
+              }
+              player?.start()
+          }
+
+
+
+
 
             fun getCurrentLang(ctx:Context):String{
                   var L:String = ""

@@ -5,15 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import kotlinx.android.synthetic.main.activity_exercise1.*
 import android.view.View
-import android.os.Environment
-import com.begemot.klib.KHelp
+import com.begemot.klib.*
 import kotlinx.android.synthetic.main.savedeletetest.view.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.toast
 import java.io.*
 import java.util.*
 
@@ -29,7 +25,7 @@ class Exercise1 : AppCompatActivity()   {
 
     lateinit var  DBH : DBHelp
   //  var  BA:ByteArray = byteArrayOf(0)
-    lateinit var  cExercise:KExercise
+    lateinit var  cExercise: KExercise
 
     class RequestCode {
         companion object {
@@ -72,7 +68,7 @@ class Exercise1 : AppCompatActivity()   {
 
             savedeletetest.bDelete.isEnabled=false
             lStatus.text=resources.getString(R.string.item_new)
-            cExercise=KExercise(0,currentLessonID,typeofex)
+            cExercise= KExercise(0, currentLessonID, typeofex)
             FileWriter(archivo).close()
             if(DEBUG)X.warn("teoricament deixa l'arxiu de so a zero")
 

@@ -21,14 +21,28 @@
         android:id="@+id/select_language2"
         android:checkable="false"
         android:enabled="true"
-        android:icon="@drawable/ic_library_books_black_24dp"
+        android:icon="@drawable/ic_bookwhite"
         android:backgroundTint="@android:color/holo_blue_light"
         android:theme="@style/KIButton"
-        android:iconTint="@color/white"
+
+        android:fillColor="@color/white"
         android:title="lang"
         android:visible="true"
         app:showAsAction="always"
         tools:iconTint="@color/white" />
 
+    <item
+        android:id="@+id/menusubjects"
+        android:checkable="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_bookwhite"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:theme="@style/KIButton"
+
+        android:fillColor="@color/white"
+        android:title="lang"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:iconTint="@color/white" />
 
 </menu>
