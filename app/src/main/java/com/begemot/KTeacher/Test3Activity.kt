@@ -43,7 +43,7 @@ open class Test3Activity : AppCompatActivity(),PlayerFragment.OnFragmentInteract
         sOk =intent.getStringExtra("TL1")
         if(DEBUG)X.warn("5")
 
-        eT1.imeOptions = EditorInfo.IME_ACTION_DONE
+        eT1.imeOptions = EditorInfo.IME_ACTION_NEXT
         eT1.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
         eT1.setHorizontallyScrolling(false)
         eT1.setLines(10)

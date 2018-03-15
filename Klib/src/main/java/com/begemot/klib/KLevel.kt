@@ -1,17 +1,22 @@
 package com.begemot.klib
 
 import android.content.ContentValues
-import com.begemot.klib.KLevel.sa.tName
+import com.begemot.klib.DBHelp.Companion.X
 import org.jetbrains.anko.db.classParser
 
 /**
  * Created by dad on 03/02/2018.
  */
 
-interface   MI{
-    abstract val tName:String
-    abstract val tSelect:Array<String>
-    abstract val tDBCreate:String
+
+
+
+
+
+interface    MI{
+    val tName:String
+    val tSelect:Array<String>
+    val tDBCreate:String
 }
 
 data class KLevel( var id: Long =0,var nLocal:Int=0,var nServer:Int=0, var desc: String = ""):MI{
@@ -27,11 +32,13 @@ data class KLevel( var id: Long =0,var nLocal:Int=0,var nServer:Int=0, var desc:
 
      companion object sa {
 
-        const val tName   : String = "KLEVEL"
+         const val tName   : String = "KLEVEL"
 
-        const val DBCreate= "CREATE TABLE if not exists ${tName}(ID  integer PRIMARY KEY ,NLOCAL int,NSERVER int,DESC text)"
+         val tSelect: Array<String> = arrayOf("ID","NLOCAL","NSERVER","DESC")
 
-        val tSelect: Array<String> = arrayOf("ID","NLOCAL","NSERVER","DESC")
+          val DBCreate= "CREATE TABLE if not exists ${tName}(${tSelect[0]}  integer PRIMARY KEY ,${tSelect[1]} int,${tSelect[2]} int,${tSelect[3]} text)"
+
+
 
         //fun qtSelect(): String { return tSelect }
         //override fun qtSelect(): String {
@@ -51,7 +58,6 @@ data class KLevel( var id: Long =0,var nLocal:Int=0,var nServer:Int=0, var desc:
             A.put("NLOCAL",KL.nLocal)
             A.put("NSERVER",KL.nServer)
             A.put("DESC",KL.desc)
-            patata()
             return A
         }
 
@@ -61,31 +67,4 @@ data class KLevel( var id: Long =0,var nLocal:Int=0,var nServer:Int=0, var desc:
     }
 }
 
-fun patata(){
-
-      val L: List<KLevel> = getAll<KLevel>()
-    L.forEach{
-        println(it)
-    }
-
-}
-
-
-inline fun <reified T:MI>  getAll():List<T>{
-
-    val L= mutableListOf<T>()
-    val rowParser = classParser<T>()
-    //var s=T
-
-    for (i in 1..10){
-        val s=T::class.java.newInstance()
-
-        s.tName
-        s.tSelect
-        //s.id=i.toLong()
-        L.add(s)
-    }
-    return L
-
-}
 

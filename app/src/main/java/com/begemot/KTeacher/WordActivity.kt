@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import com.begemot.klib.DBHelp.Companion.X
-import com.begemot.klib.KLayout.Companion.kTextView
+import com.begemot.KTeacher.KLayout.Companion.kTextView
 
 import com.begemot.klib.KT
 import com.begemot.klib.myCloud

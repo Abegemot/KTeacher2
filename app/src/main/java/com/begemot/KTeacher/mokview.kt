@@ -1,39 +1,19 @@
 package com.begemot.KTeacher
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.support.constraint.ConstraintLayout
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.ConstraintSetBuilder.Side.*
 import org.jetbrains.anko.constraint.layout.applyConstraintSet
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import android.support.constraint.ConstraintSet.PARENT_ID
-import android.support.design.R.attr.contentScrim
-import android.support.design.R.attr.title
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.AppBarLayout.LayoutParams.*
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.design.widget.CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PARALLAX
-import android.support.design.widget.CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
 import android.support.v4.content.res.ResourcesCompat
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import com.begemot.klib.KKindOfExercice
-import org.jetbrains.anko.constraint.layout.matchConstraint
+import android.view.Gravity
+import android.widget.*
+import com.begemot.KTeacher.KLayout.Companion.kTextView
+import com.begemot.KTeacher.KLayout.Companion.kTextViewRight
+import com.begemot.KTeacher.KLayout.Companion.keTextView
 import org.jetbrains.anko.constraint.layout.themedConstraintLayout
-import org.jetbrains.anko.custom.style
-import org.jetbrains.anko.design.appBarLayout
-import org.jetbrains.anko.design.coordinatorLayout
-import org.jetbrains.anko.design.tabLayout
-import org.jetbrains.anko.design.themedAppBarLayout
-import org.jetbrains.anko.support.v4.viewPager
-import org.jetbrains.anko.toast
-import java.util.ArrayList
 
 
 /**
@@ -42,6 +22,14 @@ import java.util.ArrayList
 class MockView : AnkoComponent<MockActivity> {
     //private val X = KHelp(this.javaClass.simpleName)
     var mAdapter: MyAdapter3? = null
+    lateinit var myText1: TextView
+    lateinit var myText2: TextView
+    lateinit var myText3: TextView
+
+    lateinit var myeText1: EditText
+    lateinit var myeText2: EditText
+    lateinit var myeText3: EditText
+
 
     private object Ids {
         val bAddLesson = 1
@@ -51,13 +39,81 @@ class MockView : AnkoComponent<MockActivity> {
         val myList = 5
         val myButton=6
         val myText=7
+
+        val myText1=8
+        val myText2=9
+        val myText3=10
+        val myeText1=11
+        val myeText2=12
+        val myeText3=14
+
+
+
     }
 
     lateinit var KStringsLAdapter: ArrayAdapter<String>
 //    var KOfexercisesList = ArrayList<String>()
     var stringList = arrayOf("adada","faff","adfafa","afaffa","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","zorglub")
 
+
     override fun createView(ui: AnkoContext<MockActivity>)=with(ui) {
+        verticalLayout{
+              lparams(600, wrapContent)
+              //background=context.getDrawable(com.begemot.klib.R.color.yellow)
+              background = ResourcesCompat.getDrawable(resources,com.begemot.KTeacher.R.drawable.border_edit_text , null)
+
+            for(n in 1..3){
+
+            relativeLayout {
+                 background=context.getDrawable(com.begemot.klib.R.color.pink)
+
+                kTextView("Aorigin", 111, 22f).lparams(){startOf(112);alignParentStart()}
+                kTextViewRight("Boriginal 22", 112, 35f).lparams() { alignParentRight() }
+
+                kTextView("oume $n ddddddddd", 22).lparams() { bottomOf(111);startOf(112);alignParentStart() }
+                kTextView("no", 23).lparams() { bottomOf(22) }
+                kTextView("me", 24).lparams() { bottomOf(23) }
+                kTextView("jodase", 25).lparams() { bottomOf(24);alignParentEnd() }
+
+
+            }.lparams(matchParent, wrapContent) { margin = dip(8) }
+
+        }
+            view{
+                background=context.getDrawable(R.color.black)
+
+            }.lparams(width= matchParent,height = 2){
+                topMargin=dip(4)
+                bottomMargin=dip(8)
+                padding=5
+            }
+
+              myText1 = kTextView("original 1", Ids.myText1,14f)
+              myeText1 = keTextView("original 1", Ids.myText1)
+
+
+              myText2 = kTextView("translated 2", Ids.myText2,14f)
+              myeText2 = keTextView("translated 2", Ids.myText2)
+
+              myText3 = kTextView("romanized ", Ids.myText3,14f)
+              myeText3 = keTextView("romanized ", Ids.myText3)
+
+            button("Ok"){
+                //gravity=Gravity.END
+
+            }.lparams(wrapContent, wrapContent){gravity=Gravity.END}
+
+
+
+
+        }
+
+    }
+
+
+
+
+     fun createView4(ui: AnkoContext<MockActivity>)=with(ui) {
         mAdapter = MyAdapter3(null)
 
 

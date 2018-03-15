@@ -16,9 +16,11 @@ class KHelp(s:String) {
     val LOG = AnkoLogger("MYPOS")
     private fun iwarn(s: String) {
         LOG.warn("$s")
+
     }
-    private fun ierr(s: String){
-        LOG.error(message = s)
+    private fun ierr(s: String,t:Throwable?){
+        if (t!=null) LOG.error(message = s,thr = t)
+        else LOG.error(s)
     }
 
 
@@ -37,8 +39,8 @@ class KHelp(s:String) {
            // for (i in stacktrace.indices) {
          //       Log.e("Method ", "[" + i + "]" + stacktrace[i].methodName)
           //  }
-            if (stacktrace.size >= 5) {
-                caller = stacktrace[5].methodName
+            if (stacktrace.size >= 6) {
+                caller = stacktrace[6].methodName
             }
             return caller
         }
@@ -50,7 +52,7 @@ class KHelp(s:String) {
        iwarn("$sClassName:${getCallerName()}  $s")
     }
 
-    fun err(s: String){
-        ierr("$sClassName:${getCallerName()}  $s")
+    fun err(s: String,t: Throwable?=null){
+        ierr("$sClassName:${getCallerName()}  $s",t)
     }
 }

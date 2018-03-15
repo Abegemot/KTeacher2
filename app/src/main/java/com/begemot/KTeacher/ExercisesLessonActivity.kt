@@ -62,7 +62,7 @@ class ExercisesLessonActivity : KBaseActivity() {
                       intent1?.putExtra("lessonID",currentLessonID)
                       intent1?.putExtra("exerciseID",selectedExercise.ID)
                       //intent1?.putExtra("typeOfEx",selectedExercise.TypeOfEx)
-                      if(DEBUG)X.warn("before start activity for result")
+                      if(DEBUG)X.warn("before start subjectActivity for result")
 
             try {
                 if(intent1==null) if(DEBUG)X.warn("!!!!!!!!!!!!!  XXXXXXXXXXXXXXXXXXXXXXXXXXXXX     CAGADA     INTENT NULL    XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")

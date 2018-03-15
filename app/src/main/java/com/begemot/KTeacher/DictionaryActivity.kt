@@ -62,11 +62,13 @@ class DictionaryActivity:KBaseActivity(){
 
     fun getDataProvider():List<Word> = LW
 
-    fun getNewWords(s:String,endevant: Boolean=true):List<Word> = myCloud.getWords(s,endevant)
+    //fun getNewWords(s:String,endevant: Boolean=true):List<Word> = myCloud.getWords(s,endevant,KApp().getLang())
+    fun getNewWords(s:String,endevant: Boolean=true):List<Word> = myCloud.getWords(s,forward = endevant)
 
     fun showNewWords(lw:List<Word>,adapter: BaseAdapter) {
         LW.clear()
         LW.addAll(lw)
+        X.err("size new words : ${LW.size}")
         adapter.notifyDataSetChanged()
     }
 

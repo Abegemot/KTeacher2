@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+      <item android:title="@string/word"
+         android:id="@+id/nameSubject"
+         app:showAsAction="never"
+       />
+       <item android:title="@string/edit"
+          android:icon="@drawable/ic_edit_black_24dp"
+          android:id="@+id/editWord"
+          app:showAsAction="always"
+       />
+      <item android:title="@string/delete"
+         android:icon="@drawable/ic_delete_black_24dp"
+         android:id="@+id/deleteWord"
+         app:showAsAction="always"
+     />
+     <item android:title="@string/add_example"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+        android:id="@+id/addExample"
+        app:showAsAction="always"
+     />
+</menu>

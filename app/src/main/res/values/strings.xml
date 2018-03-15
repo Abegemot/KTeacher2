@@ -27,6 +27,8 @@
     <string name="level">Level</string>
     <string name="dictionary">Dictionary</string>
     <string name="new_lesson">New Lesson</string>
+    <string name="and_word">And Word</string>
+    <string name="add_example">And example</string>
     <string name="ex1_translated">Text in English</string>
     <string name="ex1_original">Text in Russian</string>
     <string name="posible_answers">Possible answers</string>
@@ -42,6 +44,14 @@
 
     <string name="choselang">Select Languages</string>
     <string name="choselevel">Select Level</string>
+
+    <string name="settings">Settings</string>
+    <string name="viewromanization">Show romanization</string>
+    <string name="viewlocalmenus">Show local menus</string>
+
+    <string name="subject">Subject</string>
+    <string name="word">Word</string>
+    <string name="wordsample">Word example</string>
 
 
     <string name="langtoteach">Language to teach</string>
@@ -89,6 +99,7 @@
         <item>One day, these two knives met again</item>
         <item>He is a nice person @He is a good guy</item>
     </string-array>
+    <string name="and_sentence">Add sentence</string>
 
 
     <!--

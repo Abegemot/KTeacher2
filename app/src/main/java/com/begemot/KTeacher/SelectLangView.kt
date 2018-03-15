@@ -1,13 +1,9 @@
 package com.begemot.KTeacher
 
-import android.os.Parcelable
 import android.view.Gravity
-import android.view.View
-import com.begemot.KTeacher.R.id.center_horizontal
 import com.begemot.klib.KHelp
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.security.AccessController.getContext
 
 /**
  * Created by dad on 29/01/2018.
@@ -27,8 +23,8 @@ class SelectLangView : AnkoComponent<SelectLangActivity> {
         val sizel=ll.size
         val edit=true
         if (edit) {
-              languageITeach = prefs.sLangIteach
-              languageMyStudents = prefs.sLangmyStudents
+              languageITeach = Kprefs.sLangIteach
+              languageMyStudents = Kprefs.sLangmyStudents
         }
         //toast("languageITeach $languageITeach  languageMyStudents $languageMyStudents")
 
@@ -105,9 +101,9 @@ class SelectLangView : AnkoComponent<SelectLangActivity> {
                             return@onClick
                         }
                         X.err(" pasa  i $i  j  $j")
-                        if (prefs.sLangIteach!=i || prefs.sLangmyStudents!=j) {
-                            prefs.sLangIteach=i
-                            prefs.sLangmyStudents=j
+                        if (Kprefs.sLangIteach!=i || Kprefs.sLangmyStudents!=j) {
+                            Kprefs.sLangIteach=i
+                            Kprefs.sLangmyStudents=j
                             ui.owner.aps(llang[i], llang[j])
                         }else ui.owner.finish()
 

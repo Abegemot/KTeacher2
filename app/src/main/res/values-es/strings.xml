@@ -78,6 +78,14 @@
     <string name="romanization">Romanización</string>
     <string name="dictionary">Diccionario</string>
     <string name="dictionarysearch">Busqueda en diccionario</string>
+    <string name="and_sentence">Añadir frase</string>
+    <string name="add_example">Añadir ejemplo</string>
+    <string name="viewromanization">Mostrar romanizacion</string>
+    <string name="viewlocalmenus">Mostrar menus locales</string>
+    <string name="wordsample">Ejemplo de uso</string>
+    <string name="word">Palabra</string>
+    <string name="subject">Tema</string>
+    <string name="and_word">Añadir Palabra</string>
 
 
 </resources>

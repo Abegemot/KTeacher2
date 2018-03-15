@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import com.begemot.KTeacher.KApp.Companion.KPREF_FILENAME
 import com.begemot.KTeacher.KApp.Companion.LANGITEACH
 import com.begemot.KTeacher.KApp.Companion.LANGMYSTUDENTS
+import com.begemot.KTeacher.KApp.Companion.ROMANIZED
+import com.begemot.KTeacher.KApp.Companion.SHOWALLMENUS
 import com.begemot.klib.KLesson
+import com.squareup.leakcanary.LeakCanary
 
 /**
  * Created by dad on 30/01/2018.
@@ -21,6 +24,8 @@ class KApp:Application(){
         const val KPREF_FILENAME="com.begemot.KTeacher.Kpreferences"
         const val LANGITEACH="langiteach"
         const val LANGMYSTUDENTS="langmystudents"
+        const val ROMANIZED="romanized"
+        const val SHOWALLMENUS="showallmenus"
 
         var needupdatelessons=false
         var cpLessons =0
@@ -29,8 +34,14 @@ class KApp:Application(){
     }
 
     override fun onCreate() {
-        prefs= Preferences(applicationContext)
         super.onCreate()
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this)
+        prefs = Preferences(applicationContext)
     }
     fun APS3(app: AppCompatActivity){
         val i = app.baseContext.packageManager.getLaunchIntentForPackage(app.baseContext.packageName)
@@ -47,7 +58,8 @@ class KApp:Application(){
 
     fun getLang2(ctx:Context):String{
         val pref2=Preferences(ctx)
-        val lang=llang[pref2.sLangmyStudents]
+        //val lang=llang[pref2.sLangmyStudents]
+        val lang=llang[pref2.sLangIteach]
         return lang
     }
 
@@ -59,19 +71,24 @@ class KApp:Application(){
 
 }
 
-val prefs:Preferences by lazy{
+val Kprefs:Preferences by lazy{
      KApp.prefs!!
 }
 
 class Preferences(context:Context){
-
-
-     val prefs:SharedPreferences=context.getSharedPreferences(KPREF_FILENAME,Context.MODE_PRIVATE)
+     val K_prefs:SharedPreferences=context.getSharedPreferences(KPREF_FILENAME,Context.MODE_PRIVATE)
      var sLangIteach:Int
-     get() = prefs.getInt(LANGITEACH,4)
-     set(value) = prefs.edit().putInt(LANGITEACH,value).apply()
+     get() = K_prefs.getInt(LANGITEACH,4)
+     set(value) = K_prefs.edit().putInt(LANGITEACH,value).apply()
      var sLangmyStudents:Int
-     get() = prefs.getInt(LANGMYSTUDENTS,4)
-     set(value) = prefs.edit().putInt(LANGMYSTUDENTS,value).apply()
+     get() = K_prefs.getInt(LANGMYSTUDENTS,4)
+     set(value) = K_prefs.edit().putInt(LANGMYSTUDENTS,value).apply()
+     var bRomanized:Boolean
+     get() = K_prefs.getBoolean(ROMANIZED,false)
+     set(value) = K_prefs.edit().putBoolean(ROMANIZED,value).apply()
+     var bAllMenus:Boolean
+     get() = K_prefs.getBoolean(SHOWALLMENUS,true)
+     set(value) = K_prefs.edit().putBoolean(SHOWALLMENUS,value).apply()
+
 }
 

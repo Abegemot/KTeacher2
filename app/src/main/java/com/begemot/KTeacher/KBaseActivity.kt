@@ -13,7 +13,7 @@ abstract class KBaseActivity : AppCompatActivity() {
         val X = KHelp(this.javaClass.simpleName)
         val curLang=KApp().getLang2(newBase)
         val newLocale= Locale("$curLang")
-        X.err("locale: $curLang")
+        //X.err("locale: $curLang")
         val context = ContextWrapper2.wrap(newBase, newLocale)
         super.attachBaseContext(context)
     }

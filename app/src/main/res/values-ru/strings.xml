@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Добавить</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">редактировать</string>
+    <string name="and_sentence">добавить предложение</string>
+    <string name="add_example">добавить пример</string>
+    <string name="and_word">добавить слово</string>
+    <string name="subject">предмет</string>
+    <string name="word">слово</string>
+    <string name="wordsample">пример</string>
 </resources>

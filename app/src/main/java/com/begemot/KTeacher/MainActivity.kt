@@ -4,20 +4,13 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 
-import android.widget.AdapterView.OnItemClickListener
 import android.content.Intent
 
 
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import android.widget.*
 import org.jetbrains.anko.*
 
-import java.util.*
 //import com.sun.org.apache.xerces.internal.dom.DOMMessageFormatter.setLocale
-import android.content.DialogInterface
 import com.begemot.klib.*
 import com.begemot.klib.DBHelp
 
@@ -42,7 +35,8 @@ class MainActivity : KBaseActivity() {
         curLang=KApp().getLang()
         X.err("currlang : $curLang")
 
-        //startActivityForResult<SelectLevelActivity>(RequestCode.SELECT_LEVEL)
+        //startActivityForResult<SelectLevelActivity>(RequestCode.SELECT_
+        // LEVEL)
 
         //setContentView(R.layout.activity_main)
         //var stitle=curLang+" KLessons"
@@ -62,10 +56,18 @@ class MainActivity : KBaseActivity() {
         DBHelp.reopen(curLang)
         DBH=DBHelp.getInstance(this)
         DBH.createEX1Examples(this)
+        myCloud.setLang(curLang)
+
+
+      // DBZ.CEA()
+      // DBP.retrieveCachedObject(2,2)
 
     }
 
     fun getDataProvider():List<KLevel>{
+
+        //
+        // X.err("  ")
         return DBHelp.getInstance(this).loadAll<KLevel>()
     }
 

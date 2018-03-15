@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/empty"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title="@string/and_sentence"
+        android:orderInCategory="101"
+        app:showAsAction="always">
+        <menu>
+            <item android:title="@string/subject"
+                android:id="@+id/nameSubject"
+                app:showAsAction="never"
+                />
+            <item android:title="@string/edit"
+                android:icon="@drawable/ic_edit_black_24dp"
+                android:id="@+id/editSubject"
+                />
+            <item android:title="@string/delete"
+                android:icon="@drawable/ic_delete_black_24dp"
+                android:id="@+id/deleteSubject"
+                />
+            <item android:title="@string/and_sentence"
+                android:icon="@drawable/ic_add_circle_outline_black_24dp"
+                android:id="@+id/addWord"
+                />
+
+        </menu>
+    </item>
+      <item
+        android:id="@+id/ksettings"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:title="Settings" />
+</menu>

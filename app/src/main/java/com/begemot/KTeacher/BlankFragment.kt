@@ -5,15 +5,15 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 //import android.support.v4.app.Fragment
 import android.app.Fragment
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.begemot.KTeacher.DBHelp.Companion.X
+import com.begemot.klib.DEBUG
 import com.begemot.klib.KHelp
+import com.begemot.klib.KT
 import org.jetbrains.anko.*
 
 import kotlinx.android.synthetic.main.fragment_blank.*
@@ -89,8 +89,8 @@ class BlankFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaRecorder.
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
+     * to the subjectActivity and potentially other fragments contained in that
+     * subjectActivity.
      *
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.

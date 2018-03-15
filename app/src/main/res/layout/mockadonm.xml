@@ -59,6 +59,7 @@
             android:text="Button" />
     </LinearLayout>
 
+
     <TextView
         android:id="@+id/textView"
         style="@style/KEdit"

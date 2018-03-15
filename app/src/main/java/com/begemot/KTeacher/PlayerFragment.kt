@@ -145,8 +145,8 @@ class PlayerFragment : Fragment(),MediaPlayer.OnCompletionListener,MediaPlayer.O
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
+     * to the subjectActivity and potentially other fragments contained in that
+     * subjectActivity.
      *
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.

@@ -8,35 +8,169 @@ option objc_class_prefix = "HLW";
 
 package myproto;
 
+service KService{
+    rpc AddLesson(Lesson)             returns (NewId) {}
+    rpc GetLesson(IdLang)             returns (Lesson) {}
+    rpc GetLessons(ExtInfo)           returns (stream Lesson){}  //com a stream
+    rpc GetLessons2(ExtInfo)          returns (ListLesson){}
+    rpc GetExercisesLesson2(IdLang)   returns (ListExercises){}
 
-service addLessoner{
-    rpc addLesson(addLessonR) returns (addLessonA){}
-    rpc addExercise(addExerciseR) returns(addExerciseA){}
-    rpc getExercise(getExerciseR) returns(addExerciseR){}
+
+    rpc AddWord(Word) returns (NewId){}
+    rpc GetListWords(StartPoint) returns (ListWord) {}     //com a collection per veure que es mes eficient
+    rpc GetListLevels(Lang) returns (ListLevels){}
+
+
+
+
+    rpc AddExercise(Exercise) returns(NewId){}
+    rpc AddExercisek(stream Exercise) returns(NewId){}
+    rpc GetExercise(NewId) returns(Exercise){}
+    rpc GetExercisesLesson(NewId) returns(stream Exercise){}
+
+    //rpc AddWordOfDay(WordOfDay) returns (NewId){}
+    //rpc AddWordOfDay2(stream WordOfDay) returns (Status){}
+
+
+    rpc AddSubject(Subject) returns (NewId){}
+    rpc GetSubject(IdLang)  returns(Subject){}
+    //rpc GetSubjectStream(StartPoint) returns(stream Subject){}
+    rpc GetListSubjects(StartPoint) returns(ListSubject){}
+
+
+    rpc AddUpdateUser(User) returns (NewId){}
+    rpc CheckPassword(User) returns (NewId){}
+
+    rpc getStats(NewId) returns(Status){}
+
 }
 
-message getExerciseR{
-    int32 id = 1;
+message Status{
+    string howwasit =1;
 }
 
+message User{
+    int32   id=1;
+    string  name=2;
+    string  email=3;
+    string  password=4;
+    int32   role=5;
+}
 
-message addLessonR{
-    string name = 1;
+message StartPoint{
+    string start = 1;
+    Lang   lang  = 2;
+    int32  size  = 3;
+    bool   shallow  = 4;
+    int32  id       = 5;
+    bool   fordward = 6;
+}
+
+message IdLang{
+    Lang   lang = 1;
     int32  id   = 2;
 }
 
-message addLessonA{
-    string ok = 1;
+message NewId{
+    int32 id = 1;
 }
 
-message addExerciseR{
-    int32 id   = 1;
-    int32 type = 2;
-    string T1  = 3;
-    string T2  = 4;
-    bytes  sBinary = 5;
+message ExtInfo{
+    Lang lang  =1;
+    int32  idandroid = 2;
+    int32  status    = 3;
+    int32  owner     = 4;
+    string time      = 5;
+    int32  id        = 6;
+    bool shallow     = 7;
 }
 
-message addExerciseA{
-    string ok=1;
+message Lesson{
+    ExtInfo info     = 1;
+    int32  id        = 2;
+    int32  level     = 3;
+    string name      = 4;
+    string altname   = 5;
+    string romanization = 6;
+    repeated Exercise ex = 7;
+}
+
+
+message Exercise{
+    ExtInfo info = 1;
+    int32 id   = 2;
+    int32 idL  = 3;
+    int32 type = 4;
+    string T1  = 5;
+    string T2  = 6;
+    string T3  = 7;
+    string T4  = 8;
+    bytes s1  = 9;
+    bytes s2  = 10;
+
+}
+
+
+message Klevel{
+    int32 level    = 1;
+    int32 nlessons = 2;
+    string desc    = 3;
+}
+
+
+message Lang{
+    bytes lang = 1;
+}
+
+message ListWord{
+    repeated Word w = 1;
+}
+
+message ListLesson{
+    repeated Lesson l = 1;
+}
+
+message ListExercises{
+    repeated Exercise ex = 1;
+}
+
+message ListLevels{
+    repeated Klevel level = 1;
+}
+
+message ListSubject{
+    repeated Subject subject =1;
+}
+
+message Word{
+    Lang   lang = 1;
+    int32  id   = 2;
+    int32  id_subject =3;
+    string t1   = 4;
+    string t2   = 5;
+    string t3   = 6;
+    string romanized =7;
+    bytes  s1   = 8;
+    repeated WordSample ws= 9;
+
+}
+
+message WordSample{
+    Lang   lang     = 1;
+    int32  id_word  = 2;
+    int32  order    = 3;
+    string t1       = 4;
+    string t2       = 5;
+    string t3       = 6;
+    string romanized =7;
+    bytes  s1       = 8;
+}
+
+message Subject{
+    Lang  lang          = 1;
+    string name         = 2;
+    string translated   = 3;
+    string romanized    = 4;
+    int32  id           = 5;
+    repeated Word words = 6;
 }

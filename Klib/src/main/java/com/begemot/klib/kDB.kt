@@ -15,11 +15,13 @@ import com.begemot.klib.DBHelp.Companion.DB2
 //import com.begemot.KTeacher.myDB.Companion.getInstance
 //import com.begemot.KTeacher.myDB.Companion.reopen
 import com.begemot.klib.KHelp
+import io.grpc.myproto.Subject
+import org.jetbrains.anko.AnkoLogger
 //import com.begemot.klib.KLevel.Companion.qtSelect
 //import com.begemot.klib.KLevel.Companion.tName
 import org.jetbrains.anko.db.*
-
-
+import org.jetbrains.anko.error
+import java.io.ByteArrayOutputStream
 
 
 class myDB(ctx: Context,lang:String="") : ManagedSQLiteOpenHelper(ctx, "MyDatabase$lang", null, 1) {
@@ -221,6 +223,11 @@ class DBHelp(ctx: Context) {
         return DB2.databaseName
     }
 
+
+    fun database():SQLiteDatabase{
+        return  DB2.writableDatabase
+    }
+
     fun deleteTable(tableName:String){
         var ds: SQLiteDatabase = DB2.writableDatabase
         // val nR = envelopeX(0L){   ds.delete("$tableName").toLong()   }
@@ -292,12 +299,13 @@ class DBHelp(ctx: Context) {
     }
 
     inline fun<reified T:MI> loadAll(): MutableList<T> {
+        //X.err("1 LoadAll in ${DB2.databaseName}")
         val s=T::class.java.newInstance()
         val tName=s.tName
         val tSelect=s.tSelect
-        X.err("LoadAll in ${DB2.databaseName}")
+       // X.err("2 LoadAll in ${DB2.databaseName}")
         val L2: List<T> = envelopeX(emptyList()) {    DB2.use { select(tName,*tSelect).exec { parseList(classParser<T>()) } } }
-        X.err("SIZE Lessons: ${L2.size}")
+        //X.err("SIZE Lessons: ${L2.size}")
         //for (item in L2) if(DEBUG)X.warn(item.toString())
         return L2.toMutableList()
     }
@@ -306,12 +314,34 @@ class DBHelp(ctx: Context) {
         val s=T::class.java.newInstance()
         val tName=s.tName
         val tSelect=s.tSelect
-        X.err("LoadAllWhere $sWhere   in ${DB2.databaseName}")
+       // X.err("LoadAllWhere $sWhere   in ${DB2.databaseName}")
         val L2: List<T> = envelopeX(emptyList()) {    DB2.use { select(tName,*tSelect).whereArgs(sWhere).exec { parseList(classParser<T>()) } } }
-        X.err("SIZE Lessons: ${L2.size}")
+        //X.err("SIZE Lessons: ${L2.size}")
         //for (item in L2) if(DEBUG)X.warn(item.toString())
         return L2.toMutableList()
     }
+
+
+    inline fun<reified T:MI> loadAllWhere(sWhere:String="" ,tSel:Array<String>? = null ,tParser:RowParser<T>? = null): List<T> {
+        val s=T::class.java.newInstance()
+        val tName=s.tName
+
+        val tSelect =   if(tSel!=null) tSel else s.tSelect
+        val parser  =   if(tParser!=null) tParser else classParser<T>()
+
+        var L2: List<T> = emptyList()
+        L2= envelopeX(emptyList()) {    DB2.use { select(tName,*tSelect).whereArgs(sWhere).exec { parseList(parser) } } }
+
+        //if(tParser!==null) L2= envelopeX(emptyList()) {    DB2.use { select(tName,*tSelect).whereArgs(sWhere).exec { parseList(tParser) } } }
+        //else L2= envelopeX(emptyList()) {    DB2.use { select(tName,*tSelect).whereArgs(sWhere).exec { parseList(classParser<T>()) } } }
+        //X.err("LoadAllWhere $sWhere   in ${DB2.databaseName}")
+        //X.err("SIZE Load All where: ${L2.size}")
+        //for (item in L2) if(DEBUG)X.warn(item.toString())
+        return L2
+    }
+
+
+
 
     fun updateLesson(KL:KLesson){
 
@@ -586,6 +616,119 @@ class DBHelp(ctx: Context) {
     }
 
 
+    fun tableEX(tablename:String):Boolean{
+        var ret=false
+        try {
+            val ds = DB2.writableDatabase
+            var cus=ds.rawQuery("SELECT name FROM sqlite_master where type=? and name=?", arrayOf("table",tablename))
+            if (cus.count==1) ret=true
+            else ret=false
+            cus.close()
+            return ret
+        }catch (e:Exception){
+            ret= false
+            X.err("ERROR $e  ${e.message}     ${e.stackTrace}")
+            return ret
+        }
+    }
+
+    fun loadFromCache(id:Int):Subject{
+
+        val lc=loadAllWhere<KCachedObj>(sWhere = "id=5",tParser =  KCachedObj.parser)
+        val ss = Subject.newBuilder()
+        if (lc.size>0) ss.mergeFrom(lc[0].obj)
+        else ss.name="could not find subject:  $id"
+        return ss.build()
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    /*fun createUpdateCache(id:Int,ba:ByteArray){
+
+        if(tableEX(KCachedObj.tName)) X.err("${KCachedObj.tName} existeix ")
+        else X.err("${KCachedObj.tName} existeix ")
+
+
+        var ds: SQLiteDatabase = DB2.writableDatabase
+
+
+        ds.execSQL(KCachedObj.tDBCreate)
+
+
+
+
+        val s=byteArrayOf(0)
+        val kc=KCachedObj(1,1,20,3,s)
+        ds.insert(KCachedObj.tName,*KCachedObj.pairs(kc))
+        val lc=loadAllWhere<KCachedObj>("id=5",KCachedObj.parser)
+      // kc.id=57
+      //  ds.replace(KCachedObj.tName,*KCachedObj.pairs(kc))
+       // val lc=loadAll<KCachedObj>()
+       // lc.forEach{ X.err("Id--->${it.id}")}
+        //val rowParser = classParser<KExercise>()
+
+        val parser = rowParser {
+            id: Long,pos:Int,idObj:Int,kind:Int, obj: ByteArray ->
+            KCachedObj(id,pos,idObj,kind,obj)
+        }
+
+//        val lc=  DB2.use { select(KCachedObj.tName, *KCachedObj.tSelect).exec { getListKCached() }}
+        //val lc=  DB2.use { select(KCachedObj.tName, *KCachedObj.tSelect).exec { parseList(parser) }}
+
+        lc.forEach{ X.err("Id--->${it.toString()}")}
+
+
+        var ss = Subject.newBuilder()
+        ss.mergeFrom(lc[0].obj)
+
+
+        X.err(ss.build().toString())
+
+
+
+       // deleteTable(KCachedObj.tName)
+
+
+        //ds.execSQL(KExercise.DBCreate)
+        //val nR= envelopeX(0L){ds.update(KLesson.tName,KLesson.values(KL),"ID=${KL.id}",null)}
+        /*try {
+            DB2.use {  select(KExercise.tName,*KExercise.tSelectmin).whereSimple("IDL=?","9999").exec { getListminKE() }  }
+        } catch (e: Exception) {
+            return false
+        }*/
+        //return true
+
+    }*/
+
+    fun Cursor.getListKCached():List<KCachedObj>  {
+        if(DEBUG)X.warn("entra")
+        val L:MutableList<KCachedObj> = mutableListOf()
+        if(this.moveToFirst()){
+            do {
+              //  val KE=KCachedObj(this.getLong(0),this.getBlob(1))
+                //"ID","IDL","TOE","T1","T2","S1"
+               // KE.id  = this.getLong(0)
+               // KE.obj = this.getBlob(1)
+                //L.add(KE)
+
+            }while(this.moveToNext())
+            if(DEBUG)X.warn("surt")
+            return L
+        }
+        return emptyList()
+    }
+
+
+
     fun CEA(){
         if(DEBUG)X.warn("entering CEA ")
 
@@ -623,14 +766,15 @@ class DBHelp(ctx: Context) {
 
 }
 
-
+val Context.DBZ:DBHelp get() = DBHelp.getInstance(getApplicationContext())
 
 fun <T> envelopeX (default: T, letter: () -> T) = try {
     letter()
 } catch (e: Exception) {
     val X:KHelp=DBHelp.X
     //if(DEBUG)
-        X.err("envelope exception:  ${e.message}   ${e.toString()}  ${e.stackTrace.toString()}")
+        X.err("Z envelope exception:  ${e.message} ",e)
+
     default
 }
 
