@@ -2,6 +2,7 @@ package com.begemot.KTeacher
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 import android.support.v7.app.AlertDialog
 import android.support.v7.view.menu.MenuPopupHelper
@@ -15,8 +16,6 @@ import com.google.protobuf.ByteString
 import io.grpc.myproto.Subject
 import io.grpc.myproto.Word
 import io.grpc.myproto.WordSample
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.ConstraintSetBuilder.Side.TOP
 import org.jetbrains.anko.constraint.layout.ConstraintSetBuilder.Side.END
@@ -26,11 +25,12 @@ import org.jetbrains.anko.constraint.layout.ConstraintSetBuilder.Side.RIGHT
 import org.jetbrains.anko.constraint.layout.ConstraintSetBuilder.Side.LEFT
 import org.jetbrains.anko.constraint.layout.applyConstraintSet
 import org.jetbrains.anko.constraint.layout.constraintLayout
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.sdk25.listeners.onClick
 import android.support.v7.view.menu.MenuBuilder
-
-
+import android.support.v7.widget.RecyclerView
+import com.begemot.KTeacher.koin.SubjectViewModel
+import org.koin.android.architecture.ext.viewModel
+import org.koin.android.ext.android.inject
 
 
 /**
@@ -44,17 +44,38 @@ class SubjectActivity:KBaseActivity(){
         val W=2
         val WS=3
     }
+    val myViewModel:SubjectViewModel by viewModel()
 
     private val sView=SubjectView()
     private val LWSubject= mutableListOf<Word>()
     lateinit var S:Subject
     private var subjectID=0L
     var ADiag: AlertDialog? = null
+   // val mmm:myProviderHelper by inject { mapOf("ctx" to applicationContext) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        X.err("JJJJJJJJJJJJJJ")
+
+
+     //   mmm.test()
         super.onCreate(savedInstanceState)
         subjectID=intent.getLongExtra("subjectId",0)
+        myViewModel.init(subjectID.toInt())
+        val a=DBP
+
+        myViewModel.Sw.observe(this,android.arch.lifecycle.Observer { Sw->
+            //X.err("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    I Observe  $Sw")
+            if(Sw!=null) {
+                S=Sw
+                subjectToView(Sw)
+                sView.pb.visibility=View.INVISIBLE
+            }
+            //toast("fdafffa")
+
+         })
+
+
         sView.setContentView(this)
 
       //  async(kotlinx.coroutines.experimental.android.UI) {
@@ -73,10 +94,14 @@ class SubjectActivity:KBaseActivity(){
 
     override fun onStart() {
         super.onStart()
+        X.err("Hosti tu tiu ---> ${myViewModel.sayHello()}")
+
         sView.pb.visibility=View.VISIBLE
-        subjectToView(loadSubject(subjectID))
+        myViewModel.getSubject(subjectID.toInt())
+
+       // subjectToView(loadSubject(subjectID))
        // X.err("Surt de create")
-        sView.pb.visibility=View.INVISIBLE
+
 
     }
 
@@ -376,7 +401,7 @@ class SubjectView:AnkoComponent<SubjectActivity>{
 
                 }
 
-            }.lparams(0,0){
+            }.lparams(0, 0){
                 setMargins(4,4,4,4)
             }
 
@@ -433,7 +458,49 @@ class SubjectView:AnkoComponent<SubjectActivity>{
 }
 
 
-class SubjectAdapter(val subjectActivity: SubjectActivity): BaseAdapter() {
+
+class SubjectAdapter3(val subjectActivity: SubjectActivity): BaseAdapter(){
+    var list = subjectActivity.getDataProvider()
+    val LBinds= mutableMapOf<String,View>()
+    lateinit var pp: ConstraintLayout
+
+    override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
+        return with(p2!!.context){
+            verticalLayout(){
+                lparams(matchParent, matchParent)
+                background=context.getDrawable(R.color.beig)
+
+                pp=PP(LBinds)
+                pp.lparams(matchParent, matchParent)
+
+                (LBinds["t1"] as TextView).text=list[p0].t1
+                (LBinds["t2"] as TextView).text=list[p0].t2
+                (LBinds["t3"] as TextView).text=list[p0].t3
+                (LBinds["romanized"] as TextView).text=list[p0].romanized
+                //(LBinds["lsamples"] as RecyclerView).adapter=WSamplesRecyclerAdapter(list[p0].wsList)
+                (LBinds["lsamples"] as RecyclerView).adapter.notifyDataSetChanged()
+
+                //pp.onClick { owner.playWord() }
+                LBinds["pp"]=pp
+                X.err("n ws  ${list[p0].wsList.size}")
+
+            }
+
+
+        }
+
+    }
+
+    override fun getItem(p0: Int): Word = list.get(p0)
+
+    override fun getCount(): Int = list.size
+
+    override fun getItemId(p0: Int): Long = getItem(p0).id.toLong()
+
+}
+
+
+class SubjectAdapter (val subjectActivity: SubjectActivity): BaseAdapter() {
     private object Ids {
         const val t1 = 1
         const val t2 = 2
@@ -486,7 +553,7 @@ class SubjectAdapter(val subjectActivity: SubjectActivity): BaseAdapter() {
                     var k = 14
                     val last = word.wsList.size
                     var init = 1
-                    for (ws in word.wsList) {
+                    for (ws in word.wsList)   {
                         var img2: ImageView
                         relativeLayout {
 

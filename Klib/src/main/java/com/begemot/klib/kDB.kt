@@ -766,6 +766,14 @@ class DBHelp(ctx: Context) {
 
 }
 
+fun readBlob(){
+
+
+}
+
+
+
+
 val Context.DBZ:DBHelp get() = DBHelp.getInstance(getApplicationContext())
 
 fun <T> envelopeX (default: T, letter: () -> T) = try {

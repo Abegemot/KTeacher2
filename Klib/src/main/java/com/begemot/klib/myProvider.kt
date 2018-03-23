@@ -21,6 +21,9 @@ class myProviderHelper(ctx:Context){
             }
             return instance!!
         }
+        fun GPH():myProviderHelper{
+            return instance!!
+        }
 
     }
 
@@ -41,7 +44,7 @@ class myProviderHelper(ctx:Context){
 
 
             if(p.first){
-               // X.err("existeix en cache")
+                X.err("existeix en cache")
 
 
                 val f=p.second as ByteArray
@@ -53,7 +56,7 @@ class myProviderHelper(ctx:Context){
                 return sub.build()
             }
 
-            //X.err("No existeix en cache")
+            X.err("No existeix en cache")
 
             val s = myCloud.getSubject(id.toInt())
 
@@ -63,7 +66,12 @@ class myProviderHelper(ctx:Context){
 
         }
 
+
+    fun test(){
+        X.err("PASSO USTED EL test")
     }
+
+}
 
 
 val Context.DBP:myProviderHelper

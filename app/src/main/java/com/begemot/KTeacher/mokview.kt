@@ -1,6 +1,7 @@
 package com.begemot.KTeacher
 
 import android.view.View
+
 import android.view.ViewGroup
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.ConstraintSetBuilder.Side.*
@@ -8,17 +9,204 @@ import org.jetbrains.anko.constraint.layout.applyConstraintSet
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import android.support.constraint.ConstraintSet.PARENT_ID
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.widget.*
 import com.begemot.KTeacher.KLayout.Companion.kTextView
 import com.begemot.KTeacher.KLayout.Companion.kTextViewRight
 import com.begemot.KTeacher.KLayout.Companion.keTextView
 import org.jetbrains.anko.constraint.layout.themedConstraintLayout
+import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 
 /**
  * Created by dad on 06/02/2018.
  */
+
+class pica(val tt1:String="tt1",val tt2:String="tt2",val tt3:String="tt3")
+class patata(val t1:String = "patates rosdor", val t2:String="homilies d'orguenya"){
+    var lp:ArrayList<pica>
+    init {
+        lp= ArrayList(0)
+        lp.add(pica())
+        lp.add(pica("molt","mes","del que pensaba"))
+    }
+
+}
+
+
+var patataList = arrayListOf<patata>(patata("auni","deri"),patata("1cateri","pos"),patata("2cateri","pos"),patata("3cateri","pos"))
+
+class patataHolder (v:View):RecyclerView.ViewHolder(v),View.OnClickListener{
+    var view:View=v
+    val t1:TextView=view.findViewById(IDS.TEXT1)
+
+    val t2:TextView=view.findViewById(IDS.TEXT2)
+
+    val btn:Button=view.findViewById(IDS.BUT)
+    val plist:RecyclerView=view.findViewById(IDS.picalist)
+
+    fun bindItems(listItem:patata){
+        t1.text=listItem.t1
+        t2.text=listItem.t2
+
+        btn.text="Quanta pos!"
+        plist.adapter=PicapicaRecyclerAdapter(listItem.lp)
+       // val pAdapter=PatatasRecyclerAdapter(patataList)
+
+    }
+    override fun onClick(p0: View?) {
+
+    }
+
+}
+
+
+class picaHolder (v:View):RecyclerView.ViewHolder(v),View.OnClickListener{
+    val t1:TextView=v.findViewById(IDS.T1)
+    val t2:TextView=v.findViewById(IDS.T2)
+    val t3:TextView=v.findViewById(IDS.T3)
+
+    fun bindItems(listItem:pica){
+        t1.text=listItem.tt1
+        t2.text=listItem.tt2
+        t3.text=listItem.tt3
+
+    }
+    override fun onClick(p0: View?) {
+
+    }
+
+}
+
+
+object IDS{
+    const val TEXT1=1
+    const val TEXT2=2
+    const val BUT=3
+    const val T1=4
+    const val T2=5
+    const val T3=6
+    const val picalist=7
+}
+val mviewPool = RecyclerView.RecycledViewPool()
+
+class RowPatatesLayout(): AnkoComponent<ViewGroup>{
+
+    override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
+        return linearLayout(){
+            orientation = LinearLayout.VERTICAL
+
+            lparams(width= matchParent, height = wrapContent)
+            background = context.getDrawable(com.begemot.KTeacher.R.color.beig)
+            //setPadding(10,dip(50),0,dip(50))
+            textView {
+                id=IDS.TEXT1
+                text="hola tiu"
+                //id = 100//R.id.ble_item
+                //setTextAppearance(android.R.style.TextAppearance_Material_Large)
+                //setPadding(0,0,dip(100),0)
+            }.lparams(width = wrapContent, height = wrapContent )
+
+            textView {
+                id=IDS.TEXT2
+                text="os he fet un pastis"
+                //id = 100//R.id.ble_item
+                //setTextAppearance(android.R.style.TextAppearance_Material_Large)
+                //setPadding(0,0,dip(100),0)
+            }.lparams(width = wrapContent, height = wrapContent )
+
+
+            button{
+                id=IDS.BUT
+               // id = 120//R.id.ble_item_button
+            }.lparams(width = wrapContent, height = wrapContent)
+
+            val list= recyclerView(){
+                id=IDS.picalist
+                val orientation=LinearLayoutManager.VERTICAL
+                layoutManager = LinearLayoutManager(context, orientation, true)
+                overScrollMode = View.OVER_SCROLL_NEVER
+                recycledViewPool=mviewPool
+                //adapter=listAdapter
+                //adapter=pAdapter
+
+            }
+
+
+
+        }
+    }
+}
+
+
+class RowPicaLayout(): AnkoComponent<ViewGroup>{
+    override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
+        return linearLayout(){
+            orientation = LinearLayout.VERTICAL
+            lparams(width= matchParent, height = wrapContent)
+            background = context.getDrawable(com.begemot.klib.R.color.gray)
+            //setPadding(0,dip(50),0,dip(50))
+            textView {
+                id=IDS.T1
+                text="pica 1"
+
+                //id = 100//R.id.ble_item
+                //setTextAppearance(android.R.style.TextAppearance_Material_Large)
+                //setPadding(0,0,dip(100),0)
+            }.lparams(width = wrapContent, height = wrapContent )
+            textView {
+                id=IDS.T2
+                text="pica 2"
+                //id = 100//R.id.ble_item
+                //setTextAppearance(android.R.style.TextAppearance_Material_Large)
+                //setPadding(0,0,dip(100),0)
+            }.lparams(width = wrapContent, height = wrapContent )
+            textView {
+                id=IDS.T3
+                text="pica 3"
+
+                //id = 100//R.id.ble_item
+                //setTextAppearance(android.R.style.TextAppearance_Material_Large)
+                setPadding(0,0,dip(100),0)
+            }.lparams(width = wrapContent, height = wrapContent )
+
+
+
+        }
+
+    }
+}
+
+class PatatasRecyclerAdapter(private val patates:ArrayList<patata>):RecyclerView.Adapter<patataHolder>(){
+
+     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):patataHolder {
+        return patataHolder(RowPatatesLayout().createView(AnkoContext.Companion.create(parent!!.context,parent)))
+    }
+    override fun getItemCount()=patates.size
+
+    override fun onBindViewHolder(holder: patataHolder , position: Int) {
+        holder?.bindItems(patates[position])
+    }
+}
+
+class PicapicaRecyclerAdapter(private val picapicas:ArrayList<pica>):RecyclerView.Adapter<picaHolder>(){
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):picaHolder {
+        val ph=picaHolder(RowPicaLayout().createView(AnkoContext.Companion.create(parent!!.context,parent)))
+
+        return ph
+    }
+    override fun getItemCount()=picapicas.size
+
+    override fun onBindViewHolder(holder: picaHolder , position: Int) {
+        holder.bindItems(picapicas[position])
+    }
+}
+
+
+
 class MockView : AnkoComponent<MockActivity> {
     //private val X = KHelp(this.javaClass.simpleName)
     var mAdapter: MyAdapter3? = null
@@ -51,12 +239,67 @@ class MockView : AnkoComponent<MockActivity> {
 
     }
 
-    lateinit var KStringsLAdapter: ArrayAdapter<String>
-//    var KOfexercisesList = ArrayList<String>()
-    var stringList = arrayOf("adada","faff","adfafa","afaffa","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","zorglub")
+   lateinit var KStringsLAdapter: ArrayAdapter<String>
+    var KOfexercisesList = ArrayList<String>()
+    var stringList = arrayListOf("adada","faff","adfafa","afaffa","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","z","zorglub")
+
+   // val listAdapter=Adapter(stringList)
+    //var patatalistAdapter=Adapter(patataList)
+    val pAdapter=PatatasRecyclerAdapter(patataList)
 
 
-    override fun createView(ui: AnkoContext<MockActivity>)=with(ui) {
+
+
+    override fun createView(ui: AnkoContext<MockActivity>)= with(ui)  {
+         verticalLayout{
+            val list= recyclerView(){
+                val orientation=LinearLayoutManager.VERTICAL
+                layoutManager = LinearLayoutManager(context, orientation, true)
+                overScrollMode = View.OVER_SCROLL_NEVER
+                //adapter=listAdapter
+                adapter=pAdapter
+
+
+             }
+
+         }
+    }
+
+ /*   class Holder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+
+    class Adapter(val arrayList: ArrayList<String> = ArrayList<String>()) : RecyclerView.Adapter<Holder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder? {
+            return Holder(TextView(parent.context).apply {
+                textSize = 20f
+                background = context.obtainStyledAttributes(arrayOf(R.attr.selectableItemBackground).toIntArray()).getDrawable(0)
+                verticalPadding = context.dip(8)
+                isClickable = true
+                layoutParams = ViewGroup.LayoutParams(matchParent, wrapContent)
+            })
+        }
+
+        override fun onBindViewHolder(holder: Holder, position: Int) {
+            holder.textView.text = arrayList.get(position)
+        }
+
+        override fun getItemCount(): Int {
+            return arrayList.size
+        }
+
+        public fun push(text: String) {
+            arrayList.add(0, text)
+            notifyItemInserted(0)
+        }
+
+        public fun pop() {
+            arrayList.remove(arrayList.last())
+            notifyItemRemoved(arrayList.size)
+        }
+    }
+
+*/
+    fun createView5(ui: AnkoContext<MockActivity>)=with(ui) {
         verticalLayout{
               lparams(600, wrapContent)
               //background=context.getDrawable(com.begemot.klib.R.color.yellow)

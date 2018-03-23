@@ -111,6 +111,11 @@
             android:label="SubjectActivity"
             />
 
+        <activity
+            android:name=".SWWSEditor"
+            android:label="SWWSEditor"
+            />
+
     </application>
 
 </manifest>

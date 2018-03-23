@@ -2,14 +2,13 @@ package com.begemot.klib
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import org.jetbrains.anko.db.IntParser
-import org.jetbrains.anko.db.parseSingle
-import org.jetbrains.anko.db.rowParser
-import org.jetbrains.anko.db.select
+import org.jetbrains.anko.db.*
+import java.io.ByteArrayOutputStream
+import java.io.OutputStream
 import java.sql.SQLException
 
 private val X = KHelp("CacheServer")
-data class KCachedObj(val id:Int=0, val position:Int=0, val idObj:Int=0, val kind:Int=0,val str:String="", val obj: ByteArray? = null ):MI {
+data class KCachedObj(val id:Int=0, val position:Int=0, val idObj:Int=0, val kind:Int=0,val str:String="", var obj: ByteArray? = null ):MI {
 
     override val tName: String             get() = sa.tName
     override val tSelect: Array<String>    get() = sa.tSelect
@@ -132,8 +131,14 @@ class CacheServer(val sizecache:Int,val sDBH:DBHelp){
 
             //X.err("1")
             //lateinit var p:Pair<Boolean,Any?>
-            val L=sDBH.loadAllWhere<KCachedObj>(sWhere = "KIND='$kind' and IDOBJ='$id'", tParser = KCachedObj.parser)
+           val aparser = rowParser {
+               id: Int,pos:Int,idObj:Int,kind:Int,str:String ->   KCachedObj(id,pos,idObj,kind,str)
+           }
+
+
+            val L=sDBH.loadAllWhere<KCachedObj>(sWhere = "KIND='$kind' and IDOBJ='$id'",tSel = KCachedObj.tSelect.copyOfRange(0,5), tParser = aparser)
             //X.err("2")
+
 
             if(L.isEmpty()){
               //  X.err("empty not found")
@@ -141,12 +146,75 @@ class CacheServer(val sizecache:Int,val sDBH:DBHelp){
 
             }else{
                 val ko=L[0] as KCachedObj
-                delayCachedItem(ko.id)
+
+                ko.obj = envelopeX(ByteArray(0)){  readBlob(id) }
+
+
+                envelopeX (null){ delayCachedItem(ko.id)}
+
                 //listAll()
                 //X.err(" xSizeObj  ${ko.obj?.size}")
                 return Pair(true,ko.obj)
             }
         }
+
+
+fun readBlob(id:Int):ByteArray{
+    X.err("READ BLOB ----")
+
+
+    var bOutput=ByteArrayOutputStream()
+    var bChunk=ByteArray(0)
+    val chunksize=1000000
+    var length=0
+
+    with(sDBH.database()){
+
+        length=select(KCachedObj.tName,"length(OBJ)").whereArgs("IDOBJ='$id'").exec{ parseSingle(IntParser)  }
+        val ni=length/chunksize
+        val remainder=length % chunksize
+
+        X.err("ni->$ni  remainder->$remainder")
+        var end=0
+        var start=0
+        for (n in 1..ni){
+            start = 1+(chunksize*(n-1))
+            end   = chunksize*n
+            X.err("N $n  start $start   end  $end   size=${end-start}")
+
+            bChunk=ByteArray(0)
+            //bChunk=select(KCachedObj.tName,"substr(OBJ,$start,$end)").whereArgs("IDOBJ='30'").exec {  parseSingle(BlobParser)     }
+
+            //
+            var rs=rawQuery("Select substr(OBJ,$start,$end) from KCACHEDOBJ where IDOBJ='$id'",null)
+            rs.moveToFirst()
+            bChunk=rs.getBlob(0)
+            //
+
+
+            bOutput.write(bChunk)
+            X.err("N $n LENGTH BLOB ---->$length     total ${bOutput.toByteArray().size} chunk ${bChunk.size}  ")
+
+
+
+        }
+        if (remainder>0 && length!=bOutput.toByteArray().size ){
+            start=end+1
+            end=length
+            X.err("remainder start $start   end  $end   size=${end-start} ")
+            bChunk=select(KCachedObj.tName,"substr(OBJ,$start,$end)").whereArgs("IDOBJ='$id'").exec {  parseSingle(BlobParser)     }
+            bOutput.write(bChunk)
+            X.err("remainder LENGTH BLOB ---->$length     ${bOutput.toByteArray().size}")
+
+        }
+
+
+
+    }
+    X.err("final LENGTH BLOB ---->$length     length obtinguda ${bOutput.toByteArray().size}")
+    return bOutput.toByteArray()
+}
+
 
 fun delayCachedItem(id:Int){
 
@@ -154,6 +222,7 @@ fun delayCachedItem(id:Int){
            var ds: SQLiteDatabase = sDBH.database()
            try {
                with(ds){
+                   //val l=select(KCachedObj.tName,"count(*)").whereArgs("ID={id}","id" to id+1).exec { parseSingle(IntParser) }
                    val l=select(KCachedObj.tName,"count(*)").whereArgs("ID={id}","id" to id+1).exec { parseSingle(IntParser) }
                    X.err("Te antecesor?: $l  id= $id")
                    if (l>0){
@@ -225,7 +294,7 @@ fun delayCachedItem(id:Int){
 
                X.err("store Object err: ${e.message}")
            }
-           listAll()
+           //listAll()
        }
 
 

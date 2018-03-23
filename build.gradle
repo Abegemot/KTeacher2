@@ -4,8 +4,8 @@ buildscript {
     //ext.kotlin_version = '1.1.4-3'
     //ext.kotlin_version = '1.1.4-2'
 ext{
-    kotlin_version = '1.2.30'
-    kotlin_version_lib = '1.2.30'
+    kotlin_version = '1.2.31'
+    kotlin_version_lib = '1.2.31'
     anko_version = '0.10.4'
     supportLibraryVersion= '26.1.0'
     grpc  = '1.10.0'
@@ -35,7 +35,7 @@ ext{
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:3.1.0-rc02'
+        classpath 'com.android.tools.build:gradle:3.1.0-rc03'
         //classpath 'com.android.tools.build:gradle:3.0-RC1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 

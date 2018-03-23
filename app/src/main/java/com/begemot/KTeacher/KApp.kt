@@ -10,8 +10,11 @@ import com.begemot.KTeacher.KApp.Companion.LANGITEACH
 import com.begemot.KTeacher.KApp.Companion.LANGMYSTUDENTS
 import com.begemot.KTeacher.KApp.Companion.ROMANIZED
 import com.begemot.KTeacher.KApp.Companion.SHOWALLMENUS
+import com.begemot.KTeacher.koin.SubjectModule
+import com.begemot.KTeacher.koin.zProviderModule
 import com.begemot.klib.KLesson
 import com.squareup.leakcanary.LeakCanary
+import org.koin.android.ext.android.startKoin
 
 /**
  * Created by dad on 30/01/2018.
@@ -31,6 +34,7 @@ class KApp:Application(){
         var cpLessons =0
         var newNameLesson=""
         var lesson=KLesson()
+        lateinit var ctx:Context
     }
 
     override fun onCreate() {
@@ -41,7 +45,9 @@ class KApp:Application(){
             return;
         }
         LeakCanary.install(this)
+        ctx=applicationContext
         prefs = Preferences(applicationContext)
+        startKoin(this, listOf(SubjectModule, zProviderModule))
     }
     fun APS3(app: AppCompatActivity){
         val i = app.baseContext.packageManager.getLaunchIntentForPackage(app.baseContext.packageName)
@@ -49,6 +55,11 @@ class KApp:Application(){
         app.finish()
         app.startActivity(i)
     }
+
+    fun getctx():Context{
+        return applicationContext
+    }
+
     fun getLang():String{
         //val pr:Preferences= KApp.prefs!!
         //val lang=llang[prefs!!.sLangIteach] //+ llang[prefs.sLangmyStudents]
